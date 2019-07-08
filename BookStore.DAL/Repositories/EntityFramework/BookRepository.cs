@@ -56,11 +56,13 @@ namespace BookStore.DAL.Repositories.EntityFramework
             DbSet<Book> books = _booksContext.Set<Book>();
             DbSet<Avtor> avtors = _booksContext.Set<Avtor>();
             DbSet<Category> categories = _booksContext.Set<Category>();
+            DbSet<Comment> comments = _booksContext.Set<Comment>();
 
             CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
             categoriesBooksAvtors.Books.AddRange(books);
             categoriesBooksAvtors.Avtors.AddRange(avtors);
             categoriesBooksAvtors.Categories.AddRange(categories);
+            categoriesBooksAvtors.Comments.AddRange(comments);
 
             return categoriesBooksAvtors;
         }

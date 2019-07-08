@@ -11,5 +11,6 @@ namespace BookStore.DAL.Models
     public class Book : BaseEntity
     {
         public string Name { get; set; }
+        public string Path { get; set; }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
-using BookStore.DAL.Repositories;
 using BookStore.DAL.Repositories.Dapper;
 using BookStore.DAL.Repositories.EntityFramework;
 using BookStore.Services.Interfaces;
-using BookStore.Services.JWT;
 using BookStore.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,21 +12,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Collections.Generic;
 
 namespace BookStore
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -45,6 +40,7 @@ namespace BookStore
 
             SetupServices(services);
 
+            services.AddTransient<IJWTService, JWTService>();
             EntityFrameworkRepository(services);
             //DapperRepository(services, connection);
 
@@ -102,11 +98,11 @@ namespace BookStore
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = JWTManager.ISSUER,
+                        ValidIssuer = JWTOptions.ISSUER,
                         ValidateAudience = true,
-                        ValidAudience = JWTManager.AUDIENCE,
+                        ValidAudience = JWTOptions.AUDIENCE,
                         ValidateLifetime = true,
-                        IssuerSigningKey = JWTManager.GetSymmetricSecurityKey(),
+                        IssuerSigningKey = JWTOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true
                     };
                 });
@@ -119,6 +115,7 @@ namespace BookStore
             services.AddTransient<IAvtorService, AvtorService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<ICommentService, CommentService>();
         }
 
         private void EntityFrameworkRepository(IServiceCollection services)
@@ -127,6 +124,7 @@ namespace BookStore
             services.AddTransient<IAvtorRepository, AvtorRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
         }
 
         private void DapperRepository(IServiceCollection services, string connection)
@@ -135,6 +133,7 @@ namespace BookStore
             services.AddTransient<IAvtorRepository, DapperAvtorRepository>(provider => new DapperAvtorRepository(connection));
             services.AddTransient<ICategoryRepository, DapperCategoryRepository>(provider => new DapperCategoryRepository(connection));
             services.AddTransient<IPersonRepository, DapperPersonRepository>(provider => new DapperPersonRepository(connection));
+            services.AddTransient<ICommentRepository, DapperCommentRepository>(provider => new DapperCommentRepository(connection));
         }
         #endregion Methods
     }

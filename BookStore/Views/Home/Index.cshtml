@@ -1,14 +1,12 @@
 ﻿@model BookStore.DAL.Models.CategoriesBooksAvtors
+@using BookStore.DAL.Enums
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 </head>
 <body class="bg-light">
-    @using BookStore.DAL.Enums
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-    {
-        <div class="row align-items-center bg-info " style="margin-bottom: -16">
+        <div class="row align-items-center bg-info ">
             <div class="col-auto">
                 <h2>List Books</h2>
             </div>
@@ -16,80 +14,17 @@
                 @Html.DropDownList("typeTable", Html.GetEnumSelectList(typeof(TypeTable)), htmlAttributes: new { @id = "typeTable", @class = "btn btn-secondary  dropdown-toggle" })
             </div>
             <div class="col-auto">
-                <input id="Test" value="Test 1" type="button" class="btn btn-outline-dark">
+                <input id="RefreshTable" value="Send" type="button" class="btn btn-outline-dark" />
             </div>
+            @using (Html.BeginForm("Book", "Home", FormMethod.Post, htmlAttributes: new { @style = "margin : -16" }))
+            {
+                <div class="col-auto">
+                    <input value="Create Book" type="submit" class="btn btn-outline-dark" />
+                </div>
+            }
         </div>
-    }
-    @if (ViewBag.TypeTable == TypeTable.Category.ToString())
-    {
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Book</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">BookId</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var category in Model.Categories)
-                {
-                    <tr>
-                        <th scope="row">@category.Id</th>
-                        <th>@category.Book.Name</th>
-                        <th>@category.CategoryType</th>
-                        <th>@category.BookId</th>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    @if (ViewBag.TypeTable == TypeTable.Avtor.ToString())
-    {
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Book</th>
-                    <th>Avtor</th>
-                    <th>Publishers</th>
-                    <th>BookId</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var avtor in Model.Avtors)
-                {
-                    <tr>
-                        <th>@avtor.Id</th>
-                        <th>@avtor.Book.Name</th>
-                        <th>@avtor.NameAvtor</th>
-                        <th>@avtor.Publisher</th>
-                        <th>@avtor.BookId</th>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    @if (ViewBag.TypeTable == TypeTable.Book.ToString())
-    {
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Book</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var book in Model.Books)
-                {
-                    <tr>
-                        <th>@book.Id</th>
-                        <th>@book.Name</th>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }   
+@{ await Html.RenderPartialAsync("Tables");}
+@{await Html.RenderPartialAsync("Comment");}
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers

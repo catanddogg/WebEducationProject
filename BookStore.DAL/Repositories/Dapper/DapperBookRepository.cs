@@ -56,11 +56,13 @@ namespace BookStore.DAL.Repositories.Dapper
                 IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(db);
                 IEnumerable<Avtor> avtors = SqlMapperExtensions.GetAll<Avtor>(db);
                 IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(db);
+                IEnumerable<Comment> comments = SqlMapperExtensions.GetAll<Comment>(db);
 
                 CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
                 categoriesBooksAvtors.Books.AddRange(books);
                 categoriesBooksAvtors.Avtors.AddRange(avtors);
                 categoriesBooksAvtors.Categories.AddRange(categories);
+                categoriesBooksAvtors.Comments.AddRange(comments);
 
                 return categoriesBooksAvtors;
             }

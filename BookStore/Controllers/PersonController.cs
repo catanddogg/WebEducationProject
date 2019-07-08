@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using BookStore.Services.JWT;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +12,11 @@ namespace BookStore.Controllers
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
-        public PersonController(IPersonService personService)
+        private readonly IJWTService _jWTService;
+
+        public PersonController(IPersonService personService, IJWTService jWTService)
         {
+            _jWTService = jWTService;
             _personService = personService;
         }
 
@@ -27,7 +29,7 @@ namespace BookStore.Controllers
             {
                 return null;
             }
-            JWTAndRefreshToken jWTAndRefreshToken = JWTManager.Login(person.Login, person.Password);
+            JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(person.Login, person.Password);
             return jWTAndRefreshToken;
         }
 
@@ -40,7 +42,7 @@ namespace BookStore.Controllers
             {
                 return null;
             }
-            JWTAndRefreshToken jWTAndRefreshToken = JWTManager.Login(person.Login, person.Password);
+            JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(person.Login, person.Password);
             return jWTAndRefreshToken;
         }
 

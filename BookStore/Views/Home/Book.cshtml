@@ -1,0 +1,49 @@
+﻿@using BookStore.DAL.Enums
+@model IEnumerable<BookStore.DAL.Models.Book>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+</head>
+<body>
+    <div>
+        <div class="row align-items-center bg-info" style="margin-left : 0 ">
+            <h2>Add Book</h2>
+        </div>
+    </div>
+    <form asp-action="AddFile" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <div class="col-md-2" style="padding : 10px">
+            <input placeholder="Book name" name="Name" class="form-control" />
+        </div>
+        <div class="col-md-2" style="padding : 10px">
+            <input placeholder="Avtor" name="Avtor" class="form-control" />
+        </div>
+        <div class="col-md-2" style="padding : 10px">
+            <input placeholder="Publisher" name="Publisher" class="form-control" />
+        </div>
+        <div class="col-md-2" style="padding : 10px">
+            @Html.DropDownList("Genre1", Html.GetEnumSelectList(typeof(CategoryType)), htmlAttributes: new { @class = "btn btn-light  dropdown-toggle" })
+        </div>
+        <div class="col-md-2" style="padding : 10px">
+            @Html.DropDownList("Genre2", Html.GetEnumSelectList(typeof(CategoryType)), htmlAttributes: new { @class = "btn btn-light  dropdown-toggle" })
+        </div>
+        <div class="col-md-2">
+            <input name="Path" type="file" class="form-control" />
+        </div>
+        <div style="padding : 10px">
+            <input type="submit" value="Save" class="btn btn-secondary" />
+        </div>
+    </form>
+    <form asp-action="Index" asp-controller="Home" method="post">
+        <div style="padding-left : 10px">
+            <input type="submit" value="Back" class="btn btn-secondary" />
+        </div>
+    </form>
+    @if (TempData["createBook"] != null)
+    {
+        <div style="padding-left : 10px; color : red">
+            @TempData["createBook"]
+        </div>
+    }
+</body>
+</html>

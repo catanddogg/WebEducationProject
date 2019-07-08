@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using BookStore.Common.ViewModels;
 using BookStore.DAL.Enums;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using BookStore.Services.JWT;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -16,18 +20,23 @@ namespace BookStore.Controllers
         private readonly IBookService _bookService;
         private readonly IAvtorService _avtorService;
         private readonly ICategoryService _categoryService;
+        private readonly IJWTService _jWTService;
+        private readonly ICommentService _commentService;
+        private static string _userName;
 
-        public HomeController(BooksContext context, IPersonService personService, IBookService bookService, IAvtorService avtorService, ICategoryService categoryService)
+        public HomeController(BooksContext context, IPersonService personService, IBookService bookService, IAvtorService avtorService, ICategoryService categoryService, IJWTService jWTService, ICommentService commentService)
         {
+            _commentService = commentService;
             _categoryService = categoryService;
             _avtorService = avtorService;
             _bookService = bookService;
             _personService = personService;
+            _jWTService = jWTService;
         }
 
         public IActionResult Index()
         {
-            if (JWTManager.jwt == null || JWTManager.jwt.ValidTo < DateTime.UtcNow)
+            if (_jWTService.jwt == null || _jWTService.jwt.ValidTo < DateTime.UtcNow)
             {
                 return View("Views/Home/Login.cshtml");
             }
@@ -35,14 +44,14 @@ namespace BookStore.Controllers
         }
      
         [HttpPost]
-        public IActionResult Index(TypeTable typeTable)
+        public IActionResult Index([FromForm]TypeTable typeTable)
         {
-            if (JWTManager.jwt == null || JWTManager.jwt.ValidTo < DateTime.UtcNow)
+            if (_jWTService.jwt == null || _jWTService.jwt.ValidTo < DateTime.UtcNow)
             {
                 return View("Views/Home/Login.cshtml");
             }
             ViewBag.TypeTable = typeTable.ToString();
-            return View(_bookService.GetAllTables());
+            return PartialView("Views/Home/Index.cshtml", _bookService.GetAllTables());
         }
 
         [HttpPost]
@@ -51,10 +60,16 @@ namespace BookStore.Controllers
             return new RedirectResult("/Home/Swagger/index.html");
         }
 
+        public IActionResult Book()
+        {
+            IEnumerable<Book> books = _bookService.GetAllBook();
+            return View(books);
+        }
+
         [HttpPost]
         public IActionResult About()
         {
-            if (JWTManager.jwt == null || JWTManager.jwt.ValidTo < DateTime.UtcNow)
+            if (_jWTService.jwt == null || _jWTService.jwt.ValidTo < DateTime.UtcNow)
             {
                 return View("Views/Home/Login.cshtml");
             }
@@ -76,20 +91,21 @@ namespace BookStore.Controllers
                 return View();
             }
             Person person = _personService.GetPersonByLoginAndPassword(login, password);
+            _userName = person.FirstName;
             if (login == null || password == null || person == null)
             {
                 TempData["noticeLogin"] = "Invalid username or password.";
                 return View();
             }
-            JWTAndRefreshToken jWTAndRefreshToken = JWTManager.Login(login, password);
-            if (JWTManager.jwt == null)
+            JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(login, password);
+            if (_jWTService.jwt == null)
             {
                 TempData["noticeLogin"] = "Invalid username or password.";
                 return View();
             }
             person.RefreshToken = jWTAndRefreshToken.RefreshToken;
             _personService.UpdatePerson(person);
-            return View("Views/Home/Index.cshtml");
+            return View("Views/Home/Index.cshtml", _bookService.GetAllTables());
         }
 
 
@@ -139,13 +155,50 @@ namespace BookStore.Controllers
             return View("Views/Home/Login.cshtml");
         }
 
-
         [HttpPost]
-        public ActionResult RefreshTable([FromForm]TypeTable typeTable)
+        public IActionResult RefreshTable([FromForm]TypeTable typeTable)
         {
             ViewBag.TypeTable = typeTable.ToString();
-            return PartialView("Index", _bookService.GetAllTables());
-            //return new JsonResult(typeTable);
-        }   
+            return PartialView("Tables", _bookService.GetAllTables());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFile(CreateBookViewModel createBookViewModel)
+        {
+            if (createBookViewModel.Name != null && createBookViewModel.Path != null && createBookViewModel.Publisher != null &&
+                createBookViewModel.Genre1 != CategoryType.None && createBookViewModel.Genre2 != CategoryType.None && createBookViewModel.Avtor != null)
+            {
+                if (createBookViewModel.Path.Length > 0)
+                {
+                    var fileName = Path.GetFileName(createBookViewModel.Path.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await createBookViewModel.Path.CopyToAsync(stream);
+                    }
+                    Book book = new Book() { Name = createBookViewModel.Name, Path = fileName };
+                    _bookService.CreateBook(book);
+
+                    Avtor avtor = new Avtor() { NameAvtor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book};
+                    _avtorService.CreateAvtor(avtor);
+
+                    Category category = new Category() { CategoryType = createBookViewModel.Genre1, Book = book};
+                    _categoryService.CreateCategory(category);
+
+                    Category category1= new Category() { CategoryType = createBookViewModel.Genre2, Book = book};
+                    _categoryService.CreateCategory(category1);
+                }
+                return RedirectToAction("Index");
+            }
+            TempData["createBook"] = "Enter all fields!";
+            return View("Book");
+        }
+
+        [HttpPost]
+        public IActionResult SaveComment(string Comment)
+        {
+            _commentService.CreateAndGetAllComments(_userName, Comment);
+            return PartialView("Comment", _bookService.GetAllTables());
+        }
     }
 }
