@@ -31,7 +31,14 @@ namespace BookStore.DAL.Repositories.Dapper
         {
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
+                try
+                {
                 SqlMapperExtensions.Insert(db, avtor);
+                }
+                catch(Exception ex)
+                {
+
+                }
             }
         }
 

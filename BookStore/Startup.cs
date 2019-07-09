@@ -38,11 +38,13 @@ namespace BookStore
           
             SetupJWT(services);
 
-            SetupServices(services);
+            Services.Setup.Init(services);
+            DAL.Setup.Init(services, connection);
 
-            services.AddTransient<IJWTService, JWTService>();
-            EntityFrameworkRepository(services);
-            //DapperRepository(services, connection);
+            //AutoMapper.Mapper.Initialize(config =>
+            //    {
+            //        config.CreateMap<>();
+            //    });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -93,7 +95,6 @@ namespace BookStore
             })
                 .AddJwtBearer(options =>
                 {
-
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                     {
@@ -107,33 +108,6 @@ namespace BookStore
                     };
                 });
             services.AddAuthorization();
-        }
-
-        private void SetupServices(IServiceCollection services)
-        {
-            services.AddTransient<IBookService, BookService>();
-            services.AddTransient<IAvtorService, AvtorService>();
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IPersonService, PersonService>();
-            services.AddTransient<ICommentService, CommentService>();
-        }
-
-        private void EntityFrameworkRepository(IServiceCollection services)
-        {
-            services.AddTransient<IBookRepository, BookRepository>();
-            services.AddTransient<IAvtorRepository, AvtorRepository>();
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IPersonRepository, PersonRepository>();
-            services.AddTransient<ICommentRepository, CommentRepository>();
-        }
-
-        private void DapperRepository(IServiceCollection services, string connection)
-        {
-            services.AddTransient<IBookRepository, DapperBookRepository>(provider => new DapperBookRepository(connection)); 
-            services.AddTransient<IAvtorRepository, DapperAvtorRepository>(provider => new DapperAvtorRepository(connection));
-            services.AddTransient<ICategoryRepository, DapperCategoryRepository>(provider => new DapperCategoryRepository(connection));
-            services.AddTransient<IPersonRepository, DapperPersonRepository>(provider => new DapperPersonRepository(connection));
-            services.AddTransient<ICommentRepository, DapperCommentRepository>(provider => new DapperCommentRepository(connection));
         }
         #endregion Methods
     }

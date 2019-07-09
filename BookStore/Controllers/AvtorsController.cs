@@ -12,6 +12,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize()]
     public class AvtorsController : Controller
     {
         private readonly IAvtorService _avtorService;
@@ -21,7 +22,6 @@ namespace BookStore.Controllers
         }
 
         //GET : /api/avtors
-        [Authorize]
         [HttpGet]
         public IEnumerable<Avtor> GetAllAvtors()
         {
@@ -29,7 +29,6 @@ namespace BookStore.Controllers
         }
 
         //GET : api/avtors/{id}
-        [Authorize]
         [HttpGet("{id}")]
         public Avtor GetAvtorById(int id)
         {
@@ -37,7 +36,6 @@ namespace BookStore.Controllers
         }
 
         // POST : api/avtors
-        [Authorize]
         [HttpPost]
         public void CreateAvtor([FromBody]Avtor avtor)
         {
@@ -45,7 +43,6 @@ namespace BookStore.Controllers
         }
 
         //PUT : api/avtors
-        [Authorize]
         [HttpPut]
         public void UpdateAvtor(Avtor avtor)
         {
@@ -53,7 +50,6 @@ namespace BookStore.Controllers
         }
 
         //Delete : api/avtors
-        [Authorize]
         [HttpDelete]
         public void DeleteAvtor(int id)
         {
@@ -61,7 +57,6 @@ namespace BookStore.Controllers
         }
 
         // GET /api/avtors/avtor/{avtor}
-        [Authorize]
         [HttpGet("avtor/{avtor}")]
         public IEnumerable<Avtor> Get(string avtor)
         {
@@ -70,7 +65,6 @@ namespace BookStore.Controllers
         }
 
         // GET /api/avtors/publisher/{publisher}
-        [Authorize]
         [HttpGet("publisher/{publisher}")]
         public IEnumerable<Avtor> GetPublishersBooks(string publisher)
         {

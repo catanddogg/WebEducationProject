@@ -7,7 +7,8 @@
             success: function (response) {
                 $('#Tables').html(response);
             },
-            error: function () {
+            error: function (ex) {
+                console.error(ex)
             }
         });
     })
@@ -17,9 +18,11 @@
             data: { comment: $('#Comment').val() },
             dataType: "html",
             success: function (response) {
+              
                 $('#Comments').html(response);
             },
-            error: function () {
+            error: function (ex) {
+                console.error(ex)
             }
         });
     })

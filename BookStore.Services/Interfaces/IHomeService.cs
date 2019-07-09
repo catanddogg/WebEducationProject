@@ -1,0 +1,19 @@
+﻿using BookStore.Common.ViewModels;
+using BookStore.DAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BookStore.Services.Interfaces
+{
+    public interface IHomeService
+    {
+        void CreatePerson(Person person);
+        CategoriesBooksAvtors GetAllTables();
+        void CreateAndGetAllComments(string UserName, string Comment);
+        void UpdatePerson(Person person);
+        Task CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel);
+        Person GetPersonByLoginAndPassword(string login, string password);
+    }
+}

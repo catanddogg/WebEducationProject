@@ -14,4 +14,12 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\AvtorsController\" />
+    <Folder Include="ViewModels\BooksController\" />
+    <Folder Include="ViewModels\CategoriesController\" />
+    <Folder Include="ViewModels\HomeController\" />
+    <Folder Include="ViewModels\PersonController\" />
+  </ItemGroup>
+
 </Project>

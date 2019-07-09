@@ -9,6 +9,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
@@ -20,12 +21,13 @@ namespace BookStore.Controllers
             _personService = personService;
         }
 
-        //GET : api/persom/gettoken
+        //GET : api/person/gettoken
+        [AllowAnonymous]
         [HttpGet("{gettoken}")]
         public JWTAndRefreshToken Login(string login, string password)
         {
             Person person = _personService.GetPersonByLoginAndPassword(login, password);
-            if(person == null)
+            if (person == null)
             {
                 return null;
             }
@@ -34,6 +36,7 @@ namespace BookStore.Controllers
         }
 
         //GET : api/person/refreshtoken
+        [AllowAnonymous]
         [HttpGet("{refreshtoken}")]
         public JWTAndRefreshToken RefreshToken(string refreshToken)
         {
@@ -47,7 +50,6 @@ namespace BookStore.Controllers
         }
 
         //GET : api/person
-        [Authorize]
         [HttpGet]
         public IEnumerable<Person> GetAllPeople()
         {
@@ -55,7 +57,6 @@ namespace BookStore.Controllers
         }
 
         //GET : api/person/id
-        [Authorize]
         [HttpGet("{id}")]
         public Person GetPersonById(int id)
         {
@@ -63,7 +64,6 @@ namespace BookStore.Controllers
         }
 
         //POST : api/person
-        [Authorize]
         [HttpPost]
         public void CreatePerson(Person person)
         {
@@ -71,7 +71,6 @@ namespace BookStore.Controllers
         }
 
         //PUT : api/person
-        [Authorize]
         [HttpPut]
         public void UpdatePerson(Person person)
         {
@@ -79,7 +78,6 @@ namespace BookStore.Controllers
         }
 
         //DELETE : api/person/{id}
-        [Authorize]
         [HttpDelete("{id}")]
         public void DeletePerson(int id)
         {

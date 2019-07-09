@@ -11,6 +11,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
     public class AvtorRepository : IAvtorRepository
     {
         private BooksContext _booksContext;
+
         public AvtorRepository(BooksContext booksContext)
         {
             _booksContext = booksContext;

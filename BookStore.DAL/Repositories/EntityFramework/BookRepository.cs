@@ -32,7 +32,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
         public void DeleteBook(int id)
         {
             Book book = _booksContext.Find<Book>(id);
-            if(book != null)
+            if (book != null)
             {
                 _booksContext.Remove(book);
                 _booksContext.SaveChanges();

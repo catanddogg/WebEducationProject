@@ -1,26 +1,24 @@
 ﻿@model BookStore.DAL.Models.Person
 <html>
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="bg-light ">
-    <div class="row bg-secondary align-items-start" style="margin-left : 0">
+    <div class="row bg-secondary align-items-start marginLeftNull">
         <h2>Registration</h2>
     </div>
-    <div class="col-md-3" style=" padding-top : 10px; padding-left : 10px">
+    <div class="col-md-3 registrationTextBoxStyle">
         @Html.TextBoxFor(model => model.FirstName, htmlAttributes : new { @class = "form-control", @placeholder = "Enter First Name*"})
     </div>
-    <div class="col-md-3" style=" padding-top: 10px; padding-left : 10px">
+    <div class="col-md-3 registrationTextBoxStyle">
         @Html.TextBoxFor(model => model.SecondName, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Second Name*"})
     </div>
-    <div class="col-md-3" style=" padding-top: 10px; padding-left : 10px">
+    <div class="col-md-3 registrationTextBoxStyle">
         @Html.TextBoxFor(model => model.Age, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Age*"})
     </div>
-    <div class="col-md-3" style=" padding-top: 10px; padding-left : 10px">
+    <div class="col-md-3 registrationTextBoxStyle">
         @Html.TextBoxFor(model => model.Login, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Login*" })
     </div>
-    <div class="col-md-3" style=" padding-top: 10px; padding-left : 10px">
+    <div class="col-md-3 registrationTextBoxStyle">
         @Html.TextBoxFor(model => model.Password, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Password*" })
     </div>
     <div class="row">

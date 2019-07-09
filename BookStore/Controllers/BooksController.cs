@@ -13,6 +13,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
@@ -22,7 +23,6 @@ namespace BookStore.Controllers
         }
 
         // GET: /api/books
-        [Authorize]
         [HttpGet]
         public IEnumerable<Book> GetAllBook()
         {
@@ -31,7 +31,6 @@ namespace BookStore.Controllers
         }
 
         //GET :api/books/{id}
-        [Authorize]
         [HttpGet("{id}")]
         public Book GetBookById(int id)
         {
@@ -39,7 +38,6 @@ namespace BookStore.Controllers
         }
 
         //POST : api/books
-        [Authorize]
         [HttpPost]
         public void CreateBook([FromBody]Book book)
         {
@@ -47,7 +45,6 @@ namespace BookStore.Controllers
         }
 
         //PUT : api/books
-        [Authorize]
         [HttpPut]
         public void UpdateBook([FromBody]Book book)
         {
@@ -55,7 +52,6 @@ namespace BookStore.Controllers
         }
 
         //DELETE : api/books/deletebook/{id}
-        [Authorize]
         [HttpDelete("{id}")]
         public void DeleteBook(int id)
         {
@@ -63,7 +59,6 @@ namespace BookStore.Controllers
         }
 
         //GET : api/books/alltables
-        [Authorize]
         [HttpGet("{alltables}")]
         public CategoriesBooksAvtors GetAllTables()
         {

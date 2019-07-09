@@ -12,6 +12,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -21,7 +22,6 @@ namespace BookStore.Controllers
         }
 
         //GET : api/categories
-        [Authorize]
         [HttpGet]
         public IEnumerable<Category> GetAllCategories()
         {
@@ -29,7 +29,6 @@ namespace BookStore.Controllers
         }
 
         //GET : api/categories/{id}
-        [Authorize]
         [HttpGet("{id}")]
         public Category GetActegoryById(int id)
         {
@@ -37,7 +36,6 @@ namespace BookStore.Controllers
         }
 
         //POST : api/categories
-        [Authorize]
         [HttpPost]
         public void CreateCategory(Category category)
         {
@@ -45,7 +43,6 @@ namespace BookStore.Controllers
         }
 
         //PUT : api/categories
-        [Authorize]
         [HttpPut]
         public void UpdateCategory(Category category)
         {
@@ -53,7 +50,6 @@ namespace BookStore.Controllers
         }
 
         //Delete : api/categories/{id}
-        [Authorize]
         [HttpDelete("{id}")]
         public void DeleteCategory(int id)
         {
@@ -61,7 +57,6 @@ namespace BookStore.Controllers
         }
 
         // GET /api/books/category/
-        [Authorize]
         [HttpGet("category/{category}")]
         public IEnumerable<Category> GetCategoriesBooks(int category)
         {
@@ -70,7 +65,6 @@ namespace BookStore.Controllers
         }
 
         // GET /api/books/avtorandcategory/
-        [Authorize]
         [HttpGet("avtorandcategory/{avtor}/{category}")]
         public IEnumerable<Category> GetAvtorandCategoryBooks(int category, string avtor)
         {
