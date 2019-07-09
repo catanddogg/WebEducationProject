@@ -80,11 +80,6 @@ namespace BookStore.Services.Services
         public Person GetPersonByLoginAndPassword(string login, string password)
         {
             return _personRepository.GetPersonByLoginAndPassword(login, password);
-        }
-
-        public void UpdatePerson(Person person)
-        {
-            _personRepository.Update(person);
-        }
+        }              
     }
 }

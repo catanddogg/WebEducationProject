@@ -81,19 +81,12 @@ namespace BookStore.Controllers
                 _registrationBack = false;
                 return View();
             }
-            Person person = _homeService.GetPersonByLoginAndPassword(login, password);
-            if (login == null || password == null || person == null)
-            {
-                return View();
-            }
             JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(login, password);
             if (_jWTService.jwt == null)
             {
                 return View();
             }
-            person.RefreshToken = jWTAndRefreshToken.RefreshToken;
-            _homeService.UpdatePerson(person);
-            _userName = person.FirstName;
+            //_userName = person.FirstName;
             return View("Views/Home/Index.cshtml", _homeService.GetAllTables());
         }
         

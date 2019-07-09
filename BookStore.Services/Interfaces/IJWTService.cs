@@ -11,6 +11,5 @@ namespace BookStore.Services.Interfaces
     {
         JwtSecurityToken jwt { get; set; }
         JWTAndRefreshToken Login(string login, string password);
-        ClaimsIdentity GetIdentity(string login, string password);
     }
 }

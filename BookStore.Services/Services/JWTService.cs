@@ -1,4 +1,5 @@
-﻿using BookStore.DAL.Models;
+﻿using BookStore.DAL.Interfaces;
+using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,10 +12,15 @@ namespace BookStore.Services.Services
 {
     public class JWTService : IJWTService
     {
-        public JwtSecurityToken jwt { get; set; } 
+        public JwtSecurityToken jwt { get; set; }
+        public readonly IPersonRepository _personRepository;
 
+        public JWTService(IPersonRepository personRepository)
+        {
+            _personRepository = personRepository;
+        }
 
-        public ClaimsIdentity GetIdentity(string login, string password)
+        private ClaimsIdentity GetIdentity(string login, string password)
         {
             if(login != null && password != null)
             {
@@ -32,27 +38,34 @@ namespace BookStore.Services.Services
 
         public JWTAndRefreshToken Login(string login, string password)
         {
-            ClaimsIdentity identity = GetIdentity(login, password);
-            if (identity == null)
+            var person = _personRepository.GetPersonByLoginAndPassword(login, password);
+            if (person != null)
             {
-                jwt = null;
-                return null;
+                ClaimsIdentity identity = GetIdentity(login, password);
+                if (identity == null)
+                {
+                    jwt = null;
+                    return null;
+                }
+                DateTime timeNow = DateTime.UtcNow;
+                jwt = new JwtSecurityToken(
+                    issuer: JWTOptions.ISSUER,
+                    audience: JWTOptions.AUDIENCE,
+                    claims: identity.Claims,
+                    notBefore: timeNow,
+                    expires: timeNow.AddMinutes(1),
+                    signingCredentials: new SigningCredentials(
+                        JWTOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+                string accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
+                string refreshToken = Guid.NewGuid().ToString();
+                person.RefreshToken = refreshToken;
+                _personRepository.Update(person);
+
+                JWTAndRefreshToken JWTAndRefreshToken = new JWTAndRefreshToken { AccessToken = accessToken, RefreshToken = refreshToken };
+                return JWTAndRefreshToken;
             }
-            DateTime timeNow = DateTime.UtcNow;
-            jwt = new JwtSecurityToken(
-                issuer: JWTOptions.ISSUER,
-                audience: JWTOptions.AUDIENCE,
-                claims: identity.Claims,
-                notBefore: timeNow,
-                expires: timeNow.AddMinutes(1),
-                signingCredentials: new SigningCredentials(
-                    JWTOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-            string accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
-            string refreshToken = Guid.NewGuid().ToString();
-
-            JWTAndRefreshToken JWTAndRefreshToken = new JWTAndRefreshToken { AccessToken = accessToken, RefreshToken = refreshToken };
-            return JWTAndRefreshToken;
+            return null;
         }
     }
 }
