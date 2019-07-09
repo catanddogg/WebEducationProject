@@ -13,6 +13,7 @@ namespace BookStore.DAL.Models
     {
         [ForeignKey("Book")]
         public int BookId { get; set; }
+        [Dapper.Contrib.Extensions.Computed]
         public Book Book { get; set; }
 
         public CategoryType CategoryType { get; set; }

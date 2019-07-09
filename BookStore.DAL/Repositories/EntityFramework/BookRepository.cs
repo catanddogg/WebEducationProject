@@ -19,39 +19,6 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _booksContext = booksContext;
         }
 
-        //public void CreateBook(Book book)
-        //{
-        //    _booksContext.Add(book);
-        //    _booksContext.SaveChanges();
-        //}
-        //public IEnumerable<Book> GetAllBook()
-        //{
-        //    DbSet<Book> books = _booksContext.Set<Book>();
-        //    return books;
-        //}
-
-        //public void DeleteBook(int id)
-        //{
-        //    Book book = _booksContext.Find<Book>(id);
-        //    if (book != null)
-        //    {
-        //        _booksContext.Remove(book);
-        //        _booksContext.SaveChanges();
-        //    }
-        //}
-
-        //public Book GetBookById(int id)
-        //{
-        //    Book bookItem = _booksContext.Find<Book>(id);
-        //    return bookItem;
-        //}
-
-        //public void UpdateBook(Book book)
-        //{
-        //    _booksContext.Entry(book).State = EntityState.Modified;
-        //    _booksContext.SaveChanges();
-        //}
-
         public CategoriesBooksAvtors GetAllTables()
         {
             DbSet<Book> books = _booksContext.Set<Book>();

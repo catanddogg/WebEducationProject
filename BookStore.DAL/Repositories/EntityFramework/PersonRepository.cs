@@ -20,34 +20,6 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _booksContext = booksContext;
         }
 
-        //public void CreatePerson(Person person)
-        //{
-        //    _booksContext.Add(person);
-        //    _booksContext.SaveChanges();
-        //}
-
-        //public void DeletePerson(int id)
-        //{
-        //    Person person = _booksContext.Find<Person>(id);
-        //    if(person != null)
-        //    {
-        //        _booksContext.Remove(person);
-        //        _booksContext.SaveChanges();
-        //    }
-        //}
-
-        //public IEnumerable<Person> GetAllPerson()
-        //{
-        //    DbSet<Person> persons = _booksContext.Set<Person>();
-        //    return persons;
-        //}
-
-        //public Person GetPersonById(int id)
-        //{
-        //    Person person = _booksContext.Find<Person>(id);
-        //    return person;
-        //}
-
         public Person GetPersonByLoginAndPassword(string login, string password)
         {
             Person person = _booksContext.Persons.Where(x => x.Login == login && x.Password == password).SingleOrDefault();
@@ -59,11 +31,5 @@ namespace BookStore.DAL.Repositories.EntityFramework
             Person person = _booksContext.Persons.Where(x => x.RefreshToken == refreshToken).SingleOrDefault();
             return person;
         }
-
-        //public void UpdatePerson(Person person)
-        //{
-        //    _booksContext.Entry(person).State = EntityState.Modified;
-        //    _booksContext.SaveChanges();
-        //}      
     }
 }

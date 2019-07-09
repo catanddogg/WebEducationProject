@@ -23,32 +23,6 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        //public void CreatePerson(Person person)
-        //{
-        //    SqlMapperExtensions.Insert(_connectionString, person);
-        //}
-
-        //public void DeletePerson(int id)
-        //{
-        //    Person person = SqlMapperExtensions.Get<Person>(_connectionString, id);
-        //    if (person != null)
-        //    {
-        //        SqlMapperExtensions.Delete(_connectionString, person);
-        //    }
-        //}
-
-        //public IEnumerable<Person> GetAllPerson()
-        //{
-        //    IEnumerable<Person> people = SqlMapperExtensions.GetAll<Person>(_connectionString);
-        //    return people;
-        //}
-
-        //public Person GetPersonById(int id)
-        //{
-        //    Person person = SqlMapperExtensions.Get<Person>(_connectionString, id);
-        //    return person;
-        //}
-
         public Person GetPersonByLoginAndPassword(string login, string password)
         {
             Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.Login == login && x.Password == password).SingleOrDefault();
@@ -60,10 +34,5 @@ namespace BookStore.DAL.Repositories.Dapper
             Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.RefreshToken == refreshToken).SingleOrDefault();
             return person;
         }
-
-        //public void UpdatePerson(Person person)
-        //{
-        //    SqlMapperExtensions.Update<Person>(_connectionString, person);
-        //}       
     }
 }

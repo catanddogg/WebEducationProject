@@ -21,26 +21,6 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        //public void CreateBook(Book book)
-        //{
-        //    SqlMapperExtensions.Insert(_connectionString, book);
-        //}
-
-        //public void DeleteBook(int id)
-        //{
-        //    Book book = SqlMapperExtensions.Get<Book>(_connectionString, id);
-        //    if (book != null)
-        //    {
-        //        SqlMapperExtensions.Delete(_connectionString, book);
-        //    }
-        //}
-
-        //public IEnumerable<Book> GetAllBook()
-        //{
-        //    IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(_connectionString);
-        //    return books;
-        //}
-
         public CategoriesBooksAvtors GetAllTables()
         {
             IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(_connectionString);
@@ -56,16 +36,5 @@ namespace BookStore.DAL.Repositories.Dapper
 
             return categoriesBooksAvtors;
         }
-
-        //public Book GetBookById(int id)
-        //{
-        //    Book books = SqlMapperExtensions.Get<Book>(_connectionString, id);
-        //    return books;
-        //}
-
-        //public void UpdateBook(Book book)
-        //{
-        //    SqlMapperExtensions.Update<Book>(_connectionString, book);
-        //} 
     }
 }

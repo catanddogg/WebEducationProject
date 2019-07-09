@@ -20,15 +20,7 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task Create(T entity)
         {
-            try
-            {
-                await _connection.InsertAsync<T>(entity);
-                //await SqlMapperExtensions.InsertAsync(_connection, entity);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            await SqlMapperExtensions.InsertAsync(_connection, entity);
         }
 
         public void Delete(int id)

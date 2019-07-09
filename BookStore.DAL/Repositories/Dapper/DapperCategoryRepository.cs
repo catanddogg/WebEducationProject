@@ -20,26 +20,6 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        //public void CreateCategory(Category category)
-        //{
-        //    SqlMapperExtensions.Insert(_connectionString, category);
-        //}
-
-        //public void DeleteCategory(int id)
-        //{
-        //    Category category = SqlMapperExtensions.Get<Category>(_connectionString, id);
-        //    if (category != null)
-        //    {
-        //        SqlMapperExtensions.Delete(_connectionString, category);
-        //    }
-        //}
-
-        //public IEnumerable<Category> GetAllCategory()
-        //{
-        //    IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(_connectionString);
-        //    return categories;
-        //}
-
         public IEnumerable<Category> GetAutorAndCategoryBook(string avtor, int category)
         {
             List<Category> bookList = new List<Category>();
@@ -48,22 +28,11 @@ namespace BookStore.DAL.Repositories.Dapper
             return bookList;
         }
 
-        //public Category GetCategoryById(int id)
-        //{
-        //    Category category = SqlMapperExtensions.Get<Category>(_connectionString, id);
-        //    return category;
-        //}
-
         public IEnumerable<Category> GetCategoryBooks(int category)
         {
                 CategoryType categoryType = (CategoryType)category;
                 IEnumerable<Category> res = SqlMapperExtensions.GetAll<Category>(_connectionString).Where(x => x.CategoryType == categoryType);
                 return res;
         }
-
-        //public void UpdateCategory(Category category)
-        //{
-        //    SqlMapperExtensions.Update<Category>(_connectionString, category);
-        //}
     }
 }
