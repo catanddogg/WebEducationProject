@@ -17,22 +17,22 @@ namespace BookStore.Services.Services
 
         public void CreateCategory(Category category)
         {
-            _categoryRepository.CreateCategory(category);
+            _categoryRepository.Create(category);
         }
 
         public Category GetCategoryById(int id)
         {
-            return _categoryRepository.GetCategoryById(id);
+            return _categoryRepository.GetById(id);
         }
 
         public void DeleteCategory(int id)
         {
-            _categoryRepository.DeleteCategory(id);
+            _categoryRepository.Delete(id);
         }
 
         public IEnumerable<Category> GetAllCategory()
         {
-            return _categoryRepository.GetAllCategory();
+            return _categoryRepository.GetAll();
         }
 
         public IEnumerable<Category> GetAutorAndCategoryBook(string avtor, int category)
@@ -47,7 +47,7 @@ namespace BookStore.Services.Services
 
         public void UpdateCategory(Category category)
         {
-            _categoryRepository.UpdateCategory(category);
+            _categoryRepository.Update(category);
         }
     }
 }

@@ -19,22 +19,22 @@ namespace BookStore.Services.Services
 
         public void CreatePerson(Person person)
         {
-            _personRepository.CreatePerson(person);
+            _personRepository.Create(person);
         }
 
         public void DeletePerson(int id)
         {
-            _personRepository.DeletePerson(id);
+            _personRepository.Delete(id);
         }
 
         public IEnumerable<Person> GetAllPerson()
         {
-            return _personRepository.GetAllPerson();
+            return _personRepository.GetAll();
         }
 
         public Person GetPersonById(int id)
         {
-            return _personRepository.GetPersonById(id);
+            return _personRepository.GetById(id);
         }
 
         public Person GetPersonByLoginAndPassword(string login, string password)
@@ -49,7 +49,7 @@ namespace BookStore.Services.Services
 
         public void UpdatePerson(Person person)
         {
-            _personRepository.UpdatePerson(person);
+            _personRepository.Update(person);
         }
     }
 }

@@ -11,41 +11,42 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class PersonRepository : IPersonRepository
+    public class PersonRepository : BaseRepository<BooksContext, Person>, IPersonRepository
     {
         private BooksContext _booksContext;
         public PersonRepository(BooksContext booksContext)
+            : base(booksContext)
         {
             _booksContext = booksContext;
         }
 
-        public void CreatePerson(Person person)
-        {
-            _booksContext.Add(person);
-            _booksContext.SaveChanges();
-        }
+        //public void CreatePerson(Person person)
+        //{
+        //    _booksContext.Add(person);
+        //    _booksContext.SaveChanges();
+        //}
 
-        public void DeletePerson(int id)
-        {
-            Person person = _booksContext.Find<Person>(id);
-            if(person != null)
-            {
-                _booksContext.Remove(person);
-                _booksContext.SaveChanges();
-            }
-        }
+        //public void DeletePerson(int id)
+        //{
+        //    Person person = _booksContext.Find<Person>(id);
+        //    if(person != null)
+        //    {
+        //        _booksContext.Remove(person);
+        //        _booksContext.SaveChanges();
+        //    }
+        //}
 
-        public IEnumerable<Person> GetAllPerson()
-        {
-            DbSet<Person> persons = _booksContext.Set<Person>();
-            return persons;
-        }
+        //public IEnumerable<Person> GetAllPerson()
+        //{
+        //    DbSet<Person> persons = _booksContext.Set<Person>();
+        //    return persons;
+        //}
 
-        public Person GetPersonById(int id)
-        {
-            Person person = _booksContext.Find<Person>(id);
-            return person;
-        }
+        //public Person GetPersonById(int id)
+        //{
+        //    Person person = _booksContext.Find<Person>(id);
+        //    return person;
+        //}
 
         public Person GetPersonByLoginAndPassword(string login, string password)
         {
@@ -59,10 +60,10 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return person;
         }
 
-        public void UpdatePerson(Person person)
-        {
-            _booksContext.Entry(person).State = EntityState.Modified;
-            _booksContext.SaveChanges();
-        }      
+        //public void UpdatePerson(Person person)
+        //{
+        //    _booksContext.Entry(person).State = EntityState.Modified;
+        //    _booksContext.SaveChanges();
+        //}      
     }
 }

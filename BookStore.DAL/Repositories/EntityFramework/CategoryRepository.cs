@@ -9,35 +9,36 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : BaseRepository<BooksContext, Category>, ICategoryRepository
     {
         private BooksContext _booksContext;
         public CategoryRepository(BooksContext booksContext)
+            : base(booksContext)
         {
             _booksContext = booksContext;
         }
 
-        public void CreateCategory(Category category)
-        {
-            _booksContext.Add(category);
-            _booksContext.SaveChanges();
-        }
+        //public void CreateCategory(Category category)
+        //{
+        //    _booksContext.Add(category);
+        //    _booksContext.SaveChanges();
+        //}
 
-        public void DeleteCategory(int id)
-        {
-            Category category = _booksContext.Find<Category>(id);
-            if(category != null)
-            {
-                _booksContext.Remove(category);
-                _booksContext.SaveChanges();
-            }
-        }
+        //public void DeleteCategory(int id)
+        //{
+        //    Category category = _booksContext.Find<Category>(id);
+        //    if(category != null)
+        //    {
+        //        _booksContext.Remove(category);
+        //        _booksContext.SaveChanges();
+        //    }
+        //}
 
-        public IEnumerable<Category> GetAllCategory()
-        {
-            DbSet<Category> categories = _booksContext.Set<Category>();
-            return categories;
-        }
+        //public IEnumerable<Category> GetAllCategory()
+        //{
+        //    DbSet<Category> categories = _booksContext.Set<Category>();
+        //    return categories;
+        //}
 
         public IEnumerable<Category> GetAutorAndCategoryBook(string avtor, int category)
         {
@@ -47,11 +48,11 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return bookList;
         }
 
-        public Category GetCategoryById(int id)
-        {
-            Category category = _booksContext.Find<Category>(id);
-            return category;
-        }
+        //public Category GetCategoryById(int id)
+        //{
+        //    Category category = _booksContext.Find<Category>(id);
+        //    return category;
+        //}
 
         public IEnumerable<Category> GetCategoryBooks(int category)
         {
@@ -60,10 +61,10 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return bookItem;
         }
 
-        public void UpdateCategory(Category category)
-        {
-            _booksContext.Entry(category).State = EntityState.Modified;
-            _booksContext.SaveChanges();
-        }
+        //public void UpdateCategory(Category category)
+        //{
+        //    _booksContext.Entry(category).State = EntityState.Modified;
+        //    _booksContext.SaveChanges();
+        //}
     }
 }

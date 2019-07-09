@@ -14,97 +14,56 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
-    public class DapperPersonRepository : IPersonRepository
+    public class DapperPersonRepository : BaseDapperRepository< Person>, IPersonRepository
     {
-        private string _connectionString;
-        public DapperPersonRepository(string connectionString)
+        private IDbConnection _connectionString;
+        public DapperPersonRepository(IDbConnection connectionString)
+            :base(connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public void CreatePerson(Person person)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                SqlMapperExtensions.Insert(db, person);
-            }
-        }
+        //public void CreatePerson(Person person)
+        //{
+        //    SqlMapperExtensions.Insert(_connectionString, person);
+        //}
 
-        public void DeletePerson(int id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Person person = SqlMapperExtensions.Get<Person>(db, id);
-                if(person != null)
-                {
-                    SqlMapperExtensions.Delete(db, person);
-                }
-            }
-        }
+        //public void DeletePerson(int id)
+        //{
+        //    Person person = SqlMapperExtensions.Get<Person>(_connectionString, id);
+        //    if (person != null)
+        //    {
+        //        SqlMapperExtensions.Delete(_connectionString, person);
+        //    }
+        //}
 
-        public IEnumerable<Person> GetAllPerson()
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                IEnumerable<Person> people = SqlMapperExtensions.GetAll<Person>(db);
-                return people;
-            }
-        }
+        //public IEnumerable<Person> GetAllPerson()
+        //{
+        //    IEnumerable<Person> people = SqlMapperExtensions.GetAll<Person>(_connectionString);
+        //    return people;
+        //}
 
-        public Person GetPersonById(int id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Person person = SqlMapperExtensions.Get<Person>(db, id);
-                return person;
-            }
-        }
+        //public Person GetPersonById(int id)
+        //{
+        //    Person person = SqlMapperExtensions.Get<Person>(_connectionString, id);
+        //    return person;
+        //}
 
         public Person GetPersonByLoginAndPassword(string login, string password)
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Person person = SqlMapperExtensions.GetAll<Person>(db).Where(x => x.Login == login && x.Password == password).SingleOrDefault();
-                return person;
-            }
+            Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.Login == login && x.Password == password).SingleOrDefault();
+            return person;
         }
 
         public Person GetPersonByRefreshToken(string refreshToken)
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Person person = SqlMapperExtensions.GetAll<Person>(db).Where(x => x.RefreshToken == refreshToken).SingleOrDefault();
-                return person;
-            }
+            Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.RefreshToken == refreshToken).SingleOrDefault();
+            return person;
         }
 
-        public void UpdatePerson(Person person)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                SqlMapperExtensions.Update<Person>(db, person);
-            }
-        }
-
-        private ClaimsIdentity GetIdentity(string login, string password)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Person person = SqlMapperExtensions.GetAll<Person>(db).Where(x => x.Login == login && x.Password == password).SingleOrDefault();
-                if (person != null)
-                {
-                    var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
-                };
-                    ClaimsIdentity claimsIdentity =
-                        new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                        ClaimsIdentity.DefaultRoleClaimType);
-                    return claimsIdentity;
-                }
-                return null;
-            }
-        }
+        //public void UpdatePerson(Person person)
+        //{
+        //    SqlMapperExtensions.Update<Person>(_connectionString, person);
+        //}       
     }
 }

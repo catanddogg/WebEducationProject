@@ -18,28 +18,28 @@ namespace BookStore.Services.Services
 
         public void CreateBook(Book book)
         {
-            _bookRepository.CreateBook(book);
+            _bookRepository.Create(book);
         }
 
         public Book GetBookById(int id)
         {
-            return _bookRepository.GetBookById(id);
+            return _bookRepository.GetById(id);
         }
 
         public void DeleteBook(int id)
         {
-            _bookRepository.DeleteBook(id);
+            _bookRepository.Delete(id);
         }
 
         public IEnumerable<Book> GetAllBook()
         {
-            IEnumerable<Book> bookItems = _bookRepository.GetAllBook();
+            IEnumerable<Book> bookItems = _bookRepository.GetAll();
             return bookItems;
         }
 
         public void UpdateBook(Book book)
         {
-            _bookRepository.UpdateBook(book);
+            _bookRepository.Update(book);
         }
 
         public CategoriesBooksAvtors GetAllTables()

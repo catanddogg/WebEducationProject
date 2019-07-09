@@ -18,22 +18,22 @@ namespace BookStore.Services.Services
 
         public void CreateAvtor(Avtor avtor)
         {
-            _avtorRepository.CreateAvtor(avtor);
+            _avtorRepository.Create(avtor);
         }
 
         public void DeleteAvtor(int id)
         {
-            _avtorRepository.DeleteAvtor(id);
+            _avtorRepository.Delete(id);
         }
 
         public Avtor GetAvtorById(int id)
         {
-            return _avtorRepository.GetAvtorById(id);
+            return _avtorRepository.GetById(id);
         }
 
         public IEnumerable<Avtor> GetAllAvtors()
         {
-            return _avtorRepository.GetAllAvtor();
+            return _avtorRepository.GetAll();
         }
 
         public IEnumerable<Avtor> GetAvtorBooks(string avtor)
@@ -48,7 +48,7 @@ namespace BookStore.Services.Services
 
         public void UpdateAvtor(Avtor avtor)
         {
-            _avtorRepository.UpdateAvtor(avtor);
+            _avtorRepository.Update(avtor);
         }
     }
 }

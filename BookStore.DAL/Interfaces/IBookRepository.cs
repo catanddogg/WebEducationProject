@@ -5,13 +5,13 @@ using System.Text;
 
 namespace BookStore.DAL.Interfaces
 {
-    public interface IBookRepository
+    public interface IBookRepository : IBaseRepository<Book>
     {
-        IEnumerable<Book> GetAllBook();
-        Book GetBookById(int id);
-        void CreateBook(Book book);
-        void UpdateBook(Book book);
-        void DeleteBook(int id);
+        //IEnumerable<Book> GetAllBook();
+        //Book GetBookById(int id);
+        //void CreateBook(Book book);
+        //void UpdateBook(Book book);
+        //void DeleteBook(int id);
 
         CategoriesBooksAvtors GetAllTables();
     }

@@ -9,22 +9,19 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
-    public class DapperCommentRepository : ICommentRepository
+    public class DapperCommentRepository : BaseDapperRepository<Comment>, ICommentRepository
     {
-        private string _connectionString;
-
-        public DapperCommentRepository(string connectionString)
+        private IDbConnection _connectionString;
+        public DapperCommentRepository(IDbConnection connectionString)
+            : base(connectionString)
         {
             _connectionString = connectionString;
         }
 
         public void CreateAndGetAllComments(string UserName, string Comment)
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Comment comment = new Comment() { UserName = UserName, Message = Comment, createTime = DateTime.Now };
-                SqlMapperExtensions.Insert(db, comment);
-            }
+            Comment comment = new Comment() { UserName = UserName, Message = Comment, createTime = DateTime.Now };
+            SqlMapperExtensions.Insert(_connectionString, comment);
         }
     }
 }

@@ -47,19 +47,20 @@ namespace BookStore.Services.Services
                     string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\uploadimage\\", newFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                          await createBookViewModel.Path.CopyToAsync(stream);
+                         await createBookViewModel.Path.CopyToAsync(stream);
                     }
+
                     Book book = new Book() { Name = createBookViewModel.Name, Path = newFileName };
-                    _bookRepository.CreateBook(book);
+                    await _bookRepository.Create(book);
 
-                    Avtor avtor = new Avtor() { NameAvtor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book };
-                    _avtorRepository.CreateAvtor(avtor);
+                    Avtor avtor = new Avtor() { NameAvtor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book, BookId = book.Id };
+                    await _avtorRepository.Create(avtor);
 
-                    Category category = new Category() { CategoryType = createBookViewModel.Genre1, Book = book };
-                    _categoryRepository.CreateCategory(category);
+                    Category category = new Category() { CategoryType = createBookViewModel.Genre1, Book = book, BookId = book.Id };
+                    await _categoryRepository.Create(category);
 
-                    Category category1 = new Category() { CategoryType = createBookViewModel.Genre2, Book = book };
-                    _categoryRepository.CreateCategory(category1);
+                    Category category1 = new Category() { CategoryType = createBookViewModel.Genre2, Book = book, BookId = book.Id };
+                    await _categoryRepository.Create(category1);
                 }
                 //return true;
             }
@@ -68,7 +69,7 @@ namespace BookStore.Services.Services
 
         public void CreatePerson(Person person)
         {
-            _personRepository.CreatePerson(person);
+            _personRepository.Create(person);
         }
 
         public CategoriesBooksAvtors GetAllTables()
@@ -83,7 +84,7 @@ namespace BookStore.Services.Services
 
         public void UpdatePerson(Person person)
         {
-            _personRepository.UpdatePerson(person);
+            _personRepository.Update(person);
         }
     }
 }

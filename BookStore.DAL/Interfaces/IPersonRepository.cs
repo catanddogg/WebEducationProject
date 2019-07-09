@@ -7,15 +7,15 @@ using System.Text;
 
 namespace BookStore.DAL.Interfaces
 {
-    public interface IPersonRepository
+    public interface IPersonRepository : IBaseRepository<Person>
     {
-        IEnumerable<Person> GetAllPerson();
-        void CreatePerson(Person person);
-        void UpdatePerson(Person person);
-        void DeletePerson(int id);
+        //IEnumerable<Person> GetAllPerson();
+        //void CreatePerson(Person person);
+        //void UpdatePerson(Person person);
+        //void DeletePerson(int id);
+        //Person GetPersonById(int id);
 
         Person GetPersonByLoginAndPassword(string login, string password);
-        Person GetPersonById(int id);
         Person GetPersonByRefreshToken(string refreshToken);
     }
 }

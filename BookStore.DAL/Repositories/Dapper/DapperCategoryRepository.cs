@@ -11,79 +11,59 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
-    public class DapperCategoryRepository : ICategoryRepository
+    public class DapperCategoryRepository : BaseDapperRepository<Category>, ICategoryRepository
     {
-        private string _connectionString;
-        public DapperCategoryRepository(string connectionString)
+        private IDbConnection _connectionString;
+        public DapperCategoryRepository(IDbConnection connectionString)
+            : base(connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public void CreateCategory(Category category)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                SqlMapperExtensions.Insert(db, category);
-            }
-        }
+        //public void CreateCategory(Category category)
+        //{
+        //    SqlMapperExtensions.Insert(_connectionString, category);
+        //}
 
-        public void DeleteCategory(int id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Category category = SqlMapperExtensions.Get<Category>(db, id);
-                if(category != null)
-                {
-                    SqlMapperExtensions.Delete(db, category);
-                }
-            }
-        }
+        //public void DeleteCategory(int id)
+        //{
+        //    Category category = SqlMapperExtensions.Get<Category>(_connectionString, id);
+        //    if (category != null)
+        //    {
+        //        SqlMapperExtensions.Delete(_connectionString, category);
+        //    }
+        //}
 
-        public IEnumerable<Category> GetAllCategory()
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(db);
-                return categories;
-            }
-        }
+        //public IEnumerable<Category> GetAllCategory()
+        //{
+        //    IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(_connectionString);
+        //    return categories;
+        //}
 
         public IEnumerable<Category> GetAutorAndCategoryBook(string avtor, int category)
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                List<Category> bookList = new List<Category>();
-                CategoryType categoryType = (CategoryType)category;
-                bookList.AddRange(SqlMapperExtensions.GetAll<Category>(db).Where(x => x.CategoryType == categoryType).ToList());
-                return bookList;
-            }
+            List<Category> bookList = new List<Category>();
+            CategoryType categoryType = (CategoryType)category;
+            bookList.AddRange(SqlMapperExtensions.GetAll<Category>(_connectionString).Where(x => x.CategoryType == categoryType).ToList());
+            return bookList;
         }
 
-        public Category GetCategoryById(int id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Category category = SqlMapperExtensions.Get<Category>(db, id);
-                return category;
-            }
-        }
+        //public Category GetCategoryById(int id)
+        //{
+        //    Category category = SqlMapperExtensions.Get<Category>(_connectionString, id);
+        //    return category;
+        //}
 
         public IEnumerable<Category> GetCategoryBooks(int category)
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
                 CategoryType categoryType = (CategoryType)category;
-                IEnumerable<Category> res = SqlMapperExtensions.GetAll<Category>(db).Where(x => x.CategoryType == categoryType);
+                IEnumerable<Category> res = SqlMapperExtensions.GetAll<Category>(_connectionString).Where(x => x.CategoryType == categoryType);
                 return res;
-            }
         }
 
-        public void UpdateCategory(Category category)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                SqlMapperExtensions.Update<Category>(db, category);
-            }
-        }
+        //public void UpdateCategory(Category category)
+        //{
+        //    SqlMapperExtensions.Update<Category>(_connectionString, category);
+        //}
     }
 }

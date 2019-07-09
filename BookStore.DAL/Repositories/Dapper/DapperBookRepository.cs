@@ -12,77 +12,60 @@ using BookStore.DAL.Enums;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
-    public class DapperBookRepository : IBookRepository
+    public class DapperBookRepository : BaseDapperRepository<Book>, IBookRepository
     {
-        private string _connectionString;
-        public DapperBookRepository(string connectionString)
+        private IDbConnection _connectionString;
+        public DapperBookRepository(IDbConnection connectionString)
+            : base(connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public void CreateBook(Book book)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                SqlMapperExtensions.Insert(db, book);
-            }
-        }
+        //public void CreateBook(Book book)
+        //{
+        //    SqlMapperExtensions.Insert(_connectionString, book);
+        //}
 
-        public void DeleteBook(int id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Book book = SqlMapperExtensions.Get<Book>(db, id);
-                if (book != null)
-                {
-                    SqlMapperExtensions.Delete(db, book);
-                }
-            }
-        }
+        //public void DeleteBook(int id)
+        //{
+        //    Book book = SqlMapperExtensions.Get<Book>(_connectionString, id);
+        //    if (book != null)
+        //    {
+        //        SqlMapperExtensions.Delete(_connectionString, book);
+        //    }
+        //}
 
-        public IEnumerable<Book> GetAllBook()
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(db);
-                return books;
-            }
-        }
+        //public IEnumerable<Book> GetAllBook()
+        //{
+        //    IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(_connectionString);
+        //    return books;
+        //}
 
         public CategoriesBooksAvtors GetAllTables()
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(db);
-                IEnumerable<Avtor> avtors = SqlMapperExtensions.GetAll<Avtor>(db);
-                IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(db);
-                IEnumerable<Comment> comments = SqlMapperExtensions.GetAll<Comment>(db);
+            IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(_connectionString);
+            IEnumerable<Avtor> avtors = SqlMapperExtensions.GetAll<Avtor>(_connectionString);
+            IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(_connectionString);
+            IEnumerable<Comment> comments = SqlMapperExtensions.GetAll<Comment>(_connectionString);
 
-                CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
-                categoriesBooksAvtors.Books.AddRange(books);
-                categoriesBooksAvtors.Avtors.AddRange(avtors);
-                categoriesBooksAvtors.Categories.AddRange(categories);
-                categoriesBooksAvtors.Comments.AddRange(comments);
+            CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
+            categoriesBooksAvtors.Books.AddRange(books);
+            categoriesBooksAvtors.Avtors.AddRange(avtors);
+            categoriesBooksAvtors.Categories.AddRange(categories);
+            categoriesBooksAvtors.Comments.AddRange(comments);
 
-                return categoriesBooksAvtors;
-            }
+            return categoriesBooksAvtors;
         }
 
-        public Book GetBookById(int id)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                Book books = SqlMapperExtensions.Get<Book>(db, id);
-                return books;
-            }
-        }
+        //public Book GetBookById(int id)
+        //{
+        //    Book books = SqlMapperExtensions.Get<Book>(_connectionString, id);
+        //    return books;
+        //}
 
-        public void UpdateBook(Book book)
-        {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                SqlMapperExtensions.Update<Book>(db, book);
-            }
-        }    
+        //public void UpdateBook(Book book)
+        //{
+        //    SqlMapperExtensions.Update<Book>(_connectionString, book);
+        //} 
     }
 }

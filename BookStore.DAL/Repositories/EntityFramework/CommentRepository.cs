@@ -7,20 +7,21 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class CommentRepository : ICommentRepository
+    public class CommentRepository : BaseRepository<BooksContext, Comment>, ICommentRepository
     {
-        private BooksContext _context;
+        private BooksContext _bookContext;
 
-        public CommentRepository(BooksContext context)
+        public CommentRepository(BooksContext bookContext)
+            : base(bookContext)
         {
-            _context = context;
+            _bookContext = bookContext;
         }
 
         public void CreateAndGetAllComments(string UserName, string Comment)
         {
             Comment comment = new Comment() { Message = Comment, UserName = UserName, createTime = DateTime.Now };
-            _context.Add(comment);
-            _context.SaveChanges();
+            _bookContext.Add(comment);
+            _bookContext.SaveChanges();
         }
     }
 }

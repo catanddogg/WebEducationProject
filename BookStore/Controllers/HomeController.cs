@@ -154,38 +154,8 @@ namespace BookStore.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFile(CreateBookViewModel createBookViewModel)
         {
-             await _homeService.CreateBookCategoryAvtorTables(createBookViewModel);
-
-            //if(isValid)
-            //{
-                return RedirectToAction("Index");
-            //}
-            //if (createBookViewModel.Name != null && createBookViewModel.Path != null && createBookViewModel.Publisher != null &&
-            //    createBookViewModel.Genre1 != CategoryType.None && createBookViewModel.Genre2 != CategoryType.None && createBookViewModel.Avtor != null)
-            //{
-            //    if (createBookViewModel.Path.Length > 0)
-            //    {
-            //        var fileName = Path.GetFileName(createBookViewModel.Path.FileName);
-            //        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\uploadimage\\", fileName);
-            //        using (var stream = new FileStream(filePath, FileMode.Create))
-            //        {
-            //            await createBookViewModel.Path.CopyToAsync(stream);
-            //        }
-            //        Book book = new Book() { Name = createBookViewModel.Name, Path = fileName };
-            //        _bookService.CreateBook(book);
-
-            //        Avtor avtor = new Avtor() { NameAvtor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book};
-            //        _avtorService.CreateAvtor(avtor);
-
-            //        Category category = new Category() { CategoryType = createBookViewModel.Genre1, Book = book};
-            //        _categoryService.CreateCategory(category);
-
-            //        Category category1= new Category() { CategoryType = createBookViewModel.Genre2, Book = book};
-            //        _categoryService.CreateCategory(category1);
-            //    }
-            //    return RedirectToAction("Index");
-            //}
-            return View("Book");
+            await _homeService.CreateBookCategoryAvtorTables(createBookViewModel);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
