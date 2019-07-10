@@ -34,20 +34,20 @@ namespace BookStore.Services.Services
             _commentRepository.CreateAndGetAllComments(UserName, Comment);
         }
 
-        public async Task CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel)
+        public async Task<string> CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel)
         {
-            if (createBookViewModel.Name != null && createBookViewModel.Path != null && createBookViewModel.Publisher != null &&
+            if (createBookViewModel.Name != null && createBookViewModel.file != null && createBookViewModel.Publisher != null &&
                 createBookViewModel.Genre1 != CategoryType.None && createBookViewModel.Genre2 != CategoryType.None && createBookViewModel.Avtor != null)
             {
-                if (createBookViewModel.Path.Length > 0)
+                if (createBookViewModel.file.Length > 0)
                 {
-                    string fileName = Path.GetFileName(createBookViewModel.Path.FileName);
+                    string fileName = Path.GetFileName(createBookViewModel.file.FileName);
                     var FileExtension = Path.GetExtension(fileName);
                     string newFileName = Guid.NewGuid().ToString() + FileExtension;
                     string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\uploadimage\\", newFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                         await createBookViewModel.Path.CopyToAsync(stream);
+                         await createBookViewModel.file.CopyToAsync(stream);
                     }
 
                     Book book = new Book() { Name = createBookViewModel.Name, Path = newFileName };
@@ -62,9 +62,9 @@ namespace BookStore.Services.Services
                     Category category1 = new Category() { CategoryType = createBookViewModel.Genre2, Book = book, BookId = book.Id };
                     await _categoryRepository.Create(category1);
                 }
-                //return true;
+                return "Index";
             }
-            //return false;
+            return "Data not correct!";
         }
 
         public void CreatePerson(Person person)

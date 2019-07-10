@@ -13,10 +13,6 @@ namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
-        private static bool _firstComeRegistaretion = true;
-        private static bool _registrationBack;
-        private static string _userName;
-
         private readonly IHomeService _homeService;
         private readonly IJWTService _jWTService;
 
@@ -28,20 +24,12 @@ namespace BookStore.Controllers
 
         public IActionResult Index()
         {
-            if (_jWTService.jwt == null || _jWTService.jwt.ValidTo < DateTime.UtcNow)
-            {
-                return View("Views/Home/Login.cshtml");
-            }
             return View(_homeService.GetAllTables());
         }
      
         [HttpPost]
         public IActionResult Index([FromForm]TypeTable typeTable)
         {
-            if (_jWTService.jwt == null || _jWTService.jwt.ValidTo < DateTime.UtcNow)
-            {
-                return View("Views/Home/Login.cshtml");
-            }
             ViewBag.TypeTable = typeTable.ToString();
             return PartialView("Views/Home/Index.cshtml", _homeService.GetAllTables());
         }
@@ -49,7 +37,7 @@ namespace BookStore.Controllers
         [HttpPost]
         public IActionResult Swagger()
         {
-            return new RedirectResult("/Home/Swagger/index.html");
+            return RedirectToAction("/Home/Swagger/index.html");
         }
 
         public IActionResult Book()
@@ -60,81 +48,49 @@ namespace BookStore.Controllers
         [HttpPost]
         public IActionResult About()
         {
-            if (_jWTService.jwt == null || _jWTService.jwt.ValidTo < DateTime.UtcNow)
-            {
-                return View("Views/Home/Login.cshtml");
-            }
             return View();
         }
 
         public IActionResult Login()
         {
-            _registrationBack = false;
             return View();
         }
 
         [HttpPost]
         public IActionResult Login(string login, string password)
         {
-            if(_registrationBack)
+            if(login == null || password == null)
             {
-                _registrationBack = false;
-                return View();
+                return Ok();
             }
-            JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(login, password);
+            _jWTService.Login(login, password);
             if (_jWTService.jwt == null)
             {
-                return View();
+                return Ok();
             }
-            //_userName = person.FirstName;
-            return View("Views/Home/Index.cshtml", _homeService.GetAllTables());
+            return Ok(_homeService.GetAllTables());
         }
-        
+
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return View("Views/Home/Registration.cshtml");
+        }
 
         [HttpPost]
         public IActionResult Registration(string firstName, string secondName, int age, string login, string password)
         {
-            TempData["noticeRegistration"] = "";
-            _registrationBack = true;
-            if (_firstComeRegistaretion)
-            {
-                _firstComeRegistaretion = false;
-                return View();
-            }
             if (firstName == null && secondName == null && age == 0 && login == null && password == null)
             {
-                TempData["noticeRegistration"] = "Enter all fields!";
-                return View();
+                return Ok("Data not correct!");
             }
-            if (firstName == null)
+            if (age <= 0 || age >= 99)
             {
-                TempData["noticeRegistration"] = "Enter Firest Name!";
-                return View();
+                return Ok("Age not correct!");
             }
-            if (secondName == null)
-            {
-                TempData["noticeRegistration"] = "Enter Second Name!";
-                return View();
-            }
-            if (age < 0 || age >= 99)
-            {
-                TempData["noticeRegistration"] = "Age is not correct!";
-                return View();
-            }
-            if (login == null)
-            {
-                TempData["noticeRegistration"] = "Enter login!";
-                return View();
-            }
-            if (password == null)
-            {
-                TempData["noticeRegistration"] = "Enter password!";
-                return View();
-            }
-
             Person person = new Person { Age = age, Login = login, Password = password, FirstName = firstName, SecondName = secondName, Role = "user" }; 
             _homeService.CreatePerson(person);
-            return View("Views/Home/Login.cshtml");
+            return Ok();
         }
 
         [HttpPost]
@@ -147,15 +103,22 @@ namespace BookStore.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFile(CreateBookViewModel createBookViewModel)
         {
-            await _homeService.CreateBookCategoryAvtorTables(createBookViewModel);
-            return RedirectToAction("Index");
+            var data =  await _homeService.CreateBookCategoryAvtorTables(createBookViewModel);
+            return Ok(data);
         }
 
         [HttpPost]
         public IActionResult SaveComment(string Comment)
         {
-            _homeService.CreateAndGetAllComments(_userName, Comment);
+            //Comment not worked
+            //_homeService.CreateAndGetAllComments(_userName, Comment);
             return PartialView("PartialView/_Comment", _homeService.GetAllTables());
+        }
+
+        [HttpPost]
+        public IActionResult NavigationToIndex()
+        {
+            return Ok();
         }
     }
 }

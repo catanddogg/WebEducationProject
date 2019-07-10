@@ -4,24 +4,21 @@
 <head>
 </head>
 <body class="bg-light">
-        <div class="row align-items-center bg-info ">
-            <div class="col-auto">
-                <h2>List Books</h2>
-            </div>
-            <div class="col-auto">
-                @Html.DropDownList("typeTable", Html.GetEnumSelectList(typeof(TypeTable)), htmlAttributes: new { @id = "typeTable", @class = "btn btn-secondary  dropdown-toggle" })
-            </div>
-            <div class="col-auto">
-                <input id="RefreshTable" value="Send" type="button" class="btn btn-outline-dark" />
-            </div>
-            @using (Html.BeginForm("Book", "Home", FormMethod.Post, htmlAttributes: new { @style = "margin : -16" }))
-            {
-                <div class="col-auto">
-                    <input value="Create Book" type="submit" class="btn btn-outline-dark" />
-                </div>
-            }
+    <div class="row align-items-center bg-info ">
+        <div class="col-auto">
+            <h2>List Books</h2>
         </div>
-@{ await Html.RenderPartialAsync("PartialView/_Tables");}
-@{ await Html.RenderPartialAsync("PartialView/_Comment");}
+        <div class="col-auto">
+            @Html.DropDownList("typeTable", Html.GetEnumSelectList(typeof(TypeTable)), htmlAttributes: new { @id = "typeTable", @class = "btn btn-secondary  dropdown-toggle" })
+        </div>
+        <div class="col-auto">
+            <input id="RefreshTable" value="Send" type="button" class="btn btn-outline-dark" />
+        </div>
+        <div class="col-auto">
+            <input id="CreateBook" value="Create Book" type="submit" class="btn btn-outline-dark" />
+        </div>
+    </div>
+    @{ await Html.RenderPartialAsync("PartialView/_Tables");}
+    @{ await Html.RenderPartialAsync("PartialView/_Comment");}
 </body>
 </html>

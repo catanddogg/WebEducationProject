@@ -12,7 +12,7 @@ namespace BookStore.Services.Interfaces
         void CreatePerson(Person person);
         CategoriesBooksAvtors GetAllTables();
         void CreateAndGetAllComments(string UserName, string Comment);
-        Task CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel);
+        Task<string> CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel);
         Person GetPersonByLoginAndPassword(string login, string password);
     }
 }

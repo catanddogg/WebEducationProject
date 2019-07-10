@@ -3,40 +3,44 @@
 <head>
 </head>
 <body class="bg-light">
-    @using (Html.BeginForm("Swagger", "Home", FormMethod.Post))
-    {
-        <div class="row bg-secondary align-items-start align-items-center marginLeftNull">
-            <div class="col">
-                <h1>Login, Please</h1>
+    <div class="row bg-secondary align-items-start align-items-center marginLeftNull">
+        <div class="col">
+            <h1>Login, Please</h1>
+        </div>
+        <div class="col-auto">
+            <input id="Swagger" value="Swagger" type="button" class="btn btn-secondary" />
+        </div>
+    </div>
+    <div class="col-md-2 Padding10px">
+        @Html.TextBoxFor(model => model.Login, htmlAttributes: new { @id = "login", @class = "form-control", @placeholder = "Login" })
+    </div>
+    <div class="col-md-2 Padding10px">
+        @Html.TextBoxFor(model => model.Password, htmlAttributes: new { @id = "password", @class = "form-control", @placeholder = "Password" })
+    </div>
+    <div class="Padding10px">
+        <input id="Login"  class="col-md-1 btn btn-secondary" value="Login" type="submit" />
+    </div>
+    <div class="Padding10px">
+        <input id="RegistrationPage" class="col-md-1 btn btn-secondary" value="Registration" type="submit"/>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle"/>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div  class="modal-body">
+                    <h4 class="modal-title" id="loginModalBody"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="col-auto ">
-                <button class="btn btn-secondary">Swagger</button>
-            </div>
         </div>
-    }
-    @using (Html.BeginForm("Login", "Home", FormMethod.Post))
-    {
-        <div class="col-md-2 Padding10px">
-            @Html.TextBoxFor(model => model.Login, htmlAttributes : new { @class = "form-control", @placeholder = "Login" })
-        </div>
-        <div class="col-md-2 Padding10px">
-            @Html.TextBoxFor(model => model.Password, htmlAttributes :  new { @class = "form-control", @placeholder = "Password" })
-        </div>
-        <div style=" padding: 10px">
-            <button class="col-md-1 btn btn-secondary" type="submit">Login</button>
-        </div>
-    }
-    @using (Html.BeginForm("Registration", "Home", FormMethod.Post))
-    {
-        <div class="Padding10px">
-            <button class="col-md-1 btn btn-secondary" type="submit">Registration</button>
-        </div>
-    }
-    @if (TempData["noticeLogin"] != null)
-    {
-        <p style="padding-left : 10px; color : red">
-            @TempData["noticeLogin"]
-        </p>
-    }
+    </div>
 </body>
 </html>

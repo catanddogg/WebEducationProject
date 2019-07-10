@@ -9,7 +9,7 @@ namespace BookStore.Common.ViewModels
     public class CreateBookViewModel
     {
         public string Name { get; set; }
-        public IFormFile Path { get; set; }
+        public IFormFile file { get; set; }
         public string Avtor { get; set; }
         public string Publisher { get; set; }
         public CategoryType Genre1 { get; set; }

@@ -7,39 +7,46 @@
         <h2>Registration</h2>
     </div>
     <div class="col-md-3 registrationTextBoxStyle">
-        @Html.TextBoxFor(model => model.FirstName, htmlAttributes : new { @class = "form-control", @placeholder = "Enter First Name*"})
+        @Html.TextBoxFor(model => model.FirstName, htmlAttributes: new { @id = "firstName", @class = "form-control", @placeholder = "First Name*" })
     </div>
     <div class="col-md-3 registrationTextBoxStyle">
-        @Html.TextBoxFor(model => model.SecondName, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Second Name*"})
+        @Html.TextBoxFor(model => model.SecondName, htmlAttributes: new { @id = "secondName", @class = "form-control", @placeholder = "Second Name*" })
     </div>
     <div class="col-md-3 registrationTextBoxStyle">
-        @Html.TextBoxFor(model => model.Age, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Age*"})
+        @Html.TextBoxFor(model => model.Age, htmlAttributes: new { @id = "age", @class = "form-control", @placeholder = "Age*" })
     </div>
     <div class="col-md-3 registrationTextBoxStyle">
-        @Html.TextBoxFor(model => model.Login, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Login*" })
+        @Html.TextBoxFor(model => model.Login, htmlAttributes: new { @id = "login", @class = "form-control", @placeholder = "Login*" })
     </div>
     <div class="col-md-3 registrationTextBoxStyle">
-        @Html.TextBoxFor(model => model.Password, htmlAttributes : new { @class = "form-control", @placeholder = "Enter Password*" })
+        @Html.TextBoxFor(model => model.Password, htmlAttributes: new { @id = "password", @class = "form-control", @placeholder = "Password*" })
     </div>
     <div class="row">
-        @using (Html.BeginForm("Registration", "Home", FormMethod.Post))
-        {
-            <div class="col-auto" style=" padding-top: 30px; padding-left : 20px">
-                <button class="btn btn-secondary" type="submit">Register</button>
-            </div>
-        }
-        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
-        {
-            <div class="col-auto" style=" padding-top: 30px">
-                <button class="btn btn-secondary" type="submit">Back</button>
-            </div>
-        }
+        <div class="col-auto registrationbuttonSave">
+            <input id="RegisterUser" class="btn btn-secondary" value="Register" type="submit" />
+        </div>
+        <div class="col-auto registrationbuttonBack">
+            <input id="RegisterBack" class="btn btn-secondary" value="Back" type="submit" />
+        </div>
     </div>
-    @if (TempData["noticeRegistration"] != null)
-    {
-        <p style="padding-left : 10px; color : red">
-            @TempData["noticeRegistration"]
-        </p>
-    }
+
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalTitle"/>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="modal-title" id="registerModalBody"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
