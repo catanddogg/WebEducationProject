@@ -5,6 +5,6 @@
         None = 0,
         Book = 1,
         Category = 2,
-        Avtor = 3
+        Author = 3
     }
 }

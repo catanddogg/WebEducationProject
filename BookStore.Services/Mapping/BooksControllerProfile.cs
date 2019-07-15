@@ -5,10 +5,9 @@ using BookStore.Common.ViewModels.BooksController.Put;
 using BookStore.DAL.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace BookStore.Mapping
+namespace BookStore.Services.Mapping
 {
     public class BooksControllerProfile : Profile
     {

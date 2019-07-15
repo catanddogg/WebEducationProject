@@ -22,7 +22,7 @@ namespace BookStore.DAL
         private static void EntityFramework(IServiceCollection services)
         {
             services.AddTransient<IBookRepository, BookRepository>();
-            services.AddTransient<IAvtorRepository, AvtorRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
@@ -32,7 +32,7 @@ namespace BookStore.DAL
         {
             services.AddTransient<IDbConnection, SqlConnection>(provider =>  new SqlConnection(connection));
             services.AddTransient<IBookRepository, DapperBookRepository>();
-            services.AddTransient<IAvtorRepository, DapperAvtorRepository>();
+            services.AddTransient<IAuthorRepository, DapperAuthorRepository>();
             services.AddTransient<ICategoryRepository, DapperCategoryRepository>();
             services.AddTransient<IPersonRepository, DapperPersonRepository>();
             services.AddTransient<ICommentRepository, DapperCommentRepository>();

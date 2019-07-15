@@ -22,13 +22,13 @@ namespace BookStore.DAL.Repositories.EntityFramework
         public CategoriesBooksAvtors GetAllTables()
         {
             DbSet<Book> books = _booksContext.Set<Book>();
-            DbSet<Avtor> avtors = _booksContext.Set<Avtor>();
+            DbSet<Author> authors = _booksContext.Set<Author>();
             DbSet<Category> categories = _booksContext.Set<Category>();
             DbSet<Comment> comments = _booksContext.Set<Comment>();
             
             CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
             categoriesBooksAvtors.Books.AddRange(books);
-            categoriesBooksAvtors.Avtors.AddRange(avtors);
+            categoriesBooksAvtors.Avtors.AddRange(authors);
             categoriesBooksAvtors.Categories.AddRange(categories);
             categoriesBooksAvtors.Comments.AddRange(comments);
 

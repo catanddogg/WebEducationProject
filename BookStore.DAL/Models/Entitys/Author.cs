@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BookStore.DAL.Models
 {
-    public class Avtor : BaseEntity
+    public class Author : BaseEntity
     {
         
         public int BookId { get; set; }
@@ -16,7 +16,7 @@ namespace BookStore.DAL.Models
         [ForeignKey("BookId")]
         public Book Book { get; set; }
 
-        public string NameAvtor { get; set; }
+        public string NameAuthor { get; set; }
         public string Publisher { get; set; }
     }
 }

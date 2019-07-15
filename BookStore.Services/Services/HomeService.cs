@@ -13,13 +13,13 @@ namespace BookStore.Services.Services
 {
     public class HomeService : IHomeService
     {
-        private readonly IAvtorRepository _avtorRepository;
+        private readonly IAuthorRepository _avtorRepository;
         private readonly IBookRepository _bookRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IPersonRepository _personRepository;
         private readonly ICommentRepository _commentRepository;
 
-        public HomeService(IAvtorRepository avtorRepository, IBookRepository bookRepository, ICategoryRepository categoryRepository,
+        public HomeService(IAuthorRepository avtorRepository, IBookRepository bookRepository, ICategoryRepository categoryRepository,
             IPersonRepository personRepository, ICommentRepository commentRepository)
         {
             _avtorRepository = avtorRepository;
@@ -53,8 +53,8 @@ namespace BookStore.Services.Services
                     Book book = new Book() { Name = createBookViewModel.Name, Path = newFileName };
                     await _bookRepository.Create(book);
 
-                    Avtor avtor = new Avtor() { NameAvtor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book, BookId = book.Id };
-                    await _avtorRepository.Create(avtor);
+                    Author author = new Author() { NameAuthor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book, BookId = book.Id };
+                    await _avtorRepository.Create(author);
 
                     Category category = new Category() { CategoryType = createBookViewModel.Genre1, Book = book, BookId = book.Id };
                     await _categoryRepository.Create(category);

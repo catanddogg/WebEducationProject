@@ -1,4 +1,6 @@
-﻿using BookStore.Services.Interfaces;
+﻿using AutoMapper;
+using BookStore.Services.Interfaces;
+using BookStore.Services.Mapping;
 using BookStore.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,10 +13,18 @@ namespace BookStore.Services
     {
         public static void Init(IServiceCollection services)
         {
+            Mapper.Initialize(config =>
+            {
+                config.AddProfile<AuthorsControllerProfile>();
+                config.AddProfile<BooksControllerProfile>();
+                config.AddProfile<CategoriesControllerProfile>();
+                config.AddProfile<PersonControllerProfile>();
+            });
+
             services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IJWTService, JWTService>();
             services.AddTransient<IBookService, BookService>();
-            services.AddTransient<IAvtorService, AvtorService>();
+            services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<ICommentService, CommentService>();

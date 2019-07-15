@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BookStore.Common.ViewModels.AvtorsController.Put
+namespace BookStore.Common.ViewModels.AuthorsController.Put
 {
-    public class UpdateAvtorViewModel
+    public class UpdateAuthorViewModel
     {
         public Book Book { get; set; }
-        public string NameAvtor { get; set; }
+        public string NameAuthor { get; set; }
         public string Publisher { get; set; }
     }
 }

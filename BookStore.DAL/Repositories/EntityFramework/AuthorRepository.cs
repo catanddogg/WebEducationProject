@@ -8,25 +8,25 @@ using System.Text;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class AvtorRepository : BaseRepository<BooksContext, Avtor>, IAvtorRepository
+    public class AuthorRepository : BaseRepository<BooksContext, Author>, IAuthorRepository
     {
         private BooksContext _booksContext;
 
-        public AvtorRepository(BooksContext booksContext)
+        public AuthorRepository(BooksContext booksContext)
            : base(booksContext)
         {
             _booksContext = booksContext;
         }
 
-        public IEnumerable<Avtor> GetAvtorBooks(string avtor)
+        public IEnumerable<Author> GetAuthorBooks(string author)
         {
-            List<Avtor> bookItem = _booksContext.Avtors.Where(x => x.NameAvtor == avtor).ToList();
+            List<Author> bookItem = _booksContext.Avtors.Where(x => x.NameAuthor == author).ToList();
             return bookItem;
         }
 
-        public IEnumerable<Avtor> GetPublisherBooks(string publisher)
+        public IEnumerable<Author> GetPublisherBooks(string publisher)
         {
-            List<Avtor> bookItem = _booksContext.Avtors.Where(x => x.Publisher == publisher).ToList();
+            List<Author> bookItem = _booksContext.Avtors.Where(x => x.Publisher == publisher).ToList();
             return bookItem;
         }
     }

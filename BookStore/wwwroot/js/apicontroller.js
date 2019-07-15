@@ -178,7 +178,7 @@
         var formData = new FormData();
         formData.append('file', files[0]);
         formData.append('Name', $('#Name').val());
-        formData.append('Avtor', $('#Avtor').val());
+        formData.append('Author', $('#Author').val());
         formData.append('Publisher', $('#Publisher').val());
         formData.append('Genre1', $('#Genre1').val());
         formData.append('Genre2', $('#Genre2').val());

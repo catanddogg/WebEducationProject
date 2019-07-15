@@ -13,7 +13,7 @@ namespace BookStore.DAL.Models
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Avtor> Avtors { get; set; }
+        public DbSet<Author> Avtors { get; set; }
 
         public DbSet<Person> Persons { get; set; }
 

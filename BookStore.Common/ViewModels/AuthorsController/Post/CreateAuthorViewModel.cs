@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BookStore.Common.ViewModels.AvtorsController.Post
+namespace BookStore.Common.ViewModels.AuthorsController.Post
 {
-    public class CreateAvtorViewModel
+    public class CreateAuthorViewModel
     {
         public Book Book { get; set; }
-        public string NameAvtor { get; set; }
+        public string NameAuthor { get; set; }
         public string Publisher { get; set; }
     }
 }
