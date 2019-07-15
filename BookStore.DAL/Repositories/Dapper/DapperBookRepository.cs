@@ -22,9 +22,9 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        public CategoriesBooksAuthors GetAllTables()
+        public CategoriesBooksAuthorsDTO GetAllTables()
         {
-            var categoriesBooksAuthors = new CategoriesBooksAuthors();
+            var categoriesBooksAuthors = new CategoriesBooksAuthorsDTO();
             var sql =
                     @"
                     select * from Books 

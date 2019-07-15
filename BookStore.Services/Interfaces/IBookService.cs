@@ -16,6 +16,6 @@ namespace BookStore.Services.Interfaces
         void DeleteBook(int id);
         void UpdateBook(UpdateBookViewModel updateBookViewModel);
 
-        CategoriesBooksAuthors GetAllTables();
+        CategoriesBooksAuthorsDTO GetAllTables();
     }
 }

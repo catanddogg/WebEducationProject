@@ -10,7 +10,7 @@ namespace BookStore.Services.Interfaces
     public interface IHomeService
     {
         void CreatePerson(Person person);
-        CategoriesBooksAuthors GetAllTables();
+        CategoriesBooksAuthorsDTO GetAllTables();
         void CreateAndGetAllComments(string UserName, string Comment);
         Task<string> CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel);
         Person GetPersonByLoginAndPassword(string login, string password);

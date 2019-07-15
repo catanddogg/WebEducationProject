@@ -21,9 +21,9 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _booksContext = booksContext;
         }
 
-        public CategoriesBooksAuthors GetAllTables()
+        public CategoriesBooksAuthorsDTO GetAllTables()
         {
-            CategoriesBooksAuthors categoriesBooksAvtors = new CategoriesBooksAuthors();
+            CategoriesBooksAuthorsDTO categoriesBooksAvtors = new CategoriesBooksAuthorsDTO();
             categoriesBooksAvtors.Books = _booksContext.Books.ToList();
             categoriesBooksAvtors.Authors = _booksContext.Avtors.ToList();
             categoriesBooksAvtors.Categories = _booksContext.Categories.ToList();

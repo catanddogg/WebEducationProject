@@ -12,11 +12,11 @@ namespace BookStore.DAL.Models.Base
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        //public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
-        //public BaseEntity()
-        //{
-        //    CreationDate = DateTime.UtcNow;
-        //}
+        public BaseEntity()
+        {
+            CreationDate = DateTime.UtcNow;
+        }
     }
 }

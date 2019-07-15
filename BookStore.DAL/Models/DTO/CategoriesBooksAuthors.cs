@@ -4,14 +4,14 @@ using System.Text;
 
 namespace BookStore.DAL.Models
 {
-    public class CategoriesBooksAuthors
+    public class CategoriesBooksAuthorsDTO
     {
         public List<Category> Categories { get; set; }
         public List<Book> Books { get; set; }
         public List<Author> Authors { get; set; }
         public List<Comment> Comments { get; set; }
 
-        public CategoriesBooksAuthors()
+        public CategoriesBooksAuthorsDTO()
         {
             Categories = new List<Category>();
             Books = new List<Book>();
