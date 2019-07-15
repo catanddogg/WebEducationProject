@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using Dapper.Contrib.Extensions;
 using System.Linq;
 using BookStore.DAL.Enums;
+using Dapper;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
@@ -21,20 +22,25 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        public CategoriesBooksAvtors GetAllTables()
+        public CategoriesBooksAuthors GetAllTables()
         {
-            IEnumerable<Book> books = SqlMapperExtensions.GetAll<Book>(_connectionString);
-            IEnumerable<Author> authors = SqlMapperExtensions.GetAll<Author>(_connectionString);
-            IEnumerable<Category> categories = SqlMapperExtensions.GetAll<Category>(_connectionString);
-            IEnumerable<Comment> comments = SqlMapperExtensions.GetAll<Comment>(_connectionString);
+            var categoriesBooksAuthors = new CategoriesBooksAuthors();
+            var sql =
+                    @"
+                    select * from Books 
+                    select * from Avtors 
+                    select * from Comments 
+                    select * from categories";
 
-            CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
-            categoriesBooksAvtors.Books.AddRange(books);
-            categoriesBooksAvtors.Avtors.AddRange(authors);
-            categoriesBooksAvtors.Categories.AddRange(categories);
-            categoriesBooksAvtors.Comments.AddRange(comments);
+            using (SqlMapper.GridReader multi = _connectionString.QueryMultiple(sql))
+            {
+                categoriesBooksAuthors.Books = multi.Read<Book>().ToList();
+                categoriesBooksAuthors.Authors = multi.Read<Author>().ToList();
+                categoriesBooksAuthors.Categories = multi.Read<Category>().ToList();
+                categoriesBooksAuthors.Comments = multi.Read<Comment>().ToList();
+            }
 
-            return categoriesBooksAvtors;
+            return categoriesBooksAuthors;
         }
     }
 }

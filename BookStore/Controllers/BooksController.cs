@@ -66,7 +66,7 @@ namespace BookStore.Controllers
 
         //GET : api/books/alltables
         [HttpGet("/alltables")]
-        public CategoriesBooksAvtors GetAllTables()
+        public CategoriesBooksAuthors GetAllTables()
         {
             return _bookService.GetAllTables();
         }

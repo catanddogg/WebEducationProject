@@ -16,7 +16,7 @@ namespace BookStore.DAL
         public static void Init(IServiceCollection services, string connection)
         {
               EntityFramework(services);
-            //Dapper(services, connection);
+              //Dapper(services, connection);
         }
 
         private static void EntityFramework(IServiceCollection services)

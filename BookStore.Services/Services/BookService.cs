@@ -51,7 +51,7 @@ namespace BookStore.Services.Services
             _bookRepository.Update(book);
         }
 
-        public CategoriesBooksAvtors GetAllTables()
+        public CategoriesBooksAuthors GetAllTables()
         {
             return _bookRepository.GetAllTables();
         }

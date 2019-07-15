@@ -7,6 +7,6 @@ namespace BookStore.DAL.Interfaces
 {
     public interface IBookRepository : IBaseRepository<Book>
     {
-        CategoriesBooksAvtors GetAllTables();
+        CategoriesBooksAuthors GetAllTables();
     }
 }

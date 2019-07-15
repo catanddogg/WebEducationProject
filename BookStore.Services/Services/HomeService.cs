@@ -72,7 +72,7 @@ namespace BookStore.Services.Services
             _personRepository.Create(person);
         }
 
-        public CategoriesBooksAvtors GetAllTables()
+        public CategoriesBooksAuthors GetAllTables()
         {
             return _bookRepository.GetAllTables();
         }

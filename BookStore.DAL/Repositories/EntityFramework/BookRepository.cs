@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using BookStore.DAL.Enums;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
@@ -19,18 +21,13 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _booksContext = booksContext;
         }
 
-        public CategoriesBooksAvtors GetAllTables()
+        public CategoriesBooksAuthors GetAllTables()
         {
-            DbSet<Book> books = _booksContext.Set<Book>();
-            DbSet<Author> authors = _booksContext.Set<Author>();
-            DbSet<Category> categories = _booksContext.Set<Category>();
-            DbSet<Comment> comments = _booksContext.Set<Comment>();
-            
-            CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
-            categoriesBooksAvtors.Books.AddRange(books);
-            categoriesBooksAvtors.Avtors.AddRange(authors);
-            categoriesBooksAvtors.Categories.AddRange(categories);
-            categoriesBooksAvtors.Comments.AddRange(comments);
+            CategoriesBooksAuthors categoriesBooksAvtors = new CategoriesBooksAuthors();
+            categoriesBooksAvtors.Books = _booksContext.Books.ToList();
+            categoriesBooksAvtors.Authors = _booksContext.Avtors.ToList();
+            categoriesBooksAvtors.Categories = _booksContext.Categories.ToList();
+            categoriesBooksAvtors.Comments = _booksContext.Comments.ToList();
 
             return categoriesBooksAvtors;
         }
