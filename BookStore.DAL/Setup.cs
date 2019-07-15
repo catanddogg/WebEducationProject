@@ -1,4 +1,5 @@
 ﻿using BookStore.DAL.Interfaces;
+using BookStore.DAL.Models;
 using BookStore.DAL.Repositories.Dapper;
 using BookStore.DAL.Repositories.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@ namespace BookStore.DAL
     {
         public static void Init(IServiceCollection services, string connection)
         {
-            EntityFramework(services);
+              EntityFramework(services);
             //Dapper(services, connection);
         }
 

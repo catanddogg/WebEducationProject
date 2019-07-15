@@ -1,4 +1,7 @@
-﻿using BookStore.DAL.Models;
+﻿using BookStore.Common.ViewModels.AvtorsController.Get;
+using BookStore.Common.ViewModels.AvtorsController.Post;
+using BookStore.Common.ViewModels.AvtorsController.Put;
+using BookStore.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,13 +10,13 @@ namespace BookStore.Services.Interfaces
 {
     public interface IAvtorService
     {
-        IEnumerable<Avtor> GetAllAvtors();
-        Avtor GetAvtorById(int id);
-        void CreateAvtor(Avtor avtor);
-        void UpdateAvtor(Avtor avtor);
+        AllAvtorViewModel GetAllAvtors();
+        AvtorByIdViewModel GetAvtorById(int id);
+        void CreateAvtor(CreateAvtorViewModel createAvtorViewModel);
+        void UpdateAvtor(UpdateAvtorViewModel updateAvtorViewModel);
         void DeleteAvtor(int id);
 
-        IEnumerable<Avtor> GetAvtorBooks(string avtor);
-        IEnumerable<Avtor> GetPublisherBooks(string publisher);
+        AvtorBooksViewModel GetAvtorBooks(string avtor);
+        PublishersBooksViewModel GetPublisherBooks(string publisher);
     }
 }

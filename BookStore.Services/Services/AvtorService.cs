@@ -1,4 +1,8 @@
-﻿using BookStore.DAL.Interfaces;
+﻿using AutoMapper;
+using BookStore.Common.ViewModels.AvtorsController.Get;
+using BookStore.Common.ViewModels.AvtorsController.Post;
+using BookStore.Common.ViewModels.AvtorsController.Put;
+using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using System;
@@ -16,8 +20,9 @@ namespace BookStore.Services.Services
             _avtorRepository = avtorRepository;
         }
 
-        public void CreateAvtor(Avtor avtor)
+        public void CreateAvtor(CreateAvtorViewModel createAvtorViewModel)
         {
+            Avtor avtor = Mapper.Map<CreateAvtorViewModel, Avtor>(createAvtorViewModel);
             _avtorRepository.Create(avtor);
         }
 
@@ -26,28 +31,37 @@ namespace BookStore.Services.Services
             _avtorRepository.Delete(id);
         }
 
-        public Avtor GetAvtorById(int id)
+        public AvtorByIdViewModel GetAvtorById(int id)
         {
-            return _avtorRepository.GetById(id);
+            Avtor avtor = _avtorRepository.GetById(id);
+            AvtorByIdViewModel avtorByIdView = Mapper.Map<Avtor ,AvtorByIdViewModel>(avtor);
+            return avtorByIdView;
         }
 
-        public IEnumerable<Avtor> GetAllAvtors()
+        public AllAvtorViewModel GetAllAvtors()
         {
-            return _avtorRepository.GetAll();
+            IEnumerable<Avtor> avtors = _avtorRepository.GetAll();
+            AllAvtorViewModel allAvtorViewModel = Mapper.Map<IEnumerable<Avtor>, AllAvtorViewModel>(avtors);
+            return allAvtorViewModel;
         }
 
-        public IEnumerable<Avtor> GetAvtorBooks(string avtor)
+        public AvtorBooksViewModel GetAvtorBooks(string avtor)
         {
-            return _avtorRepository.GetAvtorBooks(avtor);
+            IEnumerable<Avtor> avtors = _avtorRepository.GetAvtorBooks(avtor);
+            AvtorBooksViewModel avtorBooksViewModel = Mapper.Map<IEnumerable<Avtor>, AvtorBooksViewModel>(avtors);
+            return avtorBooksViewModel;
         }
 
-        public IEnumerable<Avtor> GetPublisherBooks(string publisher)
+        public PublishersBooksViewModel GetPublisherBooks(string publisher)
         {
-            return _avtorRepository.GetPublisherBooks(publisher);
+            IEnumerable<Avtor> avtors = _avtorRepository.GetPublisherBooks(publisher);
+            PublishersBooksViewModel publishersBooksViewModel = Mapper.Map<IEnumerable<Avtor>, PublishersBooksViewModel>(avtors);
+            return publishersBooksViewModel;
         }
 
-        public void UpdateAvtor(Avtor avtor)
+        public void UpdateAvtor(UpdateAvtorViewModel updateAvtorViewModel)
         {
+            Avtor avtor = Mapper.Map<UpdateAvtorViewModel, Avtor>(updateAvtorViewModel);
             _avtorRepository.Update(avtor);
         }
     }

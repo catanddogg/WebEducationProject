@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Common.ViewModels.CategoriesController.Get;
+using BookStore.Common.ViewModels.CategoriesController.Post;
+using BookStore.Common.ViewModels.CategoriesController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +20,7 @@ namespace BookStore.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
+
         public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -23,30 +28,30 @@ namespace BookStore.Controllers
 
         //GET : api/categories
         [HttpGet]
-        public IEnumerable<Category> GetAllCategories()
+        public AllCategoryViewModel GetAllCategories()
         {
             return _categoryService.GetAllCategory();
         }
 
         //GET : api/categories/{id}
         [HttpGet("{id}")]
-        public Category GetActegoryById(int id)
+        public CategoryByIdViewModel GetCategoryById(int id)
         {
             return _categoryService.GetCategoryById(id);
         }
 
         //POST : api/categories
         [HttpPost]
-        public void CreateCategory(Category category)
+        public void CreateCategory(CreateCategoryViewModel createCategoryViewModel)
         {
-            _categoryService.CreateCategory(category);
+            _categoryService.CreateCategory(createCategoryViewModel);
         }
 
         //PUT : api/categories
         [HttpPut]
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
         {
-            _categoryService.UpdateCategory(category);
+            _categoryService.UpdateCategory(updateCategoryViewModel);
         }
 
         //Delete : api/categories/{id}
@@ -58,17 +63,17 @@ namespace BookStore.Controllers
 
         // GET /api/books/category/
         [HttpGet("category/{category}")]
-        public IEnumerable<Category> GetCategoriesBooks(int category)
+        public CategoryBooksViewModel GetCategoriesBooks(int category)
         {
-            IEnumerable<Category> bookItem = _categoryService.GetCategoryBooks(category);
+            CategoryBooksViewModel bookItem = _categoryService.GetCategoryBooks(category);
             return bookItem;
         }
 
         // GET /api/books/avtorandcategory/
         [HttpGet("avtorandcategory/{avtor}/{category}")]
-        public IEnumerable<Category> GetAvtorandCategoryBooks(int category, string avtor)
+        public AutorAndCategoryViewModel GetAvtorandCategoryBooks(int category, string avtor)
         {
-            IEnumerable<Category> bookItem = _categoryService.GetAutorAndCategoryBook(avtor, category);
+            AutorAndCategoryViewModel bookItem = _categoryService.GetAutorAndCategoryBook(avtor, category);
             return bookItem;
         }
     }

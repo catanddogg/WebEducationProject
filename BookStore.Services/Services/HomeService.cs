@@ -1,7 +1,7 @@
 ﻿using BookStore.Common.ViewModels;
-using BookStore.DAL.Enums;
 using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
+using BookStore.DAL.Enums;
 using BookStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;

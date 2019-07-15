@@ -1,4 +1,8 @@
-﻿using BookStore.DAL.Interfaces;
+﻿using AutoMapper;
+using BookStore.Common.ViewModels.PersonController.Get;
+using BookStore.Common.ViewModels.PersonController.Post;
+using BookStore.Common.ViewModels.PersonController.Put;
+using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.DAL.Repositories.EntityFramework;
 using BookStore.Services.Interfaces;
@@ -17,8 +21,9 @@ namespace BookStore.Services.Services
             _personRepository = personRepository;
         }
 
-        public void CreatePerson(Person person)
+        public void CreatePerson(CreatePersonViewModel createPersonViewModel)
         {
+            Person person = Mapper.Map<CreatePersonViewModel, Person>(createPersonViewModel);
             _personRepository.Create(person);
         }
 
@@ -27,14 +32,18 @@ namespace BookStore.Services.Services
             _personRepository.Delete(id);
         }
 
-        public IEnumerable<Person> GetAllPerson()
+        public AllPersonViewModel GetAllPerson()
         {
-            return _personRepository.GetAll();
+            IEnumerable<Person>  people = _personRepository.GetAll();
+            AllPersonViewModel allPersonViewModel = Mapper.Map<IEnumerable<Person>, AllPersonViewModel>(people);
+            return allPersonViewModel;
         }
 
-        public Person GetPersonById(int id)
+        public PersonByIdViewModel GetPersonById(int id)
         {
-            return _personRepository.GetById(id);
+            Person person = _personRepository.GetById(id);
+            PersonByIdViewModel personByIdViewModel = Mapper.Map<Person, PersonByIdViewModel>(person);
+            return personByIdViewModel;
         }
 
         public Person GetPersonByLoginAndPassword(string login, string password)
@@ -47,8 +56,9 @@ namespace BookStore.Services.Services
             return _personRepository.GetPersonByRefreshToken(refreshToken);
         }
 
-        public void UpdatePerson(Person person)
+        public void UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
         {
+            Person person = Mapper.Map<UpdatePersonViewModel, Person>(updatePersonViewModel);
             _personRepository.Update(person);
         }
     }

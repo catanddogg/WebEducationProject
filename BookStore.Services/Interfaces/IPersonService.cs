@@ -1,4 +1,7 @@
-﻿using BookStore.DAL.Models;
+﻿using BookStore.Common.ViewModels.PersonController.Get;
+using BookStore.Common.ViewModels.PersonController.Post;
+using BookStore.Common.ViewModels.PersonController.Put;
+using BookStore.DAL.Models;
 using BookStore.DAL.Repositories.EntityFramework;
 using BookStore.Services.Services;
 using System;
@@ -10,11 +13,11 @@ namespace BookStore.Services.Interfaces
 {
     public interface IPersonService
     {
-        IEnumerable<Person> GetAllPerson();
-        void CreatePerson(Person person);
-        void UpdatePerson(Person person);
+        AllPersonViewModel GetAllPerson();
+        void CreatePerson(CreatePersonViewModel createPersonViewModel);
+        void UpdatePerson(UpdatePersonViewModel updatePersonViewModel);
         void DeletePerson(int id);
-        Person GetPersonById(int id);
+        PersonByIdViewModel GetPersonById(int id);
 
         Person GetPersonByLoginAndPassword(string login, string password);
         Person GetPersonByRefreshToken(string refreshToken);

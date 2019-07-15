@@ -15,15 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\AvtorsController\Get\" />
-    <Folder Include="ViewModels\AvtorsController\Post\" />
-    <Folder Include="ViewModels\BooksController\Get\" />
-    <Folder Include="ViewModels\BooksController\Post\" />
-    <Folder Include="ViewModels\CategoriesController\Get\" />
-    <Folder Include="ViewModels\CategoriesController\Post\" />
-    <Folder Include="ViewModels\HomeController\" />
-    <Folder Include="ViewModels\PersonController\Get\" />
-    <Folder Include="ViewModels\PersonController\Post\" />
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
   </ItemGroup>
 
 </Project>

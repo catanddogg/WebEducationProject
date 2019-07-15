@@ -25,7 +25,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
             DbSet<Avtor> avtors = _booksContext.Set<Avtor>();
             DbSet<Category> categories = _booksContext.Set<Category>();
             DbSet<Comment> comments = _booksContext.Set<Comment>();
-
+            
             CategoriesBooksAvtors categoriesBooksAvtors = new CategoriesBooksAvtors();
             categoriesBooksAvtors.Books.AddRange(books);
             categoriesBooksAvtors.Avtors.AddRange(avtors);

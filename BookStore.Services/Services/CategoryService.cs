@@ -1,4 +1,8 @@
-﻿using BookStore.DAL.Interfaces;
+﻿using AutoMapper;
+using BookStore.Common.ViewModels.CategoriesController.Get;
+using BookStore.Common.ViewModels.CategoriesController.Post;
+using BookStore.Common.ViewModels.CategoriesController.Put;
+using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using System;
@@ -15,14 +19,17 @@ namespace BookStore.Services.Services
             _categoryRepository = categoryRepository;
         }
 
-        public void CreateCategory(Category category)
+        public void CreateCategory(CreateCategoryViewModel createCategoryViewModel)
         {
+            Category category = Mapper.Map<CreateCategoryViewModel, Category>(createCategoryViewModel);
             _categoryRepository.Create(category);
         }
 
-        public Category GetCategoryById(int id)
+        public CategoryByIdViewModel GetCategoryById(int id)
         {
-            return _categoryRepository.GetById(id);
+            Category category = _categoryRepository.GetById(id);
+            CategoryByIdViewModel categoryByIdViewModel = Mapper.Map<Category, CategoryByIdViewModel>(category);
+            return categoryByIdViewModel;
         }
 
         public void DeleteCategory(int id)
@@ -30,23 +37,30 @@ namespace BookStore.Services.Services
             _categoryRepository.Delete(id);
         }
 
-        public IEnumerable<Category> GetAllCategory()
+        public AllCategoryViewModel GetAllCategory()
         {
-            return _categoryRepository.GetAll();
+            IEnumerable<Category> categories = _categoryRepository.GetAll();
+            AllCategoryViewModel allCategoryViewModel = Mapper.Map<IEnumerable<Category>, AllCategoryViewModel>(categories);
+            return allCategoryViewModel;
         }
 
-        public IEnumerable<Category> GetAutorAndCategoryBook(string avtor, int category)
+        public AutorAndCategoryViewModel GetAutorAndCategoryBook(string avtor, int category)
         {
-            return _categoryRepository.GetAutorAndCategoryBook(avtor, category);
+            IEnumerable<Category> categories = _categoryRepository.GetAutorAndCategoryBook(avtor, category);
+            AutorAndCategoryViewModel autorAndCategoryViewModel = Mapper.Map<IEnumerable<Category>, AutorAndCategoryViewModel>(categories);
+            return autorAndCategoryViewModel;
         }
 
-        public IEnumerable<Category> GetCategoryBooks(int category)
+        public CategoryBooksViewModel GetCategoryBooks(int category)
         {
-            return _categoryRepository.GetCategoryBooks(category);
+            IEnumerable<Category> categories = _categoryRepository.GetCategoryBooks(category);
+            CategoryBooksViewModel categoryBooksViewModel = Mapper.Map<IEnumerable<Category>, CategoryBooksViewModel>(categories);
+            return categoryBooksViewModel;
         }
 
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
         {
+            Category category = Mapper.Map<UpdateCategoryViewModel, Category>(updateCategoryViewModel);
             _categoryRepository.Update(category);
         }
     }

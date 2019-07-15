@@ -1,4 +1,8 @@
-﻿using BookStore.DAL.Interfaces;
+﻿using AutoMapper;
+using BookStore.Common.ViewModels.BooksController.Get;
+using BookStore.Common.ViewModels.BooksController.Post;
+using BookStore.Common.ViewModels.BooksController.Put;
+using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using System;
@@ -16,14 +20,17 @@ namespace BookStore.Services.Services
             _bookRepository = bookRepository;
         }
 
-        public void CreateBook(Book book)
+        public void CreateBook(CreateBookViewModel createBookViewModel)
         {
+            Book book = Mapper.Map<CreateBookViewModel, Book>(createBookViewModel);
             _bookRepository.Create(book);
         }
 
-        public Book GetBookById(int id)
+        public BookByIdViewModel GetBookById(int id)
         {
-            return _bookRepository.GetById(id);
+            Book book = _bookRepository.GetById(id);
+            BookByIdViewModel bookByIdViewModel = Mapper.Map<Book, BookByIdViewModel>(book);
+            return bookByIdViewModel;
         }
 
         public void DeleteBook(int id)
@@ -31,14 +38,16 @@ namespace BookStore.Services.Services
             _bookRepository.Delete(id);
         }
 
-        public IEnumerable<Book> GetAllBook()
+        public AllBookViewModel GetAllBook()
         {
             IEnumerable<Book> bookItems = _bookRepository.GetAll();
-            return bookItems;
+            AllBookViewModel allBookViewModel = Mapper.Map<IEnumerable<Book>, AllBookViewModel>(bookItems);
+            return allBookViewModel;
         }
 
-        public void UpdateBook(Book book)
+        public void UpdateBook(UpdateBookViewModel updateBookViewModel)
         {
+            Book book = Mapper.Map<UpdateBookViewModel, Book>(updateBookViewModel);
             _bookRepository.Update(book);
         }
 

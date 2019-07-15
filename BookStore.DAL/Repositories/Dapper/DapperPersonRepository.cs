@@ -31,7 +31,7 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public Person GetPersonByRefreshToken(string refreshToken)
         {
-            Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.RefreshToken == refreshToken).SingleOrDefault();
+            Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.RefreshToken == refreshToken).FirstOrDefault();
             return person;
         }
     }

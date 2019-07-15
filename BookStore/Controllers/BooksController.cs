@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Common.ViewModels.BooksController.Get;
+using BookStore.Common.ViewModels.BooksController.Post;
+using BookStore.Common.ViewModels.BooksController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +21,7 @@ namespace BookStore.Controllers
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
+
         public BooksController(IBookService bookService)
         {
             _bookService = bookService;
@@ -24,29 +29,30 @@ namespace BookStore.Controllers
 
         // GET: /api/books
         [HttpGet]
-        public IEnumerable<Book> GetAllBook()
+        public AllBookViewModel GetAllBook()
         {
-            IEnumerable<Book> bookItems = _bookService.GetAllBook();
+            AllBookViewModel bookItems = _bookService.GetAllBook();
             return bookItems;
         }
 
         //GET :api/books/{id}
         [HttpGet("{id}")]
-        public Book GetBookById(int id)
+        public BookByIdViewModel GetBookById(int id)
         {
             return _bookService.GetBookById(id);
         }
 
         //POST : api/books
         [HttpPost]
-        public void CreateBook([FromBody]Book book)
+        public void CreateBook(CreateBookViewModel book)
         {
+            //book = new Book() { Name = "test", Path="gg" }; 
             _bookService.CreateBook(book);
         }
 
         //PUT : api/books
         [HttpPut]
-        public void UpdateBook([FromBody]Book book)
+        public void UpdateBook([FromBody]UpdateBookViewModel book)
         {
             _bookService.UpdateBook(book);
         }
@@ -59,7 +65,7 @@ namespace BookStore.Controllers
         }
 
         //GET : api/books/alltables
-        [HttpGet("{alltables}")]
+        [HttpGet("/alltables")]
         public CategoriesBooksAvtors GetAllTables()
         {
             return _bookService.GetAllTables();

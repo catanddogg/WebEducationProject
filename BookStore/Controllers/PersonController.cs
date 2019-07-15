@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using BookStore.Common.ViewModels.PersonController.Get;
+using BookStore.Common.ViewModels.PersonController.Post;
+using BookStore.Common.ViewModels.PersonController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,30 +55,30 @@ namespace BookStore.Controllers
 
         //GET : api/person
         [HttpGet]
-        public IEnumerable<Person> GetAllPeople()
+        public AllPersonViewModel GetAllPeople()
         {
             return _personService.GetAllPerson();
         }
 
         //GET : api/person/id
         [HttpGet("{id}")]
-        public Person GetPersonById(int id)
+        public PersonByIdViewModel GetPersonById(int id)
         {
             return _personService.GetPersonById(id);
         }
 
         //POST : api/person
         [HttpPost]
-        public void CreatePerson(Person person)
+        public void CreatePerson(CreatePersonViewModel createPersonViewModel)
         {
-            _personService.CreatePerson(person);
+            _personService.CreatePerson(createPersonViewModel);
         }
 
         //PUT : api/person
         [HttpPut]
-        public void UpdatePerson(Person person)
+        public void UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
         {
-            _personService.UpdatePerson(person);
+            _personService.UpdatePerson(updatePersonViewModel);
         }
 
         //DELETE : api/person/{id}

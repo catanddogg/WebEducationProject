@@ -48,11 +48,15 @@
     $('#Login').click(function () {
         $.post({
             url: "/home/login",
-            data: { login: $('#login').val(), password: $('#password').val() },
+            data: {
+                Email: $('#Email').val(),
+                Password: $('#Password').val()
+            },
             dataType: "html",
             success: function (data)
             {
-                ChangeTextLoginModel(data);              
+                window.location.href = "/Home/Index";
+                //ChangeTextLoginModel(data);              
             },
             error: function (ex)
             {
@@ -94,16 +98,15 @@
         $.post({
             url: "/Home/Registration",
             data: {
-                firstName: $('#firstName').val(),
-                secondName: $('#secondName').val(),
-                age: $('#age').val(),
-                login: $('#login').val(),
-                password: $('#password').val()
+                Email: $('#Email').val(),
+                Password: $('#Password').val(),
+                PasswordConfirm: $('#PasswordConfirm').val()
             },
             dataType: "html",
             success: function (data)
             {
-                ChangeTextRegistrationModel(data);
+                window.location = "/Home/Login";
+                //ChangeTextRegistrationModel(data);
             },
             error: function (ex)
             {

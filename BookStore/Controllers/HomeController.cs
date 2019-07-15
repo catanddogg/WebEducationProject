@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.Validation;
 using BookStore.Common.ViewModels;
-using BookStore.DAL.Enums;
+using BookStore.Common.ViewModels.HomeController.Post;
 using BookStore.DAL.Models;
+using BookStore.DAL.Enums;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -15,13 +23,17 @@ namespace BookStore.Controllers
     {
         private readonly IHomeService _homeService;
         private readonly IJWTService _jWTService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(IJWTService jWTService, IHomeService homeService)
+        public HomeController(IJWTService jWTService, IHomeService homeService, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _homeService = homeService;
             _jWTService = jWTService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_homeService.GetAllTables());
@@ -45,30 +57,57 @@ namespace BookStore.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult About()
-        {
-            return View();
-        }
-
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult Login(string login, string password)
+        //{
+        //    if (login == null || password == null)
+        //    {
+        //        return Ok();
+        //    }
+        //    _jWTService.Login(login, password);
+        //    if (_jWTService.jwt == null)
+        //    {
+        //        return Ok();
+        //    }
+        //    return Ok(_homeService.GetAllTables());
+        //}
+
         [HttpPost]
-        public IActionResult Login(string login, string password)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if(login == null || password == null)
+            if (ModelState.IsValid)
             {
-                return Ok();
+
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    var claims = new[]
+                        {
+                            new Claim("name", model.Email)
+                        };
+
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+                    else
+                    {
+                        return Ok();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
             }
-            _jWTService.Login(login, password);
-            if (_jWTService.jwt == null)
-            {
-                return Ok();
-            }
-            return Ok(_homeService.GetAllTables());
+            return View(model);
         }
 
         [HttpGet]
@@ -78,20 +117,49 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registration(string firstName, string secondName, int age, string login, string password)
+        public async Task<IActionResult> Registration(RegisterViewModel model)
         {
-            if (firstName == null && secondName == null && age == 0 && login == null && password == null)
+            if (model.Email == null || model.Password == null || model.PasswordConfirm == null)
             {
-                return Ok("Data not correct!");
+                return View("Views/Home/Registration.cshtml");
             }
-            if (age <= 0 || age >= 99)
+            if (ModelState.IsValid)
             {
-                return Ok("Age not correct!");
+                IdentityUser user = new IdentityUser { Email = model.Email, UserName = model.Email };
+                // добавляем пользователя
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    // установка куки
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
-            Person person = new Person { Age = age, Login = login, Password = password, FirstName = firstName, SecondName = secondName, Role = "user" }; 
-            _homeService.CreatePerson(person);
-            return Ok();
+            return View(model);
         }
+
+        //[HttpPost]
+        //public IActionResult Registration(LoginViewModel model)
+        //{
+        //    if (model == null)
+        //    {
+        //        return Ok("Data not correct!");
+        //    }
+        //    //if (age <= 0 || age >= 99)
+        //    //{
+        //    //    return Ok("Age not correct!");
+        //    //}
+        //    //Person person = new Person { Age = age, Login = login, Password = password, FirstName = firstName, SecondName = secondName, Role = "user" };
+        //    //_homeService.CreatePerson(person);
+        //    return Ok();
+        //}
 
         [HttpPost]
         public IActionResult RefreshTable([FromForm]TypeTable typeTable)
