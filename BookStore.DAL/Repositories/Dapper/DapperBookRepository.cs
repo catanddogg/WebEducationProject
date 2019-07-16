@@ -15,7 +15,8 @@ namespace BookStore.DAL.Repositories.Dapper
 {
     public class DapperBookRepository : BaseDapperRepository<Book>, IBookRepository
     {
-        private IDbConnection _connectionString;r
+        private IDbConnection _connectionString;
+        
         public DapperBookRepository(IDbConnection connectionString)
             : base(connectionString)
         {
