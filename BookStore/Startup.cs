@@ -34,11 +34,16 @@ namespace BookStore
                 .AddEntityFrameworkStores<BooksContext>()
                  .AddDefaultTokenProviders();
 
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //});
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                 builder =>
+                 {
+                     builder.WithOrigins("http://localhost:4200")
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+                });
+            });
 
             SetupJWT(services);
 
@@ -71,11 +76,14 @@ namespace BookStore
                 app.UseHsts();
             }
 
+            app.UseCors("TestOrigin");
+
             //app.UseExceptionHandler("/Home/Login");
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
+
 
             app.UseMvc(routes =>
             {
