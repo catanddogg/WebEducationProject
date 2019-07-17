@@ -13,14 +13,5 @@ export class AppComponent {
   bookById: GetBookById;
 
   constructor(private router: Router, private httpService: HttpService) {
-
-  }
-
-  public test() {
-    this.httpService.Test()
-      .subscribe(
-        response => {
-          this.bookById = response;
-        });
-  }
+  }  
 }
