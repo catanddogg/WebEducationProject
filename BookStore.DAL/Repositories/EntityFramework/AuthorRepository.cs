@@ -18,9 +18,9 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _booksContext = booksContext;
         }
 
-        public IEnumerable<Author> GetAuthorBooks(string author)
+        public IEnumerable<Author> GetAuthorBooks()
         {
-            List<Author> bookItem = _booksContext.Avtors.Where(x => x.NameAuthor == author).ToList();
+            List<Author> bookItem = _booksContext.Avtors.ToList();
             return bookItem;
         }
 

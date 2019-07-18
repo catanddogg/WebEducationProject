@@ -48,7 +48,7 @@ namespace BookStore.Controllers
         [HttpPost]
         public void CreateBook(CreateBookViewModel book)
         {
-            //book = new Book() { Name = "test", Path="gg" }; 
+            //CreateBookViewModel book = null;
             _bookService.CreateBook(book);
         }
 

@@ -9,6 +9,7 @@ using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -16,7 +17,8 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [EnableCors]
+    //[Authorize]
     public class AuthorsController : Controller
     {
         private readonly IAuthorService _authorService;
@@ -63,11 +65,11 @@ namespace BookStore.Controllers
             _authorService.DeleteAuthor(id);
         }
 
-        // GET /api/authors/author/{author}
-        [HttpGet("avtor/{avtor}")]
-        public AuthorBooksViewModel GetAuthorBooks(string author)
+        // GET /api/authors/author
+        [HttpGet("author")]
+        public AuthorBooksViewModel GetAuthorsBooks()
         {
-            AuthorBooksViewModel bookItem = _authorService.GetAuthorBooks(author);
+            AuthorBooksViewModel bookItem = _authorService.GetAuthorBooks();
             return bookItem;
         }
 

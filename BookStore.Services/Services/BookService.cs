@@ -2,6 +2,7 @@
 using BookStore.Common.ViewModels.BooksController.Get;
 using BookStore.Common.ViewModels.BooksController.Post;
 using BookStore.Common.ViewModels.BooksController.Put;
+using BookStore.DAL.Enums;
 using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
@@ -14,15 +15,27 @@ namespace BookStore.Services.Services
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public BookService(IBookRepository bookRepository)
+        public BookService(IBookRepository bookRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository)
         {
             _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public void CreateBook(CreateBookViewModel createBookViewModel)
         {
             Book book = Mapper.Map<CreateBookViewModel, Book>(createBookViewModel);
+            //Book book = new Book() { Name = "TestBook2", Path = "test2" };
+            //_bookRepository.Create(book);
+
+            //Author author = new Author() { NameAuthor = "TestAuthor2", Publisher = "TestPublisher2", Book = book, BookId = book.Id };
+            //_authorRepository.Create(author);
+
+            //Category category = new Category() { CategoryType = CategoryType.Drama, Book = book, BookId = book.Id };
+            //_categoryRepository.Create(category);
             _bookRepository.Create(book);
         }
 

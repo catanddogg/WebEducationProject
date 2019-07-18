@@ -7,6 +7,7 @@ using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BookStore.Services.Services
@@ -45,10 +46,11 @@ namespace BookStore.Services.Services
             return allAuthorViewModel;
         }
 
-        public AuthorBooksViewModel GetAuthorBooks(string author)
+        public AuthorBooksViewModel GetAuthorBooks()
         {
-            IEnumerable<Author> authors = _authorRepository.GetAuthorBooks(author);
-            AuthorBooksViewModel authorBooksViewModel = Mapper.Map<IEnumerable<Author>, AuthorBooksViewModel>(authors);
+            AuthorBooksViewModel authorBooksViewModel = new AuthorBooksViewModel();
+            IEnumerable<Author> authors =_authorRepository.GetAuthorBooks();
+            authorBooksViewModel.AuthorsBookViewModelItemModels = Mapper.Map<IEnumerable<Author>, IEnumerable<AuthorBooksViewModelItemModel>>(authors).ToList();
             return authorBooksViewModel;
         }
 

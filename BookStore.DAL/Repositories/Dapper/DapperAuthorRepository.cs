@@ -19,9 +19,9 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        public IEnumerable<Author> GetAuthorBooks(string author)
+        public IEnumerable<Author> GetAuthorBooks()
         {
-            IEnumerable<Author> books = SqlMapperExtensions.GetAll<Author>(_connectionString).Where(x => x.NameAuthor == author);
+            IEnumerable<Author> books = SqlMapperExtensions.GetAll<Author>(_connectionString);
             return books;
         }
 

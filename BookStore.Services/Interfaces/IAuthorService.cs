@@ -16,7 +16,7 @@ namespace BookStore.Services.Interfaces
         void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel);
         void DeleteAuthor(int id);
 
-        AuthorBooksViewModel GetAuthorBooks(string author);
+        AuthorBooksViewModel GetAuthorBooks();
         PublishersBooksViewModel GetPublisherBooks(string publisher);
     }
 }

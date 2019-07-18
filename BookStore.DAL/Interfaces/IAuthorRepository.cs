@@ -7,7 +7,7 @@ namespace BookStore.DAL.Interfaces
 {
     public interface IAuthorRepository : IBaseRepository<Author>
     {
-        IEnumerable<Author> GetAuthorBooks(string author);
+        IEnumerable<Author> GetAuthorBooks();
         IEnumerable<Author> GetPublisherBooks(string publisher);
     }
 }
