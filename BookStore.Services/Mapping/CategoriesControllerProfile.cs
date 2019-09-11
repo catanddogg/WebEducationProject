@@ -15,10 +15,14 @@ namespace BookStore.Services.Mapping
         {
             CreateMap<CreateCategoryViewModel, Category>();
             CreateMap<Category, CategoryByIdViewModel>();
-            CreateMap<IEnumerable<Category>, AllCategoryViewModel>();
+
+            CreateMap<Category, AllCategoryViewModelItem>();
+
             CreateMap<UpdateCategoryViewModel, Category>();
-            CreateMap<IEnumerable<Category>, AutorAndCategoryViewModel>();
-            CreateMap<IEnumerable<Category>, CategoryBooksViewModel>();
+
+            CreateMap<Category, AuthorAndCategoryViewModelItem>();
+
+            CreateMap<Category, CategoryBooksViewModelItem>();
         }
     }
 }

@@ -10,20 +10,31 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
 {
     public class PersonService : IPersonService
     {
+        #region Properties & Variables
         private readonly IPersonRepository _personRepository;
-        public PersonService(IPersonRepository personRepository)
+        private readonly IMapper _mapper;
+        #endregion Properties & Variables
+
+        #region Constructors
+        public PersonService(IPersonRepository personRepository,
+                             IMapper mapper)
         {
             _personRepository = personRepository;
+            _mapper = mapper;
         }
+        #endregion Constructors
 
+        #region Public Methods
         public void CreatePerson(CreatePersonViewModel createPersonViewModel)
         {
-            Person person = Mapper.Map<CreatePersonViewModel, Person>(createPersonViewModel);
+            Person person = _mapper.Map<Person>(createPersonViewModel);
+
             _personRepository.Create(person);
         }
 
@@ -32,34 +43,48 @@ namespace BookStore.Services.Services
             _personRepository.Delete(id);
         }
 
-        public AllPersonViewModel GetAllPerson()
+        public async Task<AllPersonViewModel> GetAllPerson()
         {
-            IEnumerable<Person>  people = _personRepository.GetAll();
-            AllPersonViewModel allPersonViewModel = Mapper.Map<IEnumerable<Person>, AllPersonViewModel>(people);
-            return allPersonViewModel;
+            var result = new AllPersonViewModel();
+
+            List<Person>  people = await _personRepository.GetAll();
+
+            List<AllPersonViewModelItem> allPersonViewModel = _mapper.Map<List<AllPersonViewModelItem>>(people);
+
+            result.Persons = allPersonViewModel;
+
+            return result;
         }
 
         public PersonByIdViewModel GetPersonById(int id)
         {
             Person person = _personRepository.GetById(id);
-            PersonByIdViewModel personByIdViewModel = Mapper.Map<Person, PersonByIdViewModel>(person);
+
+            PersonByIdViewModel personByIdViewModel = _mapper.Map<PersonByIdViewModel>(person);
+
             return personByIdViewModel;
         }
 
-        public Person GetPersonByLoginAndPassword(string login, string password)
+        public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
         {
-            return _personRepository.GetPersonByLoginAndPassword(login, password);
+            Person result = await _personRepository.GetPersonByLoginAndPassword(login, password);
+
+            return result;
         }
 
-        public Person GetPersonByRefreshToken(string refreshToken)
+        public async Task<Person> GetPersonByRefreshToken(string refreshToken)
         {
-            return _personRepository.GetPersonByRefreshToken(refreshToken);
+            Person result = await _personRepository.GetPersonByRefreshToken(refreshToken);
+
+            return result;
         }
 
         public void UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
         {
-            Person person = Mapper.Map<UpdatePersonViewModel, Person>(updatePersonViewModel);
+            Person person = _mapper.Map<Person>(updatePersonViewModel);
+
             _personRepository.Update(person);
         }
+        #endregion Public Methods
     }
 }

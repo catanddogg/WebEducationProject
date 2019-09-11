@@ -5,17 +5,16 @@ using BookStore.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
 {
     public interface IBookService
     {
-        AllBookViewModel GetAllBook();
+        Task<AllBookViewModel> GetAllBook();
         BookByIdViewModel GetBookById(int id);
         void CreateBook(CreateBookViewModel createBookViewModel);
         void DeleteBook(int id);
         void UpdateBook(UpdateBookViewModel updateBookViewModel);
-
-        CategoriesBooksAuthorsDTO GetAllTables();
     }
 }

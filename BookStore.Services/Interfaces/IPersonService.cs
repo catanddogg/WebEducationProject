@@ -8,18 +8,19 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
 {
     public interface IPersonService
     {
-        AllPersonViewModel GetAllPerson();
+        Task<AllPersonViewModel> GetAllPerson();
         void CreatePerson(CreatePersonViewModel createPersonViewModel);
         void UpdatePerson(UpdatePersonViewModel updatePersonViewModel);
         void DeletePerson(int id);
         PersonByIdViewModel GetPersonById(int id);
 
-        Person GetPersonByLoginAndPassword(string login, string password);
-        Person GetPersonByRefreshToken(string refreshToken);
+        Task<Person> GetPersonByLoginAndPassword(string login, string password);
+        Task<Person> GetPersonByRefreshToken(string refreshToken);
     }
 }

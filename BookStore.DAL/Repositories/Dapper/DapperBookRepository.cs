@@ -10,17 +10,15 @@ using Dapper.Contrib.Extensions;
 using System.Linq;
 using BookStore.DAL.Enums;
 using Dapper;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
     public class DapperBookRepository : BaseDapperRepository<Book>, IBookRepository
     {
-        private IDbConnection _connectionString;
-        
         public DapperBookRepository(IDbConnection connectionString)
             : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
         public CategoriesBooksAuthorsDTO GetAllTables()
@@ -42,6 +40,11 @@ namespace BookStore.DAL.Repositories.Dapper
             }
 
             return categoriesBooksAuthors;
+        }
+
+        public Task<List<Book>> GetBooksWIthAuthorAndCategories()
+        {
+            throw new NotImplementedException();
         }
     }
 }

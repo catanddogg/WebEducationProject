@@ -13,13 +13,16 @@ namespace BookStore.Services
     {
         public static void Init(IServiceCollection services)
         {
-            Mapper.Initialize(config =>
+            IMapper mapper = new MapperConfiguration(config =>
             {
                 config.AddProfile<AuthorsControllerProfile>();
                 config.AddProfile<BooksControllerProfile>();
                 config.AddProfile<CategoriesControllerProfile>();
                 config.AddProfile<PersonControllerProfile>();
-            });
+            })
+            .CreateMapper();
+
+            services.AddSingleton(mapper);
 
             services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IJWTService, JWTService>();

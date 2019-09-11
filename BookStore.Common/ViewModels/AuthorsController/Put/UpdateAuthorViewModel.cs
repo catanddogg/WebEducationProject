@@ -7,7 +7,6 @@ namespace BookStore.Common.ViewModels.AuthorsController.Put
 {
     public class UpdateAuthorViewModel
     {
-        public Book Book { get; set; }
         public string NameAuthor { get; set; }
         public string Publisher { get; set; }
     }

@@ -6,30 +6,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class CategoryRepository : BaseRepository<BooksContext, Category>, ICategoryRepository
+    public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        private BooksContext _booksContext;
         public CategoryRepository(BooksContext booksContext)
             : base(booksContext)
         {
-            _booksContext = booksContext;
         }
 
-        public IEnumerable<Category> GetAutorAndCategoryBook(string avtor, int category)
+        public async Task<List<Category>> GetAutorAndCategoryBook(string avtor, int category)
         {
-            List<Category> bookList = new List<Category>();
             CategoryType categoryType = (CategoryType)category;
-            bookList.AddRange(_booksContext.Categories.Where(x => x.CategoryType == categoryType).ToList());
-            return bookList;
+
+            List<Category> categoryList = await _dbSet
+                .Where(item => item.FirstCategoryType == categoryType
+                || item.SecondCategoryType == categoryType
+                || item.TrirdCategoryType == categoryType)
+                .ToListAsync();
+
+            return categoryList;
         }
 
-        public IEnumerable<Category> GetCategoryBooks(int category)
+        public async Task<List<Category>> GetCategoryBooks(int category)
         {
             CategoryType categoryType = (CategoryType)category;
-            List<Category> bookItem = _booksContext.Categories.Where(x => x.CategoryType == categoryType).ToList();
+
+            List<Category> bookItem = await _dbSet
+                .Where(item => item.FirstCategoryType == categoryType
+                || item.SecondCategoryType == categoryType
+                || item.TrirdCategoryType == categoryType)
+                .ToListAsync();
+
             return bookItem;
         }
     }

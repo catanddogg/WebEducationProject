@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BookStore.Common.ViewModels.BooksController.Get;
 using BookStore.Common.ViewModels.BooksController.Post;
 using BookStore.Common.ViewModels.BooksController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -18,7 +11,6 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors]
     //[Authorize]
     public class BooksController : Controller
     {
@@ -29,48 +21,38 @@ namespace BookStore.Controllers
             _bookService = bookService;
         }
 
-        // GET: /api/books
-        [HttpGet]
-        public AllBookViewModel GetAllBook()
+        [HttpGet("GetAllBook")]
+        public async Task<AllBookViewModel> GetAllBook()
         {
-            AllBookViewModel bookItems = _bookService.GetAllBook();
+            AllBookViewModel bookItems  = await _bookService.GetAllBook();
+
             return bookItems;
         }
 
-        //GET :api/books/{id}
-        [HttpGet("{id}")]
+        [HttpGet("GetBookById/{id}")]
         public BookByIdViewModel GetBookById(int id)
         {
-            return _bookService.GetBookById(id);
+            BookByIdViewModel result = _bookService.GetBookById(id);
+
+            return result;
         }
 
-        //POST : api/books
-        [HttpPost]
+        [HttpPost("CreateBook")]
         public void CreateBook(CreateBookViewModel book)
         {
-            //CreateBookViewModel book = null;
             _bookService.CreateBook(book);
         }
 
-        //PUT : api/books
-        [HttpPut]
+        [HttpPut("UpdateBook")]
         public void UpdateBook([FromBody]UpdateBookViewModel book)
         {
             _bookService.UpdateBook(book);
         }
 
-        //DELETE : api/books/deletebook/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteBook/{id}")]
         public void DeleteBook(int id)
         {
             _bookService.DeleteBook(id);
-        }
-
-        //GET : api/books/alltables
-        [HttpGet("/alltables")]
-        public CategoriesBooksAuthorsDTO GetAllTables()
-        {
-            return _bookService.GetAllTables();
         }
     }
 }

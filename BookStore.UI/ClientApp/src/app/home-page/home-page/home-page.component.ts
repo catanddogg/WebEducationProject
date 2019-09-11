@@ -18,6 +18,8 @@ export class HomePageComponent implements OnInit {
     this.httpService.Test()
       .subscribe(
         response => {
+          response;
+          debugger;
           //this.bookById = response;
         });
   }

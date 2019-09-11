@@ -8,14 +8,18 @@ namespace BookStore.Common.ViewModels.CategoriesController.Get
 {
     public class AllCategoryViewModel
     {
-        public List<AllCategoryViewModelItemModel> allCategoryViewModelItemModels { get; set; }
+        public List<AllCategoryViewModelItem> Categories { get; set; }
+
+        public AllCategoryViewModel()
+        {
+            Categories = new List<AllCategoryViewModelItem>();
+        }
     }
 
-    public class AllCategoryViewModelItemModel
+    public class AllCategoryViewModelItem
     {
-        public int Id { get; set; }
-        public int BookId { get; set; }
-        public Book Book { get; set; }
-        public CategoryType CategoryType { get; set; }
+        public CategoryType FirstCategoryType { get; set; }
+        public CategoryType SecondCategoryType { get; set; }
+        public CategoryType TrirdCategoryType { get; set; }
     }
 }

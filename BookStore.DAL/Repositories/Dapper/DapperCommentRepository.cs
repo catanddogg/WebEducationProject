@@ -11,17 +11,16 @@ namespace BookStore.DAL.Repositories.Dapper
 {
     public class DapperCommentRepository : BaseDapperRepository<Comment>, ICommentRepository
     {
-        private IDbConnection _connectionString;
         public DapperCommentRepository(IDbConnection connectionString)
             : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
         public void CreateAndGetAllComments(string UserName, string Comment)
         {
-            Comment comment = new Comment() { UserName = UserName, Message = Comment, createTime = DateTime.Now };
+            Comment comment = new Comment() { UserName = UserName, Message = Comment, CreateDateTime = DateTime.Now };
+
             SqlMapperExtensions.Insert(_connectionString, comment);
-        }
+        }  
     }
 }

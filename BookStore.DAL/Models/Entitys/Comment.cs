@@ -9,6 +9,6 @@ namespace BookStore.DAL.Models
     {
         public string UserName { get; set; }
         public string Message { get; set; }
-        public DateTime createTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
     }
 }

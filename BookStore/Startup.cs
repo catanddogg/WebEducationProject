@@ -45,7 +45,8 @@ namespace BookStore
                 });
             });
 
-            SetupJWT(services);
+            SetupJWT(services); 
+
 
             Services.Setup.Init(services);
             DAL.Setup.Init(services, connection);

@@ -4,12 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Interfaces
 {
     public interface IPersonRepository : IBaseRepository<Person>
     {
-        Person GetPersonByLoginAndPassword(string login, string password);
-        Person GetPersonByRefreshToken(string refreshToken);
+        Task<Person> GetPersonByLoginAndPassword(string login, string password);
+        Task<Person> GetPersonByRefreshToken(string refreshToken);
     }
 }

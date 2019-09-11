@@ -7,14 +7,16 @@ namespace BookStore.Common.ViewModels.AuthorsController.Get
 {
     public class AllAuthorViewModel
     {
-        public List<AllAuthorViewModelItemModel> allAuthorViewModelItemModels { get; set; } 
+        public List<AllAuthorViewModelItem> Authors { get; set; } 
+
+        public AllAuthorViewModel()
+        {
+            Authors = new List<AllAuthorViewModelItem>();
+        }
     }
 
-    public class AllAuthorViewModelItemModel
+    public class AllAuthorViewModelItem
     {
-        public int Id { get; set; }
-        public int BookId { get; set; }
-        public Book Book { get; set; }
         public string NameAuthor { get; set; }
         public string Publisher { get; set; }
     }

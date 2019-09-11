@@ -14,7 +14,25 @@ namespace BookStore.Services.Mapping
         public BooksControllerProfile()
         {
             CreateMap<Book, BookByIdViewModel>();
-            CreateMap<IEnumerable<Book>, AllBookViewModel>();
+
+            CreateMap<Book, AllBookViewModelItem>()
+                .ForMember(destination => destination.AuthorId, source => source.MapFrom(src => src.AuthorId))
+                .ForMember(destination => destination.Author, source => source.MapFrom(src => src.Author))
+                .ForMember(destination => destination.Category, source => source.MapFrom(src => src.Category))
+                .ForMember(destination => destination.Name, source => source.MapFrom(src => src.Name))
+                .ForMember(destination => destination.Path, source => source.MapFrom(src => src.Path));
+
+            CreateMap<Category, AllBookCategoryViewModelItem>()
+                .ForMember(destination => destination.FirstCategoryType, source => source.MapFrom(src => src.FirstCategoryType))
+                .ForMember(destination => destination.SecondCategoryType, source => source.MapFrom(src => src.SecondCategoryType))
+                .ForMember(destination => destination.TrirdCategoryType, source => source.MapFrom(src => src.TrirdCategoryType))
+                .ForAllOtherMembers(destination => destination.Ignore());
+
+            CreateMap<Author, AllBookAuthorViewModelItem>()
+                .ForMember(destination => destination.NameAuthor, source => source.MapFrom(src => src.NameAuthor))
+                .ForMember(destination => destination.Publisher, source => source.MapFrom(src => src.Publisher))
+                .ForAllOtherMembers(destination => destination.Ignore());
+
             CreateMap<CreateBookViewModel, Book>();
             CreateMap<UpdateBookViewModel, Book>();
         }

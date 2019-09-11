@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Interfaces
 {
     public interface IAuthorRepository : IBaseRepository<Author>
     {
-        IEnumerable<Author> GetAuthorBooks();
-        IEnumerable<Author> GetPublisherBooks(string publisher);
+        Task<List<Author>> GetAuthorBooks(string author);
+        Task<List<Author>> GetPublisherBooks(string publisher);
     }
 }

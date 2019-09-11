@@ -6,16 +6,20 @@ using System.Text;
 
 namespace BookStore.Common.ViewModels.CategoriesController.Get
 {
-    public class AutorAndCategoryViewModel
+    public class AuthorAndCategoryViewModel
     {
-        List<AutorAndCategoryViewModelItemModel> autorAndCategoryViewModelItemModels { get; set; }
+        public List<AuthorAndCategoryViewModelItem> Categories { get; set; }
+
+        public AuthorAndCategoryViewModel()
+        {
+            Categories = new List<AuthorAndCategoryViewModelItem>();
+        }
     }
 
-    public class AutorAndCategoryViewModelItemModel
+    public class AuthorAndCategoryViewModelItem
     {
-        public int Id { get; set; }
-        public int BookId { get; set; }
-        public Book Book { get; set; }
-        public CategoryType CategoryType { get; set; }
+        public CategoryType FirstCategoryType { get; set; }
+        public CategoryType SecondCategoryType { get; set; }
+        public CategoryType TrirdCategoryType { get; set; }
     }
 }

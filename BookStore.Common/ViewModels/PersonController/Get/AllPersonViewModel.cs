@@ -6,10 +6,15 @@ namespace BookStore.Common.ViewModels.PersonController.Get
 {
     public class AllPersonViewModel
     {
-        List<AllPersonViewModelItemModel> allPersonViewModelItemModels { get; set; }
+        public List<AllPersonViewModelItem> Persons { get; set; }
+
+        public AllPersonViewModel()
+        {
+            Persons = new List<AllPersonViewModelItem>();
+        }
     }
 
-    public class AllPersonViewModelItemModel
+    public class AllPersonViewModelItem
     {
         public int Id { get; set; }
         public string Login { get; set; }

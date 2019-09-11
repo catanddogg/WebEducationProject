@@ -12,6 +12,11 @@ namespace BookStore.DAL.Models
     {
         public string Name { get; set; }
         public string Path { get; set; }
-   
+
+        [ForeignKey("Author")]
+        public int AuthorId { get; set; }
+        [Dapper.Contrib.Extensions.Computed]
+        public virtual Author Author { get; set; }
+        public List<Category> Category { get; set; }
     }
 }

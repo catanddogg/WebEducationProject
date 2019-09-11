@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BookStore.Common.ViewModels.AuthorsController.Get;
 using BookStore.Common.ViewModels.AuthorsController.Post;
 using BookStore.Common.ViewModels.AuthorsController.Put;
-using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -28,56 +23,54 @@ namespace BookStore.Controllers
             _authorService = authorService;
         }
 
-        //GET : /api/authors
-        [HttpGet]
-        public AllAuthorViewModel GetAllAuthors()
+        [HttpGet("GetAllAuthors")]
+        public async Task<AllAuthorViewModel> GetAllAuthors()
         {
-            return _authorService.GetAllAuthors();
+            AllAuthorViewModel result = await _authorService.GetAllAuthors();
+
+            return result;
         }
 
-        //GET : api/authors/{id}
         [AllowAnonymous]
-        [HttpGet("{id}")]
+        [HttpGet("GetAuthorById/{id}")]
         public AuthorByIdViewModel GetAuthorById(int id)
         {
             AuthorByIdViewModel authorByIdViewModel = _authorService.GetAuthorById(id);
+
             return authorByIdViewModel;
         }
 
-        // POST : api/authors
-        [HttpPost]
+        [HttpPost("CreateAuthor")]
         public void CreateAuthor(CreateAuthorViewModel createAuthorViewModel)
         {
             _authorService.CreateAuthor(createAuthorViewModel);
         }
 
-        //PUT : api/authors
-        [HttpPut]
+        [HttpPut("UpdateAuthor")]
         public void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel)
         {
             _authorService.UpdateAuthor(updateAuthorViewModel);
         }
 
-        //Delete : api/authors
-        [HttpDelete]
+        [HttpDelete("DeleteAuthor/{id}")]
         public void DeleteAuthor(int id)
         {
             _authorService.DeleteAuthor(id);
         }
 
-        // GET /api/authors/author
-        [HttpGet("author")]
-        public AuthorBooksViewModel GetAuthorsBooks()
+        [HttpGet("GetAuthorsBooks/{author}")]
+        public async Task<AuthorBooksViewModel> GetAuthorsBooks(string author)
         {
-            AuthorBooksViewModel bookItem = _authorService.GetAuthorBooks();
+            AuthorBooksViewModel bookItem = await _authorService.GetAuthorBooks(author);
+
             return bookItem;
         }
 
-        // GET /api/authors/publisher/{publisher}
-        [HttpGet("publisher/{publisher}")]
-        public PublishersBooksViewModel GetPublishersBooks(string publisher)
+        [HttpGet("GetPublishersBooks/{publisher}")]
+        public async Task<PublishersBooksViewModel> GetPublishersBooks(string publisher)
         {
-            PublishersBooksViewModel bookItem = _authorService.GetPublisherBooks(publisher);
+            PublishersBooksViewModel bookItem = await _authorService.GetPublisherBooks(publisher);
+
             return bookItem;
         }
     }

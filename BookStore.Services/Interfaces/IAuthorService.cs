@@ -5,18 +5,19 @@ using BookStore.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
 {
     public interface IAuthorService
     {
-        AllAuthorViewModel GetAllAuthors();
+        Task<AllAuthorViewModel> GetAllAuthors();
         AuthorByIdViewModel GetAuthorById(int id);
         void CreateAuthor(CreateAuthorViewModel createAuthorViewModel);
         void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel);
         void DeleteAuthor(int id);
 
-        AuthorBooksViewModel GetAuthorBooks();
-        PublishersBooksViewModel GetPublisherBooks(string publisher);
+        Task<AuthorBooksViewModel> GetAuthorBooks(string author);
+        Task<PublishersBooksViewModel> GetPublisherBooks(string publisher);
     }
 }

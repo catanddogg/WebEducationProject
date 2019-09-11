@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,41 +13,42 @@ namespace BookStore.DAL.Repositories.Dapper
 {
     public class BaseDapperRepository<T> : IBaseRepository<T> where T : class
     {
-        private IDbConnection _connection;
-        public BaseDapperRepository(IDbConnection connection)
+        protected readonly IDbConnection _connectionString;
+        public BaseDapperRepository(IDbConnection connectionString)
         {
-            _connection = connection;
+            _connectionString = connectionString;
         }
 
         public async Task Create(T entity)
         {
-            await SqlMapperExtensions.InsertAsync(_connection, entity);
+            await SqlMapperExtensions.InsertAsync(_connectionString, entity);
         }
 
         public void Delete(int id)
         {
-            T entity = SqlMapperExtensions.Get<T>(_connection, id);
+            T entity = SqlMapperExtensions.Get<T>(_connectionString, id);
             if(entity != null)
             {
-                SqlMapperExtensions.Delete(_connection, entity);
+                SqlMapperExtensions.Delete(_connectionString, entity);
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            IEnumerable<T> entities = SqlMapperExtensions.GetAll<T>(_connection);
+            List<T> entities = SqlMapperExtensions.GetAll<T>(_connectionString).ToList();
+
             return entities;
         }
 
         public T GetById(object id)
         {
-            T entities = SqlMapperExtensions.Get<T>(_connection, id);
+            T entities = SqlMapperExtensions.Get<T>(_connectionString, id);
             return entities;
         }
 
         public void Update(T entity)
         {
-            SqlMapperExtensions.Update<T>(_connection, entity);
+            SqlMapperExtensions.Update<T>(_connectionString, entity);
         }
     }
 }

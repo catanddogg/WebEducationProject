@@ -8,6 +8,8 @@ namespace BookStore.Common.ViewModels
 {
     public class CreateBookViewModel
     {
+
+        //TODO: Refactoring
         public string Name { get; set; }
         public IFormFile file { get; set; }
         public string Avtor { get; set; }

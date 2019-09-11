@@ -9,40 +9,40 @@ using BookStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
 {
     public class BookService : IBookService
     {
+        #region Properties & Variables
         private readonly IBookRepository _bookRepository;
-        private readonly IAuthorRepository _authorRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+        #endregion Properties & Variables
 
-        public BookService(IBookRepository bookRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository)
+        #region Constructors
+        public BookService(IBookRepository bookRepository,
+                          IMapper mapper)
         {
             _bookRepository = bookRepository;
-            _authorRepository = authorRepository;
-            _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
+        #endregion Constructors
 
+        #region Public Methods
         public void CreateBook(CreateBookViewModel createBookViewModel)
         {
-            Book book = Mapper.Map<CreateBookViewModel, Book>(createBookViewModel);
-            //Book book = new Book() { Name = "TestBook2", Path = "test2" };
-            //_bookRepository.Create(book);
+            Book book = _mapper.Map<CreateBookViewModel, Book>(createBookViewModel);
 
-            //Author author = new Author() { NameAuthor = "TestAuthor2", Publisher = "TestPublisher2", Book = book, BookId = book.Id };
-            //_authorRepository.Create(author);
-
-            //Category category = new Category() { CategoryType = CategoryType.Drama, Book = book, BookId = book.Id };
-            //_categoryRepository.Create(category);
             _bookRepository.Create(book);
         }
 
         public BookByIdViewModel GetBookById(int id)
         {
             Book book = _bookRepository.GetById(id);
-            BookByIdViewModel bookByIdViewModel = Mapper.Map<Book, BookByIdViewModel>(book);
+
+            BookByIdViewModel bookByIdViewModel = _mapper.Map<Book, BookByIdViewModel>(book);
+
             return bookByIdViewModel;
         }
 
@@ -51,22 +51,25 @@ namespace BookStore.Services.Services
             _bookRepository.Delete(id);
         }
 
-        public AllBookViewModel GetAllBook()
+        public async Task<AllBookViewModel> GetAllBook()
         {
-            IEnumerable<Book> bookItems = _bookRepository.GetAll();
-            AllBookViewModel allBookViewModel = Mapper.Map<IEnumerable<Book>, AllBookViewModel>(bookItems);
-            return allBookViewModel;
+            var result = new AllBookViewModel();
+
+            List<Book> bookItems = await _bookRepository.GetBooksWIthAuthorAndCategories();
+
+            List<AllBookViewModelItem> allBookViewModel = _mapper.Map<List<AllBookViewModelItem>>(bookItems);
+
+            result.Books = allBookViewModel;
+
+            return result;
         }
 
         public void UpdateBook(UpdateBookViewModel updateBookViewModel)
         {
-            Book book = Mapper.Map<UpdateBookViewModel, Book>(updateBookViewModel);
+            Book book = _mapper.Map<UpdateBookViewModel, Book>(updateBookViewModel);
+
             _bookRepository.Update(book);
         }
-
-        public CategoriesBooksAuthorsDTO GetAllTables()
-        {
-            return _bookRepository.GetAllTables();
-        }
+        #endregion Public Methods
     }
 }

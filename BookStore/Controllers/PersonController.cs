@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using BookStore.Common.ViewModels.PersonController.Get;
 using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +12,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
@@ -25,64 +24,64 @@ namespace BookStore.Controllers
             _personService = personService;
         }
 
-        //GET : api/person/gettoken
         [AllowAnonymous]
-        [HttpGet("{gettoken}")]
-        public JWTAndRefreshToken Login(string login, string password)
+        [HttpGet("Login/{gettoken}")]
+        public async Task<JWTAndRefreshToken> Login(string login, string password)
         {
-            Person person = _personService.GetPersonByLoginAndPassword(login, password);
+            Person person = await _personService.GetPersonByLoginAndPassword(login, password);
+
             if (person == null)
             {
                 return null;
             }
-            JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(person.Login, person.Password);
+            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+
             return jWTAndRefreshToken;
         }
 
-        //GET : api/person/refreshtoken
         [AllowAnonymous]
-        [HttpGet("{refreshtoken}")]
-        public JWTAndRefreshToken RefreshToken(string refreshToken)
+        [HttpGet("RefreshToken/{refreshtoken}")]
+        public async Task<JWTAndRefreshToken> RefreshToken(string refreshToken)
         {
-            Person person = _personService.GetPersonByRefreshToken(refreshToken);
+            Person person = await _personService.GetPersonByRefreshToken(refreshToken);
             if(person == null)
             {
                 return null;
             }
-            JWTAndRefreshToken jWTAndRefreshToken = _jWTService.Login(person.Login, person.Password);
+            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+
             return jWTAndRefreshToken;
         }
 
-        //GET : api/person
-        [HttpGet]
-        public AllPersonViewModel GetAllPeople()
+        [HttpGet("GetAllPeople")]
+        public async Task<AllPersonViewModel> GetAllPeople()
         {
-            return _personService.GetAllPerson();
+            AllPersonViewModel result = await _personService.GetAllPerson();
+
+            return result;
         }
 
-        //GET : api/person/id
-        [HttpGet("{id}")]
+        [HttpGet("GetPersonById/{id}")]
         public PersonByIdViewModel GetPersonById(int id)
         {
-            return _personService.GetPersonById(id);
+            PersonByIdViewModel result  = _personService.GetPersonById(id);
+
+            return result;
         }
 
-        //POST : api/person
-        [HttpPost]
+        [HttpPost("CreatePerson")]
         public void CreatePerson(CreatePersonViewModel createPersonViewModel)
         {
             _personService.CreatePerson(createPersonViewModel);
         }
 
-        //PUT : api/person
-        [HttpPut]
+        [HttpPut("UpdatePerson")]
         public void UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
         {
             _personService.UpdatePerson(updatePersonViewModel);
         }
 
-        //DELETE : api/person/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("DeletePerson/{id}")]
         public void DeletePerson(int id)
         {
             _personService.DeletePerson(id);

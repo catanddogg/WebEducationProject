@@ -8,37 +8,41 @@ using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class BaseRepository<C, T> : IBaseRepository<T> where T : class 
-        where C : BooksContext
+    public class BaseRepository<T> : IBaseRepository<T> where T : class 
     {
-        private C _entities;
-        private DbSet<T> _dbSet;
+        protected readonly BooksContext _context;
+        protected readonly DbSet<T> _dbSet;
 
-        public BaseRepository(C bookContext)
+        public BaseRepository(BooksContext context)
         {
-            _entities = bookContext;
-            _dbSet = _entities.Set<T>();
+            _context = context;
+            _dbSet = _context.Set<T>();
         }
 
         public async Task Create(T entity)
         {
             _dbSet.Add(entity);
-            _entities.SaveChanges();
+
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             T dbItem = _dbSet.Find(id);
+
             if(dbItem != null)
             {
                 _dbSet.Remove(dbItem);
-                _entities.SaveChanges();
+
+                _context.SaveChanges();
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return _entities.Set<T>();
+            List<T> result = await _context.Set<T>().ToListAsync();
+
+            return result;
         }
 
         public T GetById(object id)
@@ -48,8 +52,9 @@ namespace BookStore.DAL.Repositories.EntityFramework
 
         public void Update(T entity)
         {
-            _entities.Entry(entity).State = EntityState.Modified;
-            _entities.SaveChanges();
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.SaveChanges();
         }
     }
 }

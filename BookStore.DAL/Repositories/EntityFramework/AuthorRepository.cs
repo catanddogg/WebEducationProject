@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class AuthorRepository : BaseRepository<BooksContext, Author>, IAuthorRepository
+    public class AuthorRepository : BaseRepository<Author>, IAuthorRepository
     {
         private BooksContext _booksContext;
 
@@ -18,15 +19,17 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _booksContext = booksContext;
         }
 
-        public IEnumerable<Author> GetAuthorBooks()
+        public async Task<List<Author>> GetAuthorBooks(string author)
         {
-            List<Author> bookItem = _booksContext.Avtors.ToList();
+            List<Author> bookItem = await _dbSet.ToListAsync();
+
             return bookItem;
         }
 
-        public IEnumerable<Author> GetPublisherBooks(string publisher)
+        public async Task<List<Author>> GetPublisherBooks(string publisher)
         {
-            List<Author> bookItem = _booksContext.Avtors.Where(x => x.Publisher == publisher).ToList();
+            List<Author> bookItem = await _dbSet.Where(x => x.Publisher == publisher).ToListAsync();
+
             return bookItem;
         }
     }

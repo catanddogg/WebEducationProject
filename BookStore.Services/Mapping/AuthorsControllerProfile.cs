@@ -16,13 +16,10 @@ namespace BookStore.Services.Mapping
             CreateMap<Author, AuthorByIdViewModel>();
             CreateMap<UpdateBookViewModel, Author>();
             CreateMap<CreateBookViewModel, Author>();
-            CreateMap<IEnumerable<Author>, AllAuthorViewModel>();
 
-            //CreateMap<Author, AuthorBooksViewModelItemModel>();
-            
-            CreateMap<IEnumerable<Author>, IEnumerable<AuthorBooksViewModelItemModel>>();
+            CreateMap<Author, AllAuthorViewModelItem>();
 
-            CreateMap<IEnumerable<Author>, PublishersBooksViewModel>();
+            CreateMap<Author, PublishersBooksViewModelItem>();
         }
     }
 }

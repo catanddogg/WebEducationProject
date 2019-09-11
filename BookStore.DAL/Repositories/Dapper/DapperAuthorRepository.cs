@@ -1,34 +1,43 @@
 ﻿using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using Dapper.Contrib.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
     public class DapperAuthorRepository : BaseDapperRepository<Author>, IAuthorRepository
     {
-        private IDbConnection _connectionString;
         public DapperAuthorRepository(IDbConnection connectionString)
             : base (connectionString)
         {
-            _connectionString = connectionString;
         }
 
-        public IEnumerable<Author> GetAuthorBooks()
+        public async Task<List<Author>> GetAuthorBooks(string author)
         {
-            IEnumerable<Author> books = SqlMapperExtensions.GetAll<Author>(_connectionString);
-            return books;
+            List<Author> result = await SqlMapperExtensions
+                .GetAll<Author>(_connectionString)
+                .AsQueryable()
+                .ToListAsync();
+
+            return result;
         }
 
-        public IEnumerable<Author> GetPublisherBooks(string publisher)
+        public async Task<List<Author>> GetPublisherBooks(string publisher)
         {
-            IEnumerable<Author> res = SqlMapperExtensions.GetAll<Author>(_connectionString).Where(x => x.Publisher == publisher);
-            return res;
+            List<Author> result = await SqlMapperExtensions
+                .GetAll<Author>(_connectionString)
+                .Where(x => x.Publisher == publisher)
+                .AsQueryable()
+                .ToListAsync();
+
+            return result;
         }
     }
 }

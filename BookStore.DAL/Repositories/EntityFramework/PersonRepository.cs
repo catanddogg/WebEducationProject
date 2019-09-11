@@ -8,27 +8,32 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class PersonRepository : BaseRepository<BooksContext, Person>, IPersonRepository
+    public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        private BooksContext _booksContext;
         public PersonRepository(BooksContext booksContext)
             : base(booksContext)
         {
-            _booksContext = booksContext;
         }
 
-        public Person GetPersonByLoginAndPassword(string login, string password)
+        public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
         {
-            Person person = _booksContext.Persons.Where(x => x.Login == login && x.Password == password).SingleOrDefault();
+            Person person = await _dbSet
+                .Where(x => x.Login == login && x.Password == password)
+                .SingleOrDefaultAsync();
+
             return person;
         }
 
-        public Person GetPersonByRefreshToken(string refreshToken)
+        public async Task<Person> GetPersonByRefreshToken(string refreshToken)
         {
-            Person person = _booksContext.Persons.Where(x => x.RefreshToken == refreshToken).SingleOrDefault();
+            Person person = await _dbSet
+                .Where(x => x.RefreshToken == refreshToken)
+                .SingleOrDefaultAsync();
+
             return person;
         }
     }

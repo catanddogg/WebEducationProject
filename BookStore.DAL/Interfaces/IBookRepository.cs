@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Interfaces
 {
     public interface IBookRepository : IBaseRepository<Book>
     {
-        CategoriesBooksAuthorsDTO GetAllTables();
+        Task<List<Book>> GetBooksWIthAuthorAndCategories();
     }
 }

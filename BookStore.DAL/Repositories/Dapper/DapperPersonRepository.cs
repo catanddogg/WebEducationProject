@@ -2,6 +2,7 @@
 using BookStore.DAL.Models;
 using BookStore.DAL.Repositories.EntityFramework;
 using Dapper.Contrib.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,27 +12,36 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
     public class DapperPersonRepository : BaseDapperRepository< Person>, IPersonRepository
     {
-        private IDbConnection _connectionString;
         public DapperPersonRepository(IDbConnection connectionString)
             :base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
-        public Person GetPersonByLoginAndPassword(string login, string password)
+        public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
         {
-            Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.Login == login && x.Password == password).SingleOrDefault();
+            Person person = await SqlMapperExtensions
+                .GetAll<Person>(_connectionString)
+                .Where(x => x.Login == login && x.Password == password)
+                .AsQueryable()
+                .SingleOrDefaultAsync();
+
             return person;
         }
 
-        public Person GetPersonByRefreshToken(string refreshToken)
+        public async Task<Person> GetPersonByRefreshToken(string refreshToken)
         {
-            Person person = SqlMapperExtensions.GetAll<Person>(_connectionString).Where(x => x.RefreshToken == refreshToken).FirstOrDefault();
+            Person person = await SqlMapperExtensions
+                .GetAll<Person>(_connectionString)
+                .Where(x => x.RefreshToken == refreshToken)
+                .AsQueryable()
+                .FirstOrDefaultAsync();
+
             return person;
         }
     }

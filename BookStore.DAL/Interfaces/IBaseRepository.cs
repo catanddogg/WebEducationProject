@@ -7,7 +7,7 @@ namespace BookStore.DAL.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<List<T>> GetAll();
         T GetById(object id);
         Task Create(T entity);
         void Update(T entity);

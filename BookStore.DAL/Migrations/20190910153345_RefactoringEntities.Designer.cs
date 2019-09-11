@@ -4,14 +4,16 @@ using BookStore.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.DAL.Migrations
 {
     [DbContext(typeof(BooksContext))]
-    partial class BooksContextModelSnapshot : ModelSnapshot
+    [Migration("20190910153345_RefactoringEntities")]
+    partial class RefactoringEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,15 +65,11 @@ namespace BookStore.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookId");
+                    b.Property<int?>("BookId");
+
+                    b.Property<int>("CategoryType");
 
                     b.Property<DateTime>("CreationDate");
-
-                    b.Property<int>("FirstCategoryType");
-
-                    b.Property<int>("SecondCategoryType");
-
-                    b.Property<int>("TrirdCategoryType");
 
                     b.HasKey("Id");
 
@@ -301,10 +299,9 @@ namespace BookStore.DAL.Migrations
 
             modelBuilder.Entity("BookStore.DAL.Models.Category", b =>
                 {
-                    b.HasOne("BookStore.DAL.Models.Book", "Book")
+                    b.HasOne("BookStore.DAL.Models.Book")
                         .WithMany("Category")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BookId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

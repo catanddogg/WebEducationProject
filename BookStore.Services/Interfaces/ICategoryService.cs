@@ -5,18 +5,19 @@ using BookStore.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
 {
     public interface ICategoryService
     {
-        AllCategoryViewModel GetAllCategory();
+        Task<AllCategoryViewModel> GetAllCategory();
         CategoryByIdViewModel GetCategoryById(int id);
         void CreateCategory(CreateCategoryViewModel createCategoryViewModel);
         void UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel);
         void DeleteCategory(int id);
 
-        CategoryBooksViewModel GetCategoryBooks(int category);
-        AutorAndCategoryViewModel GetAutorAndCategoryBook(string avtor, int category);
+        Task<CategoryBooksViewModel> GetCategoryBooks(int category);
+        Task<AuthorAndCategoryViewModel> GetAutorAndCategoryBook(string avtor, int category);
     }
 }

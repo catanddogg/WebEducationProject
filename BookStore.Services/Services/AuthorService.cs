@@ -7,23 +7,32 @@ using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
 {
     public class AuthorService : IAuthorService
     {
-        public readonly IAuthorRepository _authorRepository;
+        #region Properties & Variables
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IMapper _mapper;
+        #endregion Properties & Variables
 
-        public AuthorService(IAuthorRepository authorRepository)
+        #region Constructors
+        public AuthorService(IAuthorRepository authorRepository,
+                             IMapper mapper)
         {
+            _mapper = mapper;
             _authorRepository = authorRepository;
         }
+        #endregion Constructors
 
+        #region Public Methods
         public void CreateAuthor(CreateAuthorViewModel createAuthorViewModel)
         {
-            Author author = Mapper.Map<CreateAuthorViewModel, Author>(createAuthorViewModel);
+            Author author = _mapper.Map<Author>(createAuthorViewModel);
+
             _authorRepository.Create(author);
         }
 
@@ -35,36 +44,57 @@ namespace BookStore.Services.Services
         public AuthorByIdViewModel GetAuthorById(int id)
         {
             Author author = _authorRepository.GetById(id);
-            AuthorByIdViewModel authorByIdView = Mapper.Map<Author, AuthorByIdViewModel>(author);
+
+            AuthorByIdViewModel authorByIdView = _mapper.Map<AuthorByIdViewModel>(author);
+
             return authorByIdView;
         }
 
-        public AllAuthorViewModel GetAllAuthors()
+        public async Task<AllAuthorViewModel> GetAllAuthors()
         {
-            IEnumerable<Author> authors = _authorRepository.GetAll();
-            AllAuthorViewModel allAuthorViewModel = Mapper.Map<IEnumerable<Author>, AllAuthorViewModel>(authors);
-            return allAuthorViewModel;
+            var result = new AllAuthorViewModel();
+
+            List<Author> authors = await _authorRepository.GetAll();
+
+            List<AllAuthorViewModelItem> authorViewModelItem  = _mapper.Map<List<AllAuthorViewModelItem>>(authors);
+
+            result.Authors = authorViewModelItem;
+
+            return result;
         }
 
-        public AuthorBooksViewModel GetAuthorBooks()
+        public async Task<AuthorBooksViewModel> GetAuthorBooks(string author)
         {
-            AuthorBooksViewModel authorBooksViewModel = new AuthorBooksViewModel();
-            IEnumerable<Author> authors =_authorRepository.GetAuthorBooks();
-            authorBooksViewModel.AuthorsBookViewModelItemModels = Mapper.Map<IEnumerable<Author>, IEnumerable<AuthorBooksViewModelItemModel>>(authors).ToList();
-            return authorBooksViewModel;
+            var result = new AuthorBooksViewModel();
+
+            List<Author> authors = await _authorRepository.GetAuthorBooks(author);
+
+            List<AuthorBooksViewModelItem> authorBooksViewModel = _mapper.Map<List<AuthorBooksViewModelItem>>(authors);
+
+            result.AuthorBooks = authorBooksViewModel;
+
+            return result;
         }
 
-        public PublishersBooksViewModel GetPublisherBooks(string publisher)
+        public async Task<PublishersBooksViewModel> GetPublisherBooks(string publisher)
         {
-            IEnumerable<Author> authors = _authorRepository.GetPublisherBooks(publisher);
-            PublishersBooksViewModel publishersBooksViewModel = Mapper.Map<IEnumerable<Author>, PublishersBooksViewModel>(authors);
-            return publishersBooksViewModel;
+            var result = new PublishersBooksViewModel();
+
+            List<Author> authors = await _authorRepository.GetPublisherBooks(publisher);
+
+            List<PublishersBooksViewModelItem> publishersBooksViewModel = _mapper.Map<List<PublishersBooksViewModelItem>>(authors);
+
+            result.Publishers = publishersBooksViewModel;
+
+            return result;
         }
 
         public void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel)
         {
-            Author author = Mapper.Map<UpdateAuthorViewModel, Author>(updateAuthorViewModel);
+            Author author = _mapper.Map<Author>(updateAuthorViewModel);
+
             _authorRepository.Update(author);
         }
+        #endregion Public Methods
     }
 }

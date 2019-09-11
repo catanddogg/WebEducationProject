@@ -51,16 +51,20 @@ namespace BookStore.Services.Services
                     }
 
                     Book book = new Book() { Name = createBookViewModel.Name, Path = newFileName };
+
                     await _bookRepository.Create(book);
 
-                    Author author = new Author() { NameAuthor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher, Book = book, BookId = book.Id };
+                    Author author = new Author() { NameAuthor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher};
+
                     await _avtorRepository.Create(author);
 
-                    Category category = new Category() { CategoryType = createBookViewModel.Genre1, Book = book, BookId = book.Id };
-                    await _categoryRepository.Create(category);
+                    //Category category = new Category() { CategoryType = createBookViewModel.Genre1};
 
-                    Category category1 = new Category() { CategoryType = createBookViewModel.Genre2, Book = book, BookId = book.Id };
-                    await _categoryRepository.Create(category1);
+                    //await _categoryRepository.Create(category);
+
+                    //Category category1 = new Category() { CategoryType = createBookViewModel.Genre2};
+
+                    //await _categoryRepository.Create(category1);
                 }
                 return "Index";
             }
@@ -72,14 +76,11 @@ namespace BookStore.Services.Services
             _personRepository.Create(person);
         }
 
-        public CategoriesBooksAuthorsDTO GetAllTables()
+        public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
         {
-            return _bookRepository.GetAllTables();
-        }
+            Person result = await _personRepository.GetPersonByLoginAndPassword(login, password);
 
-        public Person GetPersonByLoginAndPassword(string login, string password)
-        {
-            return _personRepository.GetPersonByLoginAndPassword(login, password);
+            return result;
         }              
     }
 }

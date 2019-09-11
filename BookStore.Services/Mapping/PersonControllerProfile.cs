@@ -16,7 +16,8 @@ namespace BookStore.Services.Mapping
             CreateMap<CreatePersonViewModel, Person>();
             CreateMap<UpdatePersonViewModel, Person>();
             CreateMap<Person, PersonByIdViewModel>();
-            CreateMap<IEnumerable<Person>, AllPersonViewModel>();
+
+            CreateMap<Person, AllPersonViewModelItem>();
         }
     }
 }

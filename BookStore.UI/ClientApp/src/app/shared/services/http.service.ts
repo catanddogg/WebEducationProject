@@ -16,7 +16,8 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   public Test(): Observable<GetBookById> {
-    var test = this.http.get<GetBookById>(this.baseUrl + 'api/books/5');
+    var test = this.http.get<GetBookById>(this.baseUrl + 'api/books/GetAllBook');
     return test;
+    debugger;
   }
 }

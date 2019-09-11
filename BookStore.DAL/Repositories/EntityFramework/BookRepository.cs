@@ -8,28 +8,26 @@ using System.Linq;
 using BookStore.DAL.Enums;
 using System.Data.SqlClient;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class BookRepository : BaseRepository<BooksContext, Book>, IBookRepository
+    public class BookRepository : BaseRepository<Book>, IBookRepository
     {
-        private BooksContext _booksContext;
 
         public BookRepository(BooksContext booksContext)
-            : base (booksContext)
+            : base(booksContext)
         {
-            _booksContext = booksContext;
         }
-
-        public CategoriesBooksAuthorsDTO GetAllTables()
+         
+        public async Task<List<Book>> GetBooksWIthAuthorAndCategories()
         {
-            CategoriesBooksAuthorsDTO categoriesBooksAvtors = new CategoriesBooksAuthorsDTO();
-            categoriesBooksAvtors.Books = _booksContext.Books.ToList();
-            categoriesBooksAvtors.Authors = _booksContext.Avtors.ToList();
-            categoriesBooksAvtors.Categories = _booksContext.Categories.ToList();
-            categoriesBooksAvtors.Comments = _booksContext.Comments.ToList();
+            List<Book> result = await _dbSet
+                .Include(item => item.Author)
+                .Include(item => item.Category)
+                .ToListAsync();
 
-            return categoriesBooksAvtors;
+            return result;
         }
     }
 }
