@@ -4,6 +4,7 @@ using BookStore.Common.ViewModels.BooksController.Post;
 using BookStore.Common.ViewModels.BooksController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -11,6 +12,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     //[Authorize]
     public class BooksController : Controller
     {

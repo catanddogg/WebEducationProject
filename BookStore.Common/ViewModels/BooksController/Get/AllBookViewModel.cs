@@ -24,12 +24,7 @@ namespace BookStore.Common.ViewModels.BooksController.Get
         public int AuthorId { get; set; }
         public AllBookAuthorViewModelItem Author { get; set; }
 
-        public List<AllBookCategoryViewModelItem> Category { get; set; }
-
-        public AllBookViewModelItem()
-        {
-            Category = new List<AllBookCategoryViewModelItem>();
-        }
+        public AllBookCategoryViewModelItem Category { get; set; }
     }
 
     public class AllBookAuthorViewModelItem
@@ -40,6 +35,7 @@ namespace BookStore.Common.ViewModels.BooksController.Get
 
     public class AllBookCategoryViewModelItem
     {
+
         public CategoryTypeViewModel FirstCategoryType { get; set; }
         public CategoryTypeViewModel SecondCategoryType { get; set; }
         public CategoryTypeViewModel TrirdCategoryType { get; set; }

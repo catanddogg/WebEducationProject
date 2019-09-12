@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { GetBookById } from 'src/app/shared/model/GetBook';
+import { AllBookViewModel } from 'src/app/shared/model/get-all-book.view';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,13 +11,11 @@ import { Observable } from 'rxjs';
 export class HttpService {
 
   private baseUrl = environment.baseUrl;
-  bookById: GetBookById;
+  public allbook: AllBookViewModel;
 
   constructor(private http: HttpClient) { }
 
-  public Test(): Observable<GetBookById> {
-    var test = this.http.get<GetBookById>(this.baseUrl + 'api/books/GetAllBook');
-    return test;
-    debugger;
+  public Test(): Observable<AllBookViewModel> {
+    return this.http.get<AllBookViewModel>(this.baseUrl + 'api/books/GetAllBook');;
   }
 }

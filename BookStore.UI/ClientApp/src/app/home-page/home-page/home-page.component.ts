@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/services/http.service';
+import { GetBookById} from 'src/app/shared/model/get-book.view';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -9,18 +11,24 @@ import { HttpService } from 'src/app/shared/services/http.service';
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private router: Router, private httpService: HttpService) { }
+
+  public arrayBook : GetBookById [];
+
+
+  constructor(private router: Router, private httpService: HttpService)
+  {
+     this.arrayBook = [];
+  }
 
   ngOnInit() {
-  }
+  } 
 
   public test() {
     this.httpService.Test()
       .subscribe(
         response => {
-          response;
+          this.arrayBook = response.books;
           debugger;
-          //this.bookById = response;
         });
   }
 

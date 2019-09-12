@@ -1,31 +1,22 @@
+<div class="search-hero">
+    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
+  </div>
 <button (click)="test()">Click me!</button>
 <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Book</th>
+        <th scope="col">Author</th>
+        <th scope="col">Pablisher</th>
+        <th scope="col">Category</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
+        <tr *ngFor="let book of arrayBook">
+              <td scope="col">{{ book.name }}</td>
+              <td scope="col">{{ book.author.nameAuthor }}</td>
+              <td scope="col">{{ book.author.publisher }}</td>
+              <td scope="col">{{ book.category.firstCategoryType}}</td>
+        </tr>
     </tbody>
   </table>
