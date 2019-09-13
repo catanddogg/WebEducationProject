@@ -42,7 +42,7 @@ namespace BookStore.DAL.Repositories.Dapper
             return categoriesBooksAuthors;
         }
 
-        public Task<List<Book>> GetBooksWIthAuthorAndCategories()
+        public Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)
         {
             throw new NotImplementedException();
         }

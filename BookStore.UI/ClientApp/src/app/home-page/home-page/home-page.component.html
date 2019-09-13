@@ -1,7 +1,6 @@
-<div class="search-hero">
-    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
-  </div>
-<button (click)="test()">Click me!</button>
+<div>
+<input class="form-control mr-sm-2" #myInput type="search" ngModel="userName" (search)="test(myInput.value)">
+</div>
 <table class="table table-striped">
     <thead>
       <tr>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { GetBookById} from 'src/app/shared/model/get-book.view';
@@ -13,7 +13,8 @@ export class HomePageComponent implements OnInit {
 
 
   public arrayBook : GetBookById [];
-
+  public testString : string;
+  @Input() userName:string;
 
   constructor(private router: Router, private httpService: HttpService)
   {
@@ -21,10 +22,13 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.test('');
+    debugger;
   } 
 
-  public test() {
-    this.httpService.Test()
+  public test(model: string) {
+    this.userName = model;
+    this.httpService.Test(this.userName)
       .subscribe(
         response => {
           this.arrayBook = response.books;

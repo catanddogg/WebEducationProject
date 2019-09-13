@@ -51,11 +51,11 @@ namespace BookStore.Services.Services
             _bookRepository.Delete(id);
         }
 
-        public async Task<AllBookViewModel> GetAllBook()
+        public async Task<AllBookViewModel> GetAllBook(string filter)
         {
             var result = new AllBookViewModel();
 
-            List<Book> bookItems = await _bookRepository.GetBooksWIthAuthorAndCategories();
+            List<Book> bookItems = await _bookRepository.GetBooksWIthAuthorAndCategories(filter);
 
             List<AllBookViewModelItem> allBookViewModel = _mapper.Map<List<AllBookViewModelItem>>(bookItems);
 

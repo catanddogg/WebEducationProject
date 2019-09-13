@@ -11,7 +11,7 @@ namespace BookStore.Services.Interfaces
 {
     public interface IBookService
     {
-        Task<AllBookViewModel> GetAllBook();
+        Task<AllBookViewModel> GetAllBook(string filter);
         BookByIdViewModel GetBookById(int id);
         void CreateBook(CreateBookViewModel createBookViewModel);
         void DeleteBook(int id);

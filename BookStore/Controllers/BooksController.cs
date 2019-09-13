@@ -24,9 +24,9 @@ namespace BookStore.Controllers
         }
 
         [HttpGet("GetAllBook")]
-        public async Task<AllBookViewModel> GetAllBook()
+        public async Task<AllBookViewModel> GetAllBook(string filter)
         {
-            AllBookViewModel bookItems  = await _bookService.GetAllBook();
+            AllBookViewModel bookItems  = await _bookService.GetAllBook(filter);
 
             return bookItems;
         }

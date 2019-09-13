@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './home-page/home-page/home-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent }
@@ -12,7 +14,9 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent
+    HomePageComponent,
+    LoginPageComponent,
+    RegistrationPageComponent
   ],  
   imports: [
     BrowserModule,

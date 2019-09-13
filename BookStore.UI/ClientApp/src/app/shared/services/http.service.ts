@@ -12,10 +12,13 @@ export class HttpService {
 
   private baseUrl = environment.baseUrl;
   public allbook: AllBookViewModel;
+  public fullApiUrl : string;
 
   constructor(private http: HttpClient) { }
 
-  public Test(): Observable<AllBookViewModel> {
-    return this.http.get<AllBookViewModel>(this.baseUrl + 'api/books/GetAllBook');;
+  public Test(model : string): Observable<AllBookViewModel> {
+    this.fullApiUrl = `${this.baseUrl}${'api/books/GetAllBook?filter='}${model}`;
+
+    return this.http.get<AllBookViewModel>(this.fullApiUrl);
   }
 }
