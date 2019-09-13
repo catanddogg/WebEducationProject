@@ -8,7 +8,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent }
+  { path: '', component: LoginPageComponent }
 ];
 
 @NgModule({
@@ -21,7 +21,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
