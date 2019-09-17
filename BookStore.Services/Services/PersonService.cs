@@ -31,7 +31,7 @@ namespace BookStore.Services.Services
         #endregion Constructors
 
         #region Public Methods
-        public void CreatePerson(CreatePersonViewModel createPersonViewModel)
+        public void CreatePerson(CreateUserViewModel createPersonViewModel)
         {
             Person person = _mapper.Map<Person>(createPersonViewModel);
 

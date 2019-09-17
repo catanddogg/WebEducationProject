@@ -5,13 +5,15 @@ using BookStore.Common.ViewModels.PersonController.Put;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [EnableCors("AddTestCors")]
     //[Authorize]
     public class PersonController : Controller
     {
@@ -69,10 +71,13 @@ namespace BookStore.Controllers
             return result;
         }
 
-        [HttpPost("CreatePerson")]
-        public void CreatePerson(CreatePersonViewModel createPersonViewModel)
+       
+
+        [HttpPost]
+        public void CreateUser([FromBody]CreateUserViewModel model)
         {
-            _personService.CreatePerson(createPersonViewModel);
+            _personService.CreatePerson(model);
+            //return "test";
         }
 
         [HttpPut("UpdatePerson")]

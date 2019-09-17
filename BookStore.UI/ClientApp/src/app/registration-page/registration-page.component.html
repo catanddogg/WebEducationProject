@@ -1,1 +1,57 @@
-<p>registration-page works!</p>
+<div class="login-wrapper">
+	<div class="container">
+		<div class="d-flex justify-content-center h-100">
+			<div class="card">
+				<div class="card-header">
+					<h3>Sign Up</h3>
+					<div class="d-flex justify-content-end social_icon">
+						<span><i class="fab fa-facebook-square"></i></span>
+						<span><i class="fab fa-google-plus-square"></i></span>
+						<span><i class="fab fa-twitter-square"></i></span>
+					</div>
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input #usernameInput type="text" class="form-control" placeholder="username">
+
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input #passwordInput type="password" class="form-control" placeholder="password">
+                        </div>
+                        <div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input #confirmPasswordInput type="password" class="form-control" placeholder="confirm password">
+                        </div> 
+                        <div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input #emailInput type="text" class="form-control" placeholder="email">
+                        </div> 
+						<div class="form-group">
+                            <input type="button" (click)="SingUpUser(usernameInput.value, passwordInput.value, confirmPasswordInput.value, emailInput.value)"
+                             value="SingUp" class="btn float-right login_btn">
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<div class="d-flex justify-content-center links">
+						Do you have an account?<a [routerLink]="['/']">Sign In</a>
+					</div>
+					<div class="d-flex justify-content-center">
+						<a href="#">Forgot your password?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

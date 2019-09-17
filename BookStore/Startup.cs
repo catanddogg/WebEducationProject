@@ -22,6 +22,8 @@ namespace BookStore
             Configuration = configuration;
         }
 
+        private readonly string AddTestCors = "AddTestCors";
+
         public void ConfigureServices(IServiceCollection services)
         {
           
@@ -34,14 +36,29 @@ namespace BookStore
                 .AddEntityFrameworkStores<BooksContext>()
                  .AddDefaultTokenProviders();
 
+            //services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(
+            //     builder =>
+            //     {
+            //         builder.WithOrigins("http://localhost:4200")
+            //         .AllowAnyHeader()
+            //         .AllowAnyMethod()
+            //         .AllowCredentials()
+            //         .AllowAnyOrigin();
+            //    });            
+            //});
+
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(
-                 builder =>
-                 {
-                     builder.WithOrigins("http://localhost:4200")
+                options.AddPolicy(AddTestCors,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
                      .AllowAnyHeader()
-                     .AllowAnyMethod();
+                     .AllowAnyMethod()
+                     .AllowCredentials()
+                     .AllowAnyOrigin();
                 });
             });
 
@@ -77,7 +94,7 @@ namespace BookStore
                 app.UseHsts();
             }
 
-            app.UseCors("TestOrigin");
+            app.UseCors(AddTestCors);
 
             //app.UseExceptionHandler("/Home/Login");
             app.UseAuthentication();

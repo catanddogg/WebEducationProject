@@ -12,7 +12,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors]
+    [EnableCors("AddTestCors")]
     //[Authorize]
     public class AuthorsController : Controller
     {

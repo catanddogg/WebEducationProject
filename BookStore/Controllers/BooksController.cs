@@ -12,7 +12,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors]
+    [EnableCors("AddTestCors")]
     //[Authorize]
     public class BooksController : Controller
     {
@@ -44,6 +44,18 @@ namespace BookStore.Controllers
         {
             _bookService.CreateBook(book);
         }
+
+        [HttpGet("CreateUser")]
+        public void CreateUser(string userName, string password, string confirmPassword, string email)
+        {
+
+        }
+
+        //[HttpPost("CreateUser1")]
+        //public void CreateUser1([FromBody]CreateUserViewModel model)
+        //{
+
+        //}
 
         [HttpPut("UpdateBook")]
         public void UpdateBook([FromBody]UpdateBookViewModel book)

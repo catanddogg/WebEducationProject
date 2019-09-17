@@ -15,7 +15,7 @@ namespace BookStore.Services.Interfaces
     public interface IPersonService
     {
         Task<AllPersonViewModel> GetAllPerson();
-        void CreatePerson(CreatePersonViewModel createPersonViewModel);
+        void CreatePerson(CreateUserViewModel createPersonViewModel);
         void UpdatePerson(UpdatePersonViewModel updatePersonViewModel);
         void DeletePerson(int id);
         PersonByIdViewModel GetPersonById(int id);

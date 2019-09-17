@@ -3,6 +3,7 @@ using BookStore.Common.ViewModels.CategoriesController.Get;
 using BookStore.Common.ViewModels.CategoriesController.Post;
 using BookStore.Common.ViewModels.CategoriesController.Put;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -10,6 +11,7 @@ namespace BookStore.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AddTestCors")]
     //[Authorize]
 
     public class CategoriesController : Controller
