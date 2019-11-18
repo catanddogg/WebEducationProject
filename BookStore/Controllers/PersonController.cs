@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BookStore.Common.ViewModels.BaseViewModel;
 using BookStore.Common.ViewModels.PersonController.Get;
 using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
@@ -27,18 +28,12 @@ namespace BookStore.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Login/{gettoken}")]
-        public async Task<JWTAndRefreshToken> Login(string login, string password)
+        [HttpPost]
+        public async Task<LoginRequestViewModel> Login(LoginViewModel model)
         {
-            Person person = await _personService.GetPersonByLoginAndPassword(login, password);
+            LoginRequestViewModel result  = await _personService.GetPersonByLoginAndPassword(model.UserName, model.Password);
 
-            if (person == null)
-            {
-                return null;
-            }
-            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
-
-            return jWTAndRefreshToken;
+            return result;
         }
 
         [AllowAnonymous]
@@ -70,14 +65,15 @@ namespace BookStore.Controllers
 
             return result;
         }
-
+    
        
 
         [HttpPost]
-        public void CreateUser([FromBody]CreateUserViewModel model)
+        public async Task<BaseRequestViewModel> CreateUser([FromBody]CreateUserViewModel model)
         {
-            _personService.CreatePerson(model);
-            //return "test";
+            BaseRequestViewModel result = await _personService.CreatePerson(model);
+
+            return result;
         }
 
         [HttpPut("UpdatePerson")]

@@ -36,5 +36,23 @@ namespace BookStore.DAL.Repositories.EntityFramework
 
             return person;
         }
+
+        public async Task<bool> CheckReduplicationUserName(string UserName)
+        {
+            bool isRegistered = await _dbSet
+                .Where(item => item.FirstName == UserName)
+                .AnyAsync();
+
+            return isRegistered;
+        }
+
+        public async Task<bool> CheckReduplicationEmail(string Email)
+        {
+            bool isEmailRegistered = await _dbSet
+                .Where(item => item.Login == Email)
+                .AnyAsync();
+
+            return isEmailRegistered;
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace BookStore.DAL.Interfaces
     {
         Task<Person> GetPersonByLoginAndPassword(string login, string password);
         Task<Person> GetPersonByRefreshToken(string refreshToken);
+        Task<bool> CheckReduplicationUserName(string UserName);
+        Task<bool> CheckReduplicationEmail(string Email);
     }
 }

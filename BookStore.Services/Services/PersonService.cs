@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookStore.Common.ViewModels.BaseViewModel;
 using BookStore.Common.ViewModels.PersonController.Get;
 using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
@@ -19,23 +20,61 @@ namespace BookStore.Services.Services
         #region Properties & Variables
         private readonly IPersonRepository _personRepository;
         private readonly IMapper _mapper;
+        private readonly IJWTService _jWTService;
         #endregion Properties & Variables
 
         #region Constructors
         public PersonService(IPersonRepository personRepository,
-                             IMapper mapper)
+                             IMapper mapper,
+                             IJWTService jWTService)
         {
             _personRepository = personRepository;
             _mapper = mapper;
+            _jWTService = jWTService;
         }
         #endregion Constructors
 
         #region Public Methods
-        public void CreatePerson(CreateUserViewModel createPersonViewModel)
+        public async Task<BaseRequestViewModel> CreatePerson(CreateUserViewModel createPersonViewModel)
         {
+            var result = new BaseRequestViewModel();
+
+            if(createPersonViewModel.Password !=  createPersonViewModel.ConfirmPassword)
+            {
+                result.Message = "Not the same password and confirm password";
+                result.Success = false;
+
+                return result;
+            }
+
+            bool isRegistered = await _personRepository.CheckReduplicationUserName(createPersonViewModel.UserName);
+
+            if(isRegistered)
+            {
+                result.Message = "This is username was busy";
+                result.Success = false;
+
+                return result;
+            }
+
+            bool isEmailRegistered = await _personRepository.CheckReduplicationEmail(createPersonViewModel.Email);
+
+            if(isEmailRegistered)
+            {
+                result.Message = "This is email was busy";
+                result.Success = false;
+
+                return result;
+            }
+
             Person person = _mapper.Map<Person>(createPersonViewModel);
 
-            _personRepository.Create(person);
+            await _personRepository.Create(person);
+
+            result.Success = true;
+            result.Message = "User successfully created";
+
+            return result;
         }
 
         public void DeletePerson(int id)
@@ -65,9 +104,33 @@ namespace BookStore.Services.Services
             return personByIdViewModel;
         }
 
-        public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
+        public async Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password)
         {
-            Person result = await _personRepository.GetPersonByLoginAndPassword(login, password);
+            var result = new LoginRequestViewModel();
+
+            if(string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            {
+                result.Message = "Incorrect login or password";
+                result.Success = false;
+
+                return result;
+            }
+            Person person = await _personRepository.GetPersonByLoginAndPassword(login, password);
+
+            if(person ==  null)
+            {
+                result.Message = "User not registered with this login";
+                result.Success = false;
+
+                return result;
+            }
+
+            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+
+            result.AccessToken = jWTAndRefreshToken.AccessToken;
+            result.RefreshToken = jWTAndRefreshToken.RefreshToken;
+            result.Success = true;
+            result.Message = string.Empty;
 
             return result;
         }

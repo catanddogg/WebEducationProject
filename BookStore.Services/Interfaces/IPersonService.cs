@@ -1,4 +1,5 @@
-﻿using BookStore.Common.ViewModels.PersonController.Get;
+﻿using BookStore.Common.ViewModels.BaseViewModel;
+using BookStore.Common.ViewModels.PersonController.Get;
 using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
 using BookStore.DAL.Models;
@@ -15,12 +16,12 @@ namespace BookStore.Services.Interfaces
     public interface IPersonService
     {
         Task<AllPersonViewModel> GetAllPerson();
-        void CreatePerson(CreateUserViewModel createPersonViewModel);
+        Task<BaseRequestViewModel> CreatePerson(CreateUserViewModel createPersonViewModel);
         void UpdatePerson(UpdatePersonViewModel updatePersonViewModel);
         void DeletePerson(int id);
         PersonByIdViewModel GetPersonById(int id);
 
-        Task<Person> GetPersonByLoginAndPassword(string login, string password);
+        Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password);
         Task<Person> GetPersonByRefreshToken(string refreshToken);
     }
 }

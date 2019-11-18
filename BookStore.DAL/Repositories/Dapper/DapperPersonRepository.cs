@@ -23,6 +23,16 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
+        public Task<bool> CheckReduplicationEmail(string Email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CheckReduplicationUserName(string UserName)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
         {
             Person person = await SqlMapperExtensions

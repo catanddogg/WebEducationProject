@@ -86,3 +86,30 @@ color: white;
 .links a{
 margin-left: 4px;
 }
+
+a:link {
+    color: green;
+
+    &:visited {
+    color: green;
+    }
+    
+    &:hover {
+    color: red;
+    }
+    
+    &:active {
+    color: yellow;
+    } 
+}
+
+.underline-link {
+    color: #007bff;
+    cursor: pointer;
+    
+    &:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+}
+  

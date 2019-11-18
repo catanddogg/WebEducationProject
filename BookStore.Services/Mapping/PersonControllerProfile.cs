@@ -13,7 +13,11 @@ namespace BookStore.Services.Mapping
     {
         public PersonControllerProfile()
         {
-            CreateMap<CreateUserViewModel, Person>();
+            CreateMap<CreateUserViewModel, Person>()
+                .ForMember(destination => destination.Login, source => source.MapFrom(src => src.Email))
+                .ForMember(destination => destination.Password, source => source.MapFrom(src => src.Password))
+                .ForMember(destination => destination.FirstName, source => source.MapFrom(src => src.UserName));
+
             CreateMap<UpdatePersonViewModel, Person>();
             CreateMap<Person, PersonByIdViewModel>();
 

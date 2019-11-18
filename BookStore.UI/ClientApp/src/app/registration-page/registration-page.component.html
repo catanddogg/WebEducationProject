@@ -11,7 +11,6 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -33,7 +32,7 @@
                         </div> 
                         <div class="input-group form-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
+								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
 							<input #emailInput type="text" class="form-control" placeholder="email">
                         </div> 
@@ -41,14 +40,14 @@
                             <input type="button" (click)="SingUpUser(usernameInput.value, passwordInput.value, confirmPasswordInput.value, emailInput.value)"
                              value="SingUp" class="btn float-right login_btn">
 						</div>
-					</form>
 				</div>
 				<div class="card-footer">
 					<div class="d-flex justify-content-center links">
-						Do you have an account?<a [routerLink]="['/']">Sign In</a>
+						Do you have an account?
+						<span class="underline-link" (click)="navigationToSingInPage()">Sign In</span>
 					</div>
 					<div class="d-flex justify-content-center">
-						<a href="#">Forgot your password?</a>
+						<span class="underline-link">Forgot your password?</span>
 					</div>
 				</div>
 			</div>

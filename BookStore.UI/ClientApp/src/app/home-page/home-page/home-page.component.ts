@@ -23,7 +23,6 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
     this.test('');
-    debugger;
   } 
 
   public test(model: string) {
@@ -32,7 +31,6 @@ export class HomePageComponent implements OnInit {
       .subscribe(
         response => {
           this.arrayBook = response.books;
-          debugger;
         });
   }
 
