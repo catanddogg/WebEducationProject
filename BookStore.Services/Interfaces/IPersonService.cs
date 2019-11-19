@@ -22,6 +22,6 @@ namespace BookStore.Services.Interfaces
         PersonByIdViewModel GetPersonById(int id);
 
         Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password);
-        Task<Person> GetPersonByRefreshToken(string refreshToken);
+        Task<LoginRequestViewModel> GetPersonByRefreshToken(string refreshToken);
     }
 }

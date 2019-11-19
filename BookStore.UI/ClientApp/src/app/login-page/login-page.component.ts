@@ -10,6 +10,7 @@ import { NotificationService } from 'src/app/shared/services/toastr.service';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
+
 export class LoginPageComponent implements OnInit {
 
   private _loginUserViewModel : LoginUserViewModel;
@@ -17,14 +18,13 @@ export class LoginPageComponent implements OnInit {
   constructor(private router : Router, 
               private httpService: HttpService,
               private notificationService : NotificationService) {
-                this._loginUserViewModel = new LoginUserViewModel();
+    this._loginUserViewModel = new LoginUserViewModel();
   }
 
   ngOnInit() {
   }
 
   public LogIn(userName : string, password : string){
-    debugger;
     this._loginUserViewModel.password = password;
     this._loginUserViewModel.userName = userName;
 
@@ -33,6 +33,8 @@ export class LoginPageComponent implements OnInit {
       if(response.success)
       {
         localStorage.setItem("AccessToken", response.accessToken);
+        localStorage.setItem("RefreshToken", response.refreshToken);
+
         this.router.navigate(['/Home']);
       }
       if(!response.success)

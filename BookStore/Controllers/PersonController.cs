@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookStore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AddTestCors")]
-    //[Authorize]
+    [Authorize]
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
@@ -28,7 +28,7 @@ namespace BookStore.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<LoginRequestViewModel> Login(LoginViewModel model)
         {
             LoginRequestViewModel result  = await _personService.GetPersonByLoginAndPassword(model.UserName, model.Password);
@@ -37,17 +37,12 @@ namespace BookStore.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("RefreshToken/{refreshtoken}")]
-        public async Task<JWTAndRefreshToken> RefreshToken(string refreshToken)
+        [HttpPost("RefreshToken")]
+        public async Task<LoginRequestViewModel> RefreshToken(RefreshTokenViewModel model)
         {
-            Person person = await _personService.GetPersonByRefreshToken(refreshToken);
-            if(person == null)
-            {
-                return null;
-            }
-            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+            LoginRequestViewModel result = await _personService.GetPersonByRefreshToken(model.RefreshToken);
 
-            return jWTAndRefreshToken;
+            return result;
         }
 
         [HttpGet("GetAllPeople")]
@@ -68,7 +63,8 @@ namespace BookStore.Controllers
     
        
 
-        [HttpPost]
+        [HttpPost("CreateUser")]
+        [AllowAnonymous]
         public async Task<BaseRequestViewModel> CreateUser([FromBody]CreateUserViewModel model)
         {
             BaseRequestViewModel result = await _personService.CreatePerson(model);

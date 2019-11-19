@@ -3,6 +3,7 @@ using BookStore.Common.ViewModels.CategoriesController.Get;
 using BookStore.Common.ViewModels.CategoriesController.Post;
 using BookStore.Common.ViewModels.CategoriesController.Put;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,8 +13,7 @@ namespace BookStore.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AddTestCors")]
-    //[Authorize]
-
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;

@@ -31,6 +31,7 @@ namespace BookStore.Services
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IMailService, MailService>();
         }
     }
 }

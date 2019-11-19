@@ -7,6 +7,7 @@ import { CreateUserViewModel } from 'src/app/shared/model/create-user.model';
 import { BaseResponseViewModel } from 'src/app/shared/model/base-response.view';
 import { LoginUserViewModel } from 'src/app/shared/model/login-user';
 import { LoginUserRequestViewModel } from 'src/app/shared/model/login-user-request.view';
+import { RefreshTokenViewModel } from '../model/refresh-token.view';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,18 @@ import { LoginUserRequestViewModel } from 'src/app/shared/model/login-user-reque
 
 export class HttpService {
 
-  private baseUrl = environment.baseUrl;
+  private baseUrl : string;
   private fullApiUrl : string;
 
   constructor(private http: HttpClient) { 
+    this.baseUrl = environment.baseUrl;
   }
  
   public Test(model : string): Observable<AllBookViewModel> {
-    this.fullApiUrl = `${this.baseUrl}${'api/books/GetAllBook?filter='}${model}`;
+    this.fullApiUrl = `${this.baseUrl}api/books/GetAllBook?filter=${model}`;
+    let response = this.http.get<AllBookViewModel>(this.fullApiUrl);
 
-    return this.http.get<AllBookViewModel>(this.fullApiUrl);
+    return response;
   }
 
   public CreateUser (model : CreateUserViewModel) : Observable<BaseResponseViewModel> {
@@ -36,7 +39,14 @@ export class HttpService {
   public LogInUser(model : LoginUserViewModel) : Observable<LoginUserRequestViewModel> {
     this.fullApiUrl = `${this.baseUrl}${'api/Person/Login'}`;
     let response = this.http.post<LoginUserRequestViewModel>(this.fullApiUrl, model);
-    debugger;
-    return  response;
+
+    return response;
+  }
+
+  public RefreshToken(model : RefreshTokenViewModel) : Observable<LoginUserRequestViewModel> {
+    this.fullApiUrl = `${this.baseUrl}${'api/Person/RefreshToken'}`;
+    let response = this.http.post<LoginUserRequestViewModel>(this.fullApiUrl, model);
+    
+    return response;
   }
 }

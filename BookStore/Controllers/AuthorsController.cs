@@ -13,7 +13,7 @@ namespace BookStore.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AddTestCors")]
-    //[Authorize]
+    [Authorize]
     public class AuthorsController : Controller
     {
         private readonly IAuthorService _authorService;

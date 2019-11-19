@@ -2,8 +2,8 @@
 using BookStore.Common.ViewModels.BooksController.Get;
 using BookStore.Common.ViewModels.BooksController.Post;
 using BookStore.Common.ViewModels.BooksController.Put;
-using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +13,7 @@ namespace BookStore.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AddTestCors")]
-    //[Authorize]
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;

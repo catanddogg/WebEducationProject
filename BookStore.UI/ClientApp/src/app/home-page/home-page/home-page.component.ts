@@ -11,9 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class HomePageComponent implements OnInit {
 
-
   public arrayBook : GetBookById [];
-  public testString : string;
   @Input() userName:string;
 
   constructor(private router: Router, private httpService: HttpService)
@@ -35,6 +33,6 @@ export class HomePageComponent implements OnInit {
   }
 
   public nextPage(){
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['/']);
   }
 }

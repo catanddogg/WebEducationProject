@@ -19,6 +19,7 @@ namespace BookStore.Services.Services
     {
         #region Properties & Variables
         private readonly IPersonRepository _personRepository;
+        private readonly IMailService _mailService;
         private readonly IMapper _mapper;
         private readonly IJWTService _jWTService;
         #endregion Properties & Variables
@@ -26,11 +27,13 @@ namespace BookStore.Services.Services
         #region Constructors
         public PersonService(IPersonRepository personRepository,
                              IMapper mapper,
-                             IJWTService jWTService)
+                             IJWTService jWTService,
+                             IMailService mailService)
         {
             _personRepository = personRepository;
             _mapper = mapper;
             _jWTService = jWTService;
+            _mailService = mailService;
         }
         #endregion Constructors
 
@@ -106,6 +109,8 @@ namespace BookStore.Services.Services
 
         public async Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password)
         {
+            await _mailService.SendEmailAsync(string.Empty, string.Empty, string.Empty);
+
             var result = new LoginRequestViewModel();
 
             if(string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
@@ -135,9 +140,25 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public async Task<Person> GetPersonByRefreshToken(string refreshToken)
+        public async Task<LoginRequestViewModel> GetPersonByRefreshToken(string refreshToken)
         {
-            Person result = await _personRepository.GetPersonByRefreshToken(refreshToken);
+            var result = new LoginRequestViewModel();
+
+            Person person = await _personRepository.GetPersonByRefreshToken(refreshToken);
+
+            if(person == null)
+            {
+                result.Success = false;
+                result.Message = "We do not have person with this refresh token.";
+
+                return result;
+            }
+
+            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+
+            result.Success = true;
+            result.AccessToken = jWTAndRefreshToken.AccessToken;
+            result.RefreshToken = jWTAndRefreshToken.RefreshToken;
 
             return result;
         }

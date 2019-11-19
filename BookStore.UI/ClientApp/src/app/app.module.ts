@@ -11,6 +11,9 @@ import { AuthService } from './shared/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuardService as AuthGuard } from './shared/services/auth-guard.service';
 import { JwtModule } from "@auth0/angular-jwt";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from 'src/app/shared/auth/token.interceptor';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
@@ -24,7 +27,8 @@ const routes: Routes = [
     AppComponent,
     HomePageComponent,
     LoginPageComponent,
-    RegistrationPageComponent
+    RegistrationPageComponent,
+    ForgotPasswordComponent
   ],  
   imports: [
     BrowserModule,  
@@ -34,7 +38,13 @@ const routes: Routes = [
     ToastrModule.forRoot(),
     JwtModule.forRoot({ config: {} })  
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
