@@ -14,11 +14,14 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/app/shared/auth/token.interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
-  { path: 'Home', component: HomePageComponent, canActivate: [AuthGuard]},
-  { path: 'SingUp', component: RegistrationPageComponent},
+  { path: 'Home', component: HomePageComponent, canActivate: [AuthGuard] },
+  { path: 'SingUp', component: RegistrationPageComponent },
+  { path: 'ForgotPassword', component: ForgotPasswordComponent },
+  { path: 'ResetPassword/:id', component: RecoverPasswordComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -28,7 +31,8 @@ const routes: Routes = [
     HomePageComponent,
     LoginPageComponent,
     RegistrationPageComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    RecoverPasswordComponent
   ],  
   imports: [
     BrowserModule,  

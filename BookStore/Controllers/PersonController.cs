@@ -43,6 +43,24 @@ namespace BookStore.Controllers
             LoginRequestViewModel result = await _personService.GetPersonByRefreshToken(model.RefreshToken);
 
             return result;
+        } 
+
+        [AllowAnonymous]
+        [HttpPost("SendEmailToRecoverPassword")]
+        public async Task<BaseRequestViewModel> SendEmailToRecoverPassword(SendEmailToRecoverPasswordViewModel model)
+        {
+            BaseRequestViewModel result = await _personService.SendEmailToRecoverPassword(model);
+
+            return result;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ResetPassword")]
+        public async Task<BaseRequestViewModel> ResetPassword(ResetPasswordViewModel model)
+        {
+            BaseRequestViewModel result = await _personService.ResetPassword(model);
+
+            return result;
         }
 
         [HttpGet("GetAllPeople")]
@@ -59,9 +77,7 @@ namespace BookStore.Controllers
             PersonByIdViewModel result  = _personService.GetPersonById(id);
 
             return result;
-        }
-    
-       
+        }      
 
         [HttpPost("CreateUser")]
         [AllowAnonymous]

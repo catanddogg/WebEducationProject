@@ -37,22 +37,61 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return person;
         }
 
-        public async Task<bool> CheckReduplicationUserName(string UserName)
+        public async Task<bool> CheckReduplicationUserName(string userName)
         {
             bool isRegistered = await _dbSet
-                .Where(item => item.FirstName == UserName)
+                .Where(item => item.FirstName == userName)
                 .AnyAsync();
 
             return isRegistered;
         }
 
-        public async Task<bool> CheckReduplicationEmail(string Email)
+        public async Task<bool> CheckReduplicationEmail(string email)
         {
             bool isEmailRegistered = await _dbSet
-                .Where(item => item.Login == Email)
+                .Where(item => item.Login == email)
                 .AnyAsync();
 
             return isEmailRegistered;
+        }
+
+        public async Task<Person> GetPersonByEmail(string email)
+        {
+            Person result = await _dbSet
+                .Where(item => item.Login == email)
+                .SingleOrDefaultAsync();
+
+            if(result == null)
+            {
+                return result;
+            }
+
+            Guid resetPasswordToken = Guid.NewGuid();
+
+            result.ResetPasswordToken = resetPasswordToken;
+
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
+
+        public async Task<bool> ResetPassword(string password, string resetPasswordGuid)
+        {
+            Person person = await _dbSet
+                .Where(item => item.ResetPasswordToken == Guid.Parse(resetPasswordGuid))
+                .SingleOrDefaultAsync();
+
+            if(person == null)
+            {
+                return false;
+            }
+
+            person.Password = password;
+            person.ResetPasswordToken = default(Guid);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

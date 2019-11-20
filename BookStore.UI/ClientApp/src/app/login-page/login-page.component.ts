@@ -27,6 +27,7 @@ export class LoginPageComponent implements OnInit {
   public LogIn(userName : string, password : string){
     this._loginUserViewModel.password = password;
     this._loginUserViewModel.userName = userName;
+    debugger;
 
     this.httpService.LogInUser(this._loginUserViewModel)
     .subscribe(response => {
@@ -44,7 +45,11 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  public navigationToSingUpPage(){
+  public NavigationToSingUpPage(){
        this.router.navigate(['/SingUp']);
+  }
+
+  public NavigationToForgotPassword(){
+    this.router.navigate(['/ForgotPassword']);
   }
 }

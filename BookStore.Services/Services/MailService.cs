@@ -24,8 +24,8 @@ namespace BookStore.Services.Services
                 var mail = new MailMessage()
                 {
                     From = new MailAddress("virichhb8@gmail.com"),
-                    Subject = "Email Sender App",
-                    Body = "Test_Subject"
+                    Subject = subject,
+                    Body = message
                 };
                 mail.IsBodyHtml = true;
                 mail.To.Add(new MailAddress("virichhb7@gmail.com"));

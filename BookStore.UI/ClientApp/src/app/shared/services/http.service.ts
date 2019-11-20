@@ -8,6 +8,8 @@ import { BaseResponseViewModel } from 'src/app/shared/model/base-response.view';
 import { LoginUserViewModel } from 'src/app/shared/model/login-user';
 import { LoginUserRequestViewModel } from 'src/app/shared/model/login-user-request.view';
 import { RefreshTokenViewModel } from '../model/refresh-token.view';
+import { SendEmailToResetPasswordViewModel } from '../model/send-email-reset-password.view';
+import { ResetPasswordViewModel } from '../model/reset-password';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class HttpService {
     this.baseUrl = environment.baseUrl;
   }
  
-  public Test(model : string): Observable<AllBookViewModel> {
+  public GetSearchForBookLibary(model : string): Observable<AllBookViewModel> {
     this.fullApiUrl = `${this.baseUrl}api/books/GetAllBook?filter=${model}`;
     let response = this.http.get<AllBookViewModel>(this.fullApiUrl);
 
@@ -47,6 +49,20 @@ export class HttpService {
     this.fullApiUrl = `${this.baseUrl}${'api/Person/RefreshToken'}`;
     let response = this.http.post<LoginUserRequestViewModel>(this.fullApiUrl, model);
     
+    return response;
+  }
+
+  public SendEmailToRecoverPassword(model : SendEmailToResetPasswordViewModel): Observable<BaseResponseViewModel> {
+    this.fullApiUrl = `${this.baseUrl}${'api/Person/SendEmailToRecoverPassword'}`;
+    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+
+    return response;
+  }
+
+  public ResetPassword(model : ResetPasswordViewModel): Observable<BaseResponseViewModel>{
+    this.fullApiUrl = `${this.baseUrl}${'api/Person/ResetPassword'}`;
+    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+
     return response;
   }
 }

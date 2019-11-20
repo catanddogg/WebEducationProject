@@ -109,8 +109,6 @@ namespace BookStore.Services.Services
 
         public async Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password)
         {
-            await _mailService.SendEmailAsync(string.Empty, string.Empty, string.Empty);
-
             var result = new LoginRequestViewModel();
 
             if(string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
@@ -168,6 +166,65 @@ namespace BookStore.Services.Services
             Person person = _mapper.Map<Person>(updatePersonViewModel);
 
             _personRepository.Update(person);
+        }
+
+        public async Task<BaseRequestViewModel> SendEmailToRecoverPassword(SendEmailToRecoverPasswordViewModel model)
+        {
+            var result = new BaseRequestViewModel();
+
+            Person person = await _personRepository.GetPersonByEmail(model.PersonEmail);
+
+            if(person == null)
+            {
+                result.Message = "There is not have person with this email";
+                result.Success = false;
+
+                return result;
+            }
+
+            string message = $"Follow this link to recover your password http://localhost:4200/ResetPassword/:id{person.ResetPasswordToken}";
+
+            await _mailService.SendEmailAsync(model.PersonEmail, "Recovery password", message);
+
+            result.Success = true;
+
+            return result;
+        }
+
+        public async Task<BaseRequestViewModel> ResetPassword(ResetPasswordViewModel model)
+        {
+            var result = new BaseRequestViewModel();
+
+            if(model.Password != model.ConfirmPassword)
+            {
+                result.Message = "Not the same password and confirm password";
+                result.Success = false;
+
+                return result;
+            }
+
+            if(Guid.Parse(model.ResetPasswordToken) == default(Guid))
+            {
+                result.Message = "Something went wrong, try again please.";
+                result.Success = false;
+
+                return result;
+            }
+
+            bool success = await _personRepository.ResetPassword(model.Password, model.ResetPasswordToken);
+
+            if(!success)
+            {
+                result.Message = "It is not longer possible to reset the password from this link";
+                result.Success = false;
+
+                return result;
+            }
+
+            result.Message = "Password changed successfully";
+            result.Success = true;
+
+            return result;
         }
         #endregion Public Methods
     }

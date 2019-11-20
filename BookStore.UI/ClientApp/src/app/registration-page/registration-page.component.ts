@@ -18,14 +18,8 @@ export class RegistrationPageComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
+  }  
   
-  public navigationToSingInPage()
-  {
-    debugger;
-    this.router.navigate(['/']);
-  }
-
   public SingUpUser(userName : string, password : string, confirmPassword : string, email : string) {
        this._createUser.userName = userName;
        this._createUser.password = password;
@@ -44,4 +38,15 @@ export class RegistrationPageComponent implements OnInit {
          }
         });
   }
+  
+  public NavigationToSingInPage()
+  {
+    this.router.navigate(['/']);
+  }
+
+  public NavigationToForgotPassword()
+  {
+    this.router.navigate(['/ForgotPassword']);
+  }
+
 }

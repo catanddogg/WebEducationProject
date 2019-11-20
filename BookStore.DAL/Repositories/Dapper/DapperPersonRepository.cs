@@ -33,6 +33,11 @@ namespace BookStore.DAL.Repositories.Dapper
             throw new NotImplementedException();
         }
 
+        public Task<Person> GetPersonByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
         {
             Person person = await SqlMapperExtensions
@@ -53,6 +58,11 @@ namespace BookStore.DAL.Repositories.Dapper
                 .FirstOrDefaultAsync();
 
             return person;
+        }
+
+        public Task<bool> ResetPassword(string password, string resetPasswordGuid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

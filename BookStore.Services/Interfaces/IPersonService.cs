@@ -2,13 +2,6 @@
 using BookStore.Common.ViewModels.PersonController.Get;
 using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
-using BookStore.DAL.Models;
-using BookStore.DAL.Repositories.EntityFramework;
-using BookStore.Services.Services;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
@@ -23,5 +16,7 @@ namespace BookStore.Services.Interfaces
 
         Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password);
         Task<LoginRequestViewModel> GetPersonByRefreshToken(string refreshToken);
+        Task<BaseRequestViewModel> SendEmailToRecoverPassword(SendEmailToRecoverPasswordViewModel model);
+        Task<BaseRequestViewModel> ResetPassword(ResetPasswordViewModel model);
     }
 }

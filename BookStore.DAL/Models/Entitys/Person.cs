@@ -14,7 +14,8 @@ namespace BookStore.DAL.Models
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public int Age { get; set; }
-        
+
+        public Guid ResetPasswordToken { get;set; }
         public string RefreshToken { get; set; }
     }
 }

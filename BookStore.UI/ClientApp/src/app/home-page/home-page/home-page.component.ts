@@ -25,7 +25,7 @@ export class HomePageComponent implements OnInit {
 
   public test(model: string) {
     this.userName = model;
-    this.httpService.Test(this.userName)
+    this.httpService.GetSearchForBookLibary(this.userName)
       .subscribe(
         response => {
           this.arrayBook = response.books;
