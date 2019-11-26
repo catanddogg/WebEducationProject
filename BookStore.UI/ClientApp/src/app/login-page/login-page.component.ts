@@ -13,23 +13,19 @@ import { NotificationService } from 'src/app/shared/services/toastr.service';
 
 export class LoginPageComponent implements OnInit {
 
-  private _loginUserViewModel : LoginUserViewModel;
+  private loginUserViewModel : LoginUserViewModel;
 
   constructor(private router : Router, 
               private httpService: HttpService,
               private notificationService : NotificationService) {
-    this._loginUserViewModel = new LoginUserViewModel();
+    this.loginUserViewModel = new LoginUserViewModel();
   }
 
   ngOnInit() {
   }
 
-  public LogIn(userName : string, password : string){
-    this._loginUserViewModel.password = password;
-    this._loginUserViewModel.userName = userName;
-    debugger;
-
-    this.httpService.LogInUser(this._loginUserViewModel)
+  public LogIn(){
+    this.httpService.LogInUser(this.loginUserViewModel)
     .subscribe(response => {
       if(response.success)
       {

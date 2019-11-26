@@ -15,29 +15,29 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input #usernameInput type="text" class="form-control" placeholder="username">
+							<input [(ngModel)]="createUser.userName" type="text" class="form-control" placeholder="username">
 
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input #passwordInput type="password" class="form-control" placeholder="password">
+							<input [(ngModel)]="createUser.password" type="password" class="form-control" placeholder="password">
                         </div>
                         <div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input #confirmPasswordInput type="password" class="form-control" placeholder="confirm password">
+							<input [(ngModel)]="createUser.confirmPassword" type="password" class="form-control" placeholder="confirm password">
                         </div> 
                         <div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
-							<input #emailInput type="text" class="form-control" placeholder="email">
+							<input [(ngModel)]="createUser.email" type="text" class="form-control" placeholder="email">
                         </div> 
 						<div class="form-group">
-                            <input type="button" (click)="SingUpUser(usernameInput.value, passwordInput.value, confirmPasswordInput.value, emailInput.value)"
+                            <input type="button" (click)="SingUpUser()"
                              value="SingUp" class="btn float-right login_btn">
 						</div>
 				</div>

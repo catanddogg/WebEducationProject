@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/app/shared/services/http.service';
-import { GetBookById} from 'src/app/shared/model/get-book.view';
-import { Observable } from 'rxjs';
+import { GetBookById } from 'src/app/shared/model/get-book.view';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import * as signalR from '@aspnet/signalr';
 
 @Component({
   selector: 'app-home-page',
@@ -11,20 +12,35 @@ import { Observable } from 'rxjs';
 })
 export class HomePageComponent implements OnInit {
 
-  public arrayBook : GetBookById [];
-  @Input() userName:string;
+  private arrayBook: GetBookById[];
+  private userName: string;
+  private connection: HubConnection;
+  private thenable: Promise<void>
 
-  constructor(private router: Router, private httpService: HttpService)
-  {
-     this.arrayBook = [];
+
+  private connectionIsEstablished  = false;
+
+  constructor(private router: Router, private httpService: HttpService) {
+    this.userName = '';
+    this.arrayBook = [];
   }
 
   ngOnInit() {
-    this.test('');
-  } 
+    this.connection = new HubConnectionBuilder().withUrl("https://localhost:44357/chat", {
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
+    }).build();
 
-  public test(model: string) {
-    this.userName = model;
+    this.start();
+       
+    this.BooksSearch();
+  }
+
+  private start() {
+    this.thenable = this.connection.start();
+  }
+
+  BooksSearch() {
     this.httpService.GetSearchForBookLibary(this.userName)
       .subscribe(
         response => {
@@ -32,7 +48,14 @@ export class HomePageComponent implements OnInit {
         });
   }
 
-  public nextPage(){
-    this.router.navigate(['/']);
+  NavigateToBookItem(id: number) {
+    this.router.navigate(['/Book', id]);
+  }
+
+  AddNewBook() {
+    this.router.navigate(['/Book', 0]);
+  }
+  TestSignalR() {
+      this.connection.invoke('Send', "test");
   }
 }

@@ -9,5 +9,6 @@ namespace BookStore.DAL.Interfaces
     public interface IBookRepository : IBaseRepository<Book>
     {
         Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter);
+        Task<Book> GetBookById(int bookId);
     }
 }

@@ -2,13 +2,8 @@
 using BookStore.DAL.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
-using Dapper.Contrib.Extensions;
 using System.Linq;
-using BookStore.DAL.Enums;
 using Dapper;
 using System.Threading.Tasks;
 
@@ -40,6 +35,11 @@ namespace BookStore.DAL.Repositories.Dapper
             }
 
             return categoriesBooksAuthors;
+        }
+
+        public Task<Book> GetBookById(int bookId)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)

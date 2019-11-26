@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookStore.API.Hubs;
 using BookStore.DAL.Models;
 using BookStore.Services.Mapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using System;
 
 namespace BookStore
 {
@@ -26,116 +30,119 @@ namespace BookStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-          
+
             string connection = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<BooksContext>(options =>
                  options.UseSqlServer(connection));
-
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<BooksContext>()
-                 .AddDefaultTokenProviders();
-
-            //services.AddCors(options =>
-            //{
-            //    options.AddDefaultPolicy(
-            //     builder =>
-            //     {
-            //         builder.WithOrigins("http://localhost:4200")
-            //         .AllowAnyHeader()
-            //         .AllowAnyMethod()
-            //         .AllowCredentials()
-            //         .AllowAnyOrigin();
-            //    });            
-            //});
 
             services.AddCors(options =>
             {
                 options.AddPolicy(AddTestCors,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200")
+                    builder
                      .AllowAnyHeader()
                      .AllowAnyMethod()
-                     .AllowCredentials()
                      .AllowAnyOrigin();
                 });
             });
 
-            SetupJWT(services); 
+            SetupJWT(services);
 
 
             Services.Setup.Init(services);
             DAL.Setup.Init(services, connection);
-                        
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddRazorPages();
+
+            services.AddSignalR().AddJsonProtocol(options =>
+            {
+                options.PayloadSerializerOptions.WriteIndented = false;
+            });
 
             //Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "BookStore", Version = "v1" });
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info { Title = "BookStore", Version = "v1" });
+            //});
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                    c.RoutePrefix = "Home/Swagger";
-                });
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c =>
+                //{
+                //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                //    c.RoutePrefix = string.Empty;
+                //});
             }
             else
             {
                 app.UseHsts();
             }
 
-            app.UseCors(AddTestCors);
 
-            //app.UseExceptionHandler("/Home/Login");
-            app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            app.UseCors(AddTestCors);
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                   name: "default",
-                   template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<SignalRHub>("/chat");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,  
+                // see https://go.microsoft.com/fwlink/?linkid=864501  
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");  
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
 
         #region Methods
-        private void SetupJWT(IServiceCollection services)
-        {
-            services.AddAuthentication(options =>
+            private void SetupJWT(IServiceCollection services)
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
+                services.AddAuthentication(options =>
                 {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                    .AddJwtBearer(options =>
                     {
-                        ValidateIssuer = true,
-                        ValidIssuer = JWTOptions.ISSUER,
-                        ValidateAudience = true,
-                        ValidAudience = JWTOptions.AUDIENCE,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = JWTOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true
-                    };
-                });
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = JWTOptions.ISSUER,
+                            ValidateAudience = true,
+                            ValidAudience = JWTOptions.AUDIENCE,
+                            ValidateLifetime = true,
+                            IssuerSigningKey = JWTOptions.GetSymmetricSecurityKey(),
+                            ValidateIssuerSigningKey = true
+                        };
+                    });
 
-            services.AddAuthorization();
+                services.AddAuthorization();
+            }
+            #endregion Methods
         }
-        #endregion Methods
     }
-}

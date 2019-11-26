@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+.home-wrapper  {
+background-image: url('http://getwallpapers.com/wallpaper/full/f/6/f/343398.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+height: 100vh;
+font-family: 'Numans', sans-serif;
+}
+
+.table {
+    tr {
+        &:nth-child(even) {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        &:nth-child(odd) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        td {
+            cursor: pointer;
+        }
+    }
+}
+
+.table th,
+.table td{
+    color: #FFC312;
+    border: none;
+}
+
+.add_book_btn{
+    color: black;
+    background-color: #FFC312;
+}

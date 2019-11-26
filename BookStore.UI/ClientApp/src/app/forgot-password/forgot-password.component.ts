@@ -9,23 +9,22 @@ import { SendEmailToResetPasswordViewModel } from '../shared/model/send-email-re
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
+
 export class ForgotPasswordComponent implements OnInit {
+
+  private sendMailModel : SendEmailToResetPasswordViewModel;
 
   constructor(private router: Router, 
     private http: HttpService,
     private toastr: NotificationService) {
-
+      this.sendMailModel = new SendEmailToResetPasswordViewModel();
    }
 
   ngOnInit() {
   } 
   
-  public SendMailToRecoverPassword(email : string){
-
-    var model =  new SendEmailToResetPasswordViewModel();
-    model.PersonEmail = email;
-
-    this.http.SendEmailToRecoverPassword(model)
+  public SendMailToRecoverPassword(){
+    this.http.SendEmailToRecoverPassword(this.sendMailModel)
     .subscribe(data => {
       if(data.success)
       {

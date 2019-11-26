@@ -11,22 +11,19 @@ import { Router } from '@angular/router';
 })
 export class RegistrationPageComponent implements OnInit {
 
-  private _createUser : CreateUserViewModel;
+  private createUser : CreateUserViewModel;
 
-  constructor(private router: Router, private httpService: HttpService, private notificationService : NotificationService ) { 
-    this._createUser = new CreateUserViewModel();
+  constructor(private router: Router, 
+    private httpService: HttpService,
+    private notificationService : NotificationService) { 
+    this.createUser = new CreateUserViewModel();
   }
 
   ngOnInit() {
   }  
   
-  public SingUpUser(userName : string, password : string, confirmPassword : string, email : string) {
-       this._createUser.userName = userName;
-       this._createUser.password = password;
-       this._createUser.confirmPassword = confirmPassword;
-       this._createUser.email = email;
-
-       this.httpService.CreateUser(this._createUser)
+  public SingUpUser() {    
+       this.httpService.CreateUser(this.createUser)
        .subscribe(response => {
          if(response.success == true)
          {
@@ -48,5 +45,4 @@ export class RegistrationPageComponent implements OnInit {
   {
     this.router.navigate(['/ForgotPassword']);
   }
-
 }

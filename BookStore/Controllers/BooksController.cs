@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BookStore.Common.ViewModels.BaseViewModel;
 using BookStore.Common.ViewModels.BooksController.Get;
 using BookStore.Common.ViewModels.BooksController.Post;
 using BookStore.Common.ViewModels.BooksController.Put;
@@ -31,36 +32,28 @@ namespace BookStore.Controllers
             return bookItems;
         }
 
-        [HttpGet("GetBookById/{id}")]
-        public BookByIdViewModel GetBookById(int id)
+        [HttpGet("GetBookById")]
+        public async Task<BookViewModel> GetBookById(int bookId)
         {
-            BookByIdViewModel result = _bookService.GetBookById(id);
+            BookViewModel result = await _bookService.GetBookById(bookId);
 
             return result;
         }
 
         [HttpPost("CreateBook")]
-        public void CreateBook(CreateBookViewModel book)
+        public BaseRequestViewModel CreateBook([FromBody]BookViewModel book)
         {
-            _bookService.CreateBook(book);
+            BaseRequestViewModel result =  _bookService.CreateBook(book);
+
+            return result;
         }
-
-        [HttpGet("CreateUser")]
-        public void CreateUser(string userName, string password, string confirmPassword, string email)
+    
+        [HttpPost("UpdateBook")]
+        public BaseRequestViewModel UpdateBook([FromBody]BookViewModel book)
         {
+            BaseRequestViewModel result = _bookService.UpdateBook(book);
 
-        }
-
-        //[HttpPost("CreateUser1")]
-        //public void CreateUser1([FromBody]CreateUserViewModel model)
-        //{
-
-        //}
-
-        [HttpPut("UpdateBook")]
-        public void UpdateBook([FromBody]UpdateBookViewModel book)
-        {
-            _bookService.UpdateBook(book);
+            return result;
         }
 
         [HttpDelete("DeleteBook/{id}")]

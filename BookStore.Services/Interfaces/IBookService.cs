@@ -1,4 +1,5 @@
-﻿using BookStore.Common.ViewModels.BooksController.Get;
+﻿using BookStore.Common.ViewModels.BaseViewModel;
+using BookStore.Common.ViewModels.BooksController.Get;
 using BookStore.Common.ViewModels.BooksController.Post;
 using BookStore.Common.ViewModels.BooksController.Put;
 using BookStore.DAL.Models;
@@ -12,9 +13,9 @@ namespace BookStore.Services.Interfaces
     public interface IBookService
     {
         Task<AllBookViewModel> GetAllBook(string filter);
-        BookByIdViewModel GetBookById(int id);
-        void CreateBook(CreateBookViewModel createBookViewModel);
+        Task<BookViewModel> GetBookById(int id);
+        BaseRequestViewModel CreateBook(BookViewModel model);
         void DeleteBook(int id);
-        void UpdateBook(UpdateBookViewModel updateBookViewModel);
+        BaseRequestViewModel UpdateBook(BookViewModel model);
     }
 }

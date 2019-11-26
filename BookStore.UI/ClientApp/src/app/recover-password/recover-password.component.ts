@@ -11,22 +11,22 @@ import { NotificationService } from '../shared/services/toastr.service';
 })
 export class RecoverPasswordComponent implements OnInit {
 
+  private resetPasswordViewModel : ResetPasswordViewModel;
+
   constructor(private activateRoute: ActivatedRoute,
      private http: HttpService,
      private toastr: NotificationService,
      private router: Router) {   
+       this.resetPasswordViewModel =  new ResetPasswordViewModel();
   }
 
   ngOnInit() {
   }
 
-  public RecoverPassword(password: string, confirmPassword: string){
-    var model = new ResetPasswordViewModel();
-    model.Password = password;
-    model.ConfirmPassword = confirmPassword;
-    model.ResetPasswordToken = this.activateRoute.snapshot.params['id'].substring(3);
+  public RecoverPassword(){
+    this.resetPasswordViewModel.ResetPasswordToken = this.activateRoute.snapshot.params['id'].substring(3);
     
-    this.http.ResetPassword(model)
+    this.http.ResetPassword(this.resetPasswordViewModel)
     .subscribe(data => {
       if(data.success){
         this.toastr.NotificationSuccess(data.message);

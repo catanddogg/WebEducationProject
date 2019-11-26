@@ -6,7 +6,6 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using BookStore.DAL.Enums;
-using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -37,6 +36,17 @@ namespace BookStore.DAL.Repositories.EntityFramework
             }
 
             List<Book> result = await resultQueryable.ToListAsync();
+
+            return result;
+        }
+
+        public async Task<Book> GetBookById(int bookId)
+        {
+            Book result = await _dbSet
+                .Include(item => item.Author)
+                .Include(item => item.Category)
+                .Where(item => item.Id == bookId)
+                .FirstOrDefaultAsync();
 
             return result;
         }

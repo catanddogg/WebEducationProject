@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
+using BookStore.Common.ViewModels.BaseViewModel;
 using BookStore.Common.ViewModels.BooksController.Get;
-using BookStore.Common.ViewModels.BooksController.Post;
-using BookStore.Common.ViewModels.BooksController.Put;
-using BookStore.DAL.Enums;
 using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
@@ -30,18 +26,25 @@ namespace BookStore.Services.Services
         #endregion Constructors
 
         #region Public Methods
-        public void CreateBook(CreateBookViewModel createBookViewModel)
+        public BaseRequestViewModel CreateBook(BookViewModel model)
         {
-            Book book = _mapper.Map<CreateBookViewModel, Book>(createBookViewModel);
+            var result = new BaseRequestViewModel();
+
+            Book book = _mapper.Map<BookViewModel, Book>(model);
 
             _bookRepository.Create(book);
+
+            result.Message = "Book updated successfully";
+            result.Success = true;
+
+            return result;
         }
 
-        public BookByIdViewModel GetBookById(int id)
+        public async Task<BookViewModel> GetBookById(int id)
         {
-            Book book = _bookRepository.GetById(id);
+            Book book = await _bookRepository.GetBookById(id);
 
-            BookByIdViewModel bookByIdViewModel = _mapper.Map<Book, BookByIdViewModel>(book);
+            BookViewModel bookByIdViewModel = _mapper.Map<Book, BookViewModel>(book);
 
             return bookByIdViewModel;
         }
@@ -64,11 +67,18 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public void UpdateBook(UpdateBookViewModel updateBookViewModel)
+        public BaseRequestViewModel UpdateBook(BookViewModel model)
         {
-            Book book = _mapper.Map<UpdateBookViewModel, Book>(updateBookViewModel);
+            var result = new BaseRequestViewModel();
+
+            Book book = _mapper.Map<BookViewModel, Book>(model);
 
             _bookRepository.Update(book);
+
+            result.Message = "Book updated successfully";
+            result.Success = true;
+
+            return result;
         }
         #endregion Public Methods
     }

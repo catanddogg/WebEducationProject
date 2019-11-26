@@ -7,7 +7,6 @@ import { HomePageComponent } from './home-page/home-page/home-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthService } from './shared/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthGuardService as AuthGuard } from './shared/services/auth-guard.service';
 import { JwtModule } from "@auth0/angular-jwt";
@@ -15,6 +14,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/app/shared/auth/token.interceptor';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+import { BookItemComponent } from './book-item/book-item.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'SingUp', component: RegistrationPageComponent },
   { path: 'ForgotPassword', component: ForgotPasswordComponent },
   { path: 'ResetPassword/:id', component: RecoverPasswordComponent },
+  { path: 'Book/:id', component: BookItemComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: '' }
 ];
 
@@ -32,11 +34,13 @@ const routes: Routes = [
     LoginPageComponent,
     RegistrationPageComponent,
     ForgotPasswordComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    BookItemComponent
   ],  
   imports: [
     BrowserModule,  
     RouterModule.forRoot(routes),
+    FormsModule, 
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),

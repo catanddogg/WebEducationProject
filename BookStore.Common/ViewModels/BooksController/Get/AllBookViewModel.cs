@@ -18,6 +18,7 @@ namespace BookStore.Common.ViewModels.BooksController.Get
 
     public class AllBookViewModelItem
     {
+        public int BookId { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
 

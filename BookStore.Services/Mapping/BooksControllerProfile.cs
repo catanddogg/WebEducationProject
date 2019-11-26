@@ -15,12 +15,20 @@ namespace BookStore.Services.Mapping
         {
             CreateMap<Book, BookByIdViewModel>();
 
-            CreateMap<Book, AllBookViewModelItem>()
-                .ForMember(destination => destination.AuthorId, source => source.MapFrom(src => src.AuthorId))
+            CreateMap<Book, BookViewModel>()
+                .ForMember(destination => destination.BookId, source => source.MapFrom(src => src.Id))
                 .ForMember(destination => destination.Author, source => source.MapFrom(src => src.Author))
                 .ForMember(destination => destination.Category, source => source.MapFrom(src => src.Category))
                 .ForMember(destination => destination.Name, source => source.MapFrom(src => src.Name))
                 .ForMember(destination => destination.Path, source => source.MapFrom(src => src.Path));
+
+            CreateMap<Book, AllBookViewModelItem>()
+               .ForMember(destination => destination.BookId, source => source.MapFrom(src => src.Id))
+               .ForMember(destination => destination.AuthorId, source => source.MapFrom(src => src.AuthorId))
+               .ForMember(destination => destination.Author, source => source.MapFrom(src => src.Author))
+               .ForMember(destination => destination.Category, source => source.MapFrom(src => src.Category))
+               .ForMember(destination => destination.Name, source => source.MapFrom(src => src.Name))
+               .ForMember(destination => destination.Path, source => source.MapFrom(src => src.Path));
 
             CreateMap<Category, AllBookCategoryViewModelItem>()
                 .ForMember(destination => destination.FirstCategoryType, source => source.MapFrom(src => src.FirstCategoryType))
@@ -33,8 +41,11 @@ namespace BookStore.Services.Mapping
                 .ForMember(destination => destination.Publisher, source => source.MapFrom(src => src.Publisher))
                 .ForAllOtherMembers(destination => destination.Ignore());
 
-            CreateMap<CreateBookViewModel, Book>();
-            CreateMap<UpdateBookViewModel, Book>();
+            CreateMap<BookViewModel, Book>()
+                .ForMember(destination => destination.Id, source => source.MapFrom(src => src.BookId));
+
+            CreateMap<BookViewModel, Book>()
+                .ForMember(destination => destination.Id, source => source.MapFrom(src => src.BookId));
         }
     }
 }
