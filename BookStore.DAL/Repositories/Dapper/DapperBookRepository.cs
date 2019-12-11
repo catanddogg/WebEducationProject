@@ -19,12 +19,10 @@ namespace BookStore.DAL.Repositories.Dapper
         public CategoriesBooksAuthorsDTO GetAllTables()
         {
             var categoriesBooksAuthors = new CategoriesBooksAuthorsDTO();
-            var sql =
-                    @"
-                    select * from Books 
-                    select * from Avtors 
-                    select * from Comments 
-                    select * from categories";
+            var sql =@"SELECT * FROM Books 
+                       SELECT * FROM Avtors 
+                       SELECT * FROM Comments 
+                       SELECT * FROM categories";
 
             using (SqlMapper.GridReader multi = _connectionString.QueryMultiple(sql))
             {
@@ -37,14 +35,36 @@ namespace BookStore.DAL.Repositories.Dapper
             return categoriesBooksAuthors;
         }
 
-        public Task<Book> GetBookById(int bookId)
+        public async Task<Book> GetBookById(int bookId)
         {
-            throw new NotImplementedException();
+            IEnumerable<Book> query = await _connectionString
+                .QueryAsync<Book>(@"SELECT * FROM Books AS b
+                                  LEFT JOIN Avtors AS a
+                                  ON b.AuthorId = a.Id
+                                  LEFT JOIN Categories AS c
+                                  ON b.CategoryId = c.Id 
+                                  WHERE b.Id = {bookId}");
+
+            Book result = query.FirstOrDefault();
+
+            return result;
         }
 
-        public Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)
+        public async Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)
         {
-            throw new NotImplementedException();
+            var query = await _connectionString
+                .QueryAsync<Book>(@"SELECT * FROM Books AS b
+                                  LEFT JOIN Avtors a 
+                                  ON b.AuthorId = a.Id 
+                                  LEFT JOIN Categories AS c 
+                                  ON b.CategoryId = c.Id 
+                                  WHERE b.Name LIKE '%{filter}%' 
+                                  OR a.NameAuthor LIKE '%{filter}%' 
+                                  OR a.Publisher LIKE '%{filter}%'");
+
+            List<Book> result = query.ToList();
+
+            return result;
         }
     }
 }

@@ -23,7 +23,7 @@ export class RecoverPasswordComponent implements OnInit {
   ngOnInit() {
   }
 
-  public RecoverPassword(){
+  public recoverPassword(){
     this.resetPasswordViewModel.ResetPasswordToken = this.activateRoute.snapshot.params['id'].substring(3);
     
     this.http.ResetPassword(this.resetPasswordViewModel)

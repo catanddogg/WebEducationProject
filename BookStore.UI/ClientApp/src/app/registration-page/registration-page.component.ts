@@ -22,7 +22,7 @@ export class RegistrationPageComponent implements OnInit {
   ngOnInit() {
   }  
   
-  public SingUpUser() {    
+  public singUpUser() {    
        this.httpService.CreateUser(this.createUser)
        .subscribe(response => {
          if(response.success == true)
@@ -36,12 +36,12 @@ export class RegistrationPageComponent implements OnInit {
         });
   }
   
-  public NavigationToSingInPage()
+  public navigationToSingInPage()
   {
     this.router.navigate(['/']);
   }
 
-  public NavigationToForgotPassword()
+  public navigationToForgotPassword()
   {
     this.router.navigate(['/ForgotPassword']);
   }

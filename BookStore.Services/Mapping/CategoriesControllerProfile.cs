@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿            using AutoMapper;
 using BookStore.Common.ViewModels.CategoriesController.Get;
 using BookStore.Common.ViewModels.CategoriesController.Post;
 using BookStore.Common.ViewModels.CategoriesController.Put;

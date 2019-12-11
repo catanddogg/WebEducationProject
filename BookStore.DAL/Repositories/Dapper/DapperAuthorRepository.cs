@@ -1,5 +1,6 @@
 ﻿using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,23 +21,23 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task<List<Author>> GetAuthorBooks(string author)
         {
-            List<Author> result = await SqlMapperExtensions
-                .GetAll<Author>(_connectionString)
-                .AsQueryable()
-                .ToListAsync();
+            IEnumerable<Author> query = await _connectionString.QueryAsync<Author>("SELECT * FROM Book.dbo.Avtors");
+                //.GetAll<Author>
+                //.AsQueryable()
+                //.ToListAsync();
 
-            return result;
+            return query.ToList();
         }
 
         public async Task<List<Author>> GetPublisherBooks(string publisher)
         {
-            List<Author> result = await SqlMapperExtensions
-                .GetAll<Author>(_connectionString)
-                .Where(x => x.Publisher == publisher)
-                .AsQueryable()
-                .ToListAsync();
+            IEnumerable<Author> query = await _connectionString.QueryAsync<Author>("SELECT * FROM Book.dbo.Avtors");
+                //.GetAll<Author>(_connectionString)
+                //.Where(x => x.Publisher == publisher)
+                //.AsQueryable()
+                //.ToListAsync();
 
-            return result;
+            return query.ToList();
         }
     }
 }

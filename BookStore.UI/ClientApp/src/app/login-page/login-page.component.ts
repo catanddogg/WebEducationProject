@@ -24,13 +24,14 @@ export class LoginPageComponent implements OnInit {
   ngOnInit() {
   }
 
-  public LogIn(){
+  public logIn(){
     this.httpService.LogInUser(this.loginUserViewModel)
     .subscribe(response => {
       if(response.success)
       {
         localStorage.setItem("AccessToken", response.accessToken);
         localStorage.setItem("RefreshToken", response.refreshToken);
+        localStorage.setItem("UserName", response.userName);
 
         this.router.navigate(['/Home']);
       }
@@ -41,11 +42,11 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  public NavigationToSingUpPage(){
+  public navigationToSingUpPage(){
        this.router.navigate(['/SingUp']);
   }
 
-  public NavigationToForgotPassword(){
+  public navigationToForgotPassword(){
     this.router.navigate(['/ForgotPassword']);
   }
 }

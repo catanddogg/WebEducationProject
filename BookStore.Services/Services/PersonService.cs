@@ -118,6 +118,7 @@ namespace BookStore.Services.Services
 
                 return result;
             }
+
             Person person = await _personRepository.GetPersonByLoginAndPassword(login, password);
 
             if(person ==  null)
@@ -132,6 +133,7 @@ namespace BookStore.Services.Services
 
             result.AccessToken = jWTAndRefreshToken.AccessToken;
             result.RefreshToken = jWTAndRefreshToken.RefreshToken;
+            result.UserName = person.FirstName;
             result.Success = true;
             result.Message = string.Empty;
 

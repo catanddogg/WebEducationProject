@@ -12,37 +12,35 @@ import { SendEmailToResetPasswordViewModel } from '../shared/model/send-email-re
 
 export class ForgotPasswordComponent implements OnInit {
 
-  private sendMailModel : SendEmailToResetPasswordViewModel;
+  private sendMailModel: SendEmailToResetPasswordViewModel;
 
-  constructor(private router: Router, 
+  constructor(private router: Router,
     private http: HttpService,
     private toastr: NotificationService) {
-      this.sendMailModel = new SendEmailToResetPasswordViewModel();
-   }
-
-  ngOnInit() {
-  } 
-  
-  public SendMailToRecoverPassword(){
-    this.http.SendEmailToRecoverPassword(this.sendMailModel)
-    .subscribe(data => {
-      if(data.success)
-      {
-        this.toastr.NotificationSuccess(data.message);
-        this.router.navigate(['']);
-      }
-      if(!data.success)
-      {
-        this.toastr.NotificationError(data.message);
-      }
-    });
+    this.sendMailModel = new SendEmailToResetPasswordViewModel();
   }
 
-  public NavigationToSingUp(){
-    this.router.navigate(['/SingUp']);
- }
+  ngOnInit() {
+  }
 
- public NavigationToSignIn(){
-  this.router.navigate(['/']);
- }
+  public sendMailToRecoverPassword() {
+    this.http.SendEmailToRecoverPassword(this.sendMailModel)
+      .subscribe(data => {
+        if (data.success) {
+          this.toastr.NotificationSuccess(data.message);
+          this.router.navigate(['']);
+        }
+        if (!data.success) {
+          this.toastr.NotificationError(data.message);
+        }
+      });
+  }
+
+  public navigationToSingUp() {
+    this.router.navigate(['/SingUp']);
+  }
+
+  public navigationToSignIn() {
+    this.router.navigate(['/']);
+  }
 }

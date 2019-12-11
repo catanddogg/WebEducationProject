@@ -16,14 +16,21 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { BookItemComponent } from './book-item/book-item.component';
 import { FormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
+import { ChatComponent } from './chat/chat.component';
+import { SidebarComponent } from './shared/component/sidebar/sidebar.component';
+import { FooterComponent } from './shared/component/footer/footer.component';
+import { BookListComponent } from './book-list/book-list.component';
 
 const routes: Routes = [
   { path: '', component: LoginPageComponent },
-  { path: 'Home', component: HomePageComponent, canActivate: [AuthGuard] },
+  { path: 'Home', loadChildren: () => import('./home-page/home-page.module').then(module => module.HomePageModule), canActivate: [AuthGuard] },
   { path: 'SingUp', component: RegistrationPageComponent },
   { path: 'ForgotPassword', component: ForgotPasswordComponent },
   { path: 'ResetPassword/:id', component: RecoverPasswordComponent },
   { path: 'Book/:id', component: BookItemComponent, canActivate: [AuthGuard]},
+  { path: 'Chat', component: ChatComponent, canActivate: [AuthGuard]},
+  { path: 'Books', component: BookListComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: '' }
 ];
 
@@ -35,13 +42,18 @@ const routes: Routes = [
     RegistrationPageComponent,
     ForgotPasswordComponent,
     RecoverPasswordComponent,
-    BookItemComponent
+    BookItemComponent,
+    ChatComponent,
+    SidebarComponent,
+    FooterComponent,
+    BookListComponent
   ],  
   imports: [
     BrowserModule,  
     RouterModule.forRoot(routes),
     FormsModule, 
     HttpClientModule,
+    MatSliderModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     JwtModule.forRoot({ config: {} })  

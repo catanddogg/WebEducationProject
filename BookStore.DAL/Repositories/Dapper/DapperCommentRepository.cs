@@ -17,7 +17,7 @@ namespace BookStore.DAL.Repositories.Dapper
         {
             Comment comment = new Comment() { UserName = UserName, Message = Comment, CreateDateTime = DateTime.Now };
 
-            SqlMapperExtensions.Insert(_connectionString, comment);
+            _connectionString.Insert(comment);
         }  
     }
 }

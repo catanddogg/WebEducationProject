@@ -1,6 +1,7 @@
 ﻿using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.DAL.Repositories.EntityFramework;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -22,19 +23,31 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
-        public Task<bool> CheckReduplicationEmail(string Email)
+        public async Task<bool> CheckReduplicationEmail(string email)
         {
-            throw new NotImplementedException();
+            IEnumerable<Person> query = await _connectionString
+                .QueryAsync<Person>($"SELECT * FROM Persons AS p" +
+                                    $"WHERE p.Login = {email}");
+
+            return query.Any();
         }
 
-        public Task<bool> CheckReduplicationUserName(string UserName)
+        public async Task<bool> CheckReduplicationUserName(string userName)
         {
-            throw new NotImplementedException();
+            IEnumerable<Person> query = await _connectionString
+                .QueryAsync<Person>($"SELECT * FROM Persons AS p" +
+                                    $"WHERE p.FirstName = {userName}");
+
+            return query.Any();
         }
 
-        public Task<Person> GetPersonByEmail(string email)
+        public async Task<Person> GetPersonByEmail(string email)
         {
-            throw new NotImplementedException();
+            IEnumerable<Person> query = await _connectionString
+                .QueryAsync<Person>($"SELECT * FROM Persons as p" +
+                                    $"WHERE p.Login = {email}");
+
+            return query.SingleOrDefault();
         }
 
         public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
@@ -59,9 +72,15 @@ namespace BookStore.DAL.Repositories.Dapper
             return person;
         }
 
-        public Task<bool> ResetPassword(string password, string resetPasswordGuid)
+        public async Task<bool> ResetPassword(string password, string resetPasswordGuid)
         {
-            throw new NotImplementedException();
+            //TODO testing
+            IEnumerable<bool> test = await _connectionString
+                .QueryAsync<bool>($"UPDATE Book.dbo.Persons " +
+                                  $"SET ResetPasswordToken = '00000000-0000-0000-0000-000000000000'," +
+                                  $" Password = {password} WHERE ResetPasswordToken = {resetPasswordGuid}");          
+
+            return test.FirstOrDefault();
         }
     }
 }

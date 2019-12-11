@@ -1,5 +1,6 @@
 ﻿using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
@@ -20,34 +21,35 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task Create(T entity)
         {
-            await SqlMapperExtensions.InsertAsync(_connectionString, entity);
+            await _connectionString.InsertAsync(entity);
         }
 
         public void Delete(int id)
         {
-            T entity = SqlMapperExtensions.Get<T>(_connectionString, id);
+            T entity = _connectionString.Get<T>(id);
             if(entity != null)
             {
-                SqlMapperExtensions.Delete(_connectionString, entity);
+                _connectionString.Delete(entity);
             }
         }
 
         public async Task<List<T>> GetAll()
         {
-            List<T> entities = SqlMapperExtensions.GetAll<T>(_connectionString).ToList();
+            IEnumerable<T> result = await _connectionString.GetAllAsync<T>();
 
-            return entities;
+            return result.ToList();
         }
 
         public T GetById(object id)
         {
-            T entities = SqlMapperExtensions.Get<T>(_connectionString, id);
+            T entities = _connectionString.Get<T>(id);
+
             return entities;
         }
-
+        
         public void Update(T entity)
         {
-            SqlMapperExtensions.Update<T>(_connectionString, entity);
+            _connectionString.Update<T>(entity);
         }
     }
 }

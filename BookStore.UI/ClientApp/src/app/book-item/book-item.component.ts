@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { HttpService } from '../shared/services/http.service';
 import { ActivatedRoute } from '@angular/router';
 import { BookViewModel } from '../shared/model/book.view';
@@ -13,7 +13,7 @@ import { NotificationService } from '../shared/services/toastr.service';
 export class BookItemComponent implements OnInit {
   private sub: any;
   private book: BookViewModel;
-  private buttonTitle: string;
+  buttonTitle: string;
 
   constructor(private http: HttpService,
     private route: ActivatedRoute,
@@ -25,23 +25,21 @@ export class BookItemComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       let id = +params['id'];
       this.buttonTitle = "Create";
-
       if (id !== 0) {
         this.buttonTitle = "Update";
-        this.GetItemById(id);
+        this.getItemById(id);
       }
     });
   }
 
-  private GetItemById(id: number) {
+  private getItemById(id: number) {
     this.http.GetBookById(id)
       .subscribe(data => {
         this.book = data;
-        debugger;
       });
   }
 
-  private CreateOrUpdateBook() {
+  private createOrUpdateBook() {
     if(this.buttonTitle === "Create"){
       this.http.CreateBook(this.book)
       .subscribe(data =>{

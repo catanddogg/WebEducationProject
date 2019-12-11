@@ -3,7 +3,6 @@ using BookStore.Common.ViewModels.BaseViewModel;
 using BookStore.Common.ViewModels.PersonController.Get;
 using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
-using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -19,11 +18,9 @@ namespace BookStore.Controllers
     public class PersonController : Controller
     {
         private readonly IPersonService _personService;
-        private readonly IJWTService _jWTService;
 
-        public PersonController(IPersonService personService, IJWTService jWTService)
+        public PersonController(IPersonService personService)
         {
-            _jWTService = jWTService;
             _personService = personService;
         }
 

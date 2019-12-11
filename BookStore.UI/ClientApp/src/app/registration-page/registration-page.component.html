@@ -37,17 +37,17 @@
 							<input [(ngModel)]="createUser.email" type="text" class="form-control" placeholder="email">
                         </div> 
 						<div class="form-group">
-                            <input type="button" (click)="SingUpUser()"
+                            <input type="button" (click)="singUpUser()"
                              value="SingUp" class="btn float-right login_btn">
 						</div>
 				</div>
 				<div class="card-footer">
 					<div class="d-flex justify-content-center links">
 						Do you have an account?
-						<span class="underline-link" (click)="NavigationToSingInPage()">Sign In</span>
+						<span class="underline-link" (click)="navigationToSingInPage()">Sign In</span>
 					</div>
 					<div class="d-flex justify-content-center">
-						<span class="underline-link" (click)="NavigationToForgotPassword()" >Forgot your password?</span>
+						<span class="underline-link" (click)="navigationToForgotPassword()" >Forgot your password?</span>
 					</div>
 				</div>
 			</div>

@@ -1,33 +1,3 @@
-<div class="home-wrapper d-flex align-items-center">
-  <div class="container">
-    <div class="row p-3">
-      <div class="col-md-10">
-        <input class="form-control search_input mr-sm-2" type="search" placeholder="Search" [(ngModel)]="userName" (search)="BooksSearch()">
-      </div>
-      <div class="col-md-2">
-        <button (click)="AddNewBook()" class="btn float-right add_book_btn">Add Book</button>
-      </div>
-    </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Book</th>
-          <th scope="col">Author</th>
-          <th scope="col">Pablisher</th>
-          <th scope="col">Category</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let book of arrayBook" (click)="NavigateToBookItem(book.bookId)">
-          <td scope="col">{{ book.name }}</td>
-          <td scope="col">{{ book.author.nameAuthor }}</td>
-          <td scope="col">{{ book.author.publisher }}</td>
-          <td scope="col">{{ book.category.firstCategoryType}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div>
-      <button (click)="TestSignalR()">Test</button>
-    </div>
-  </div>
-</div>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
+<app-sidebar></app-sidebar>

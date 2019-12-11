@@ -1,0 +1,46 @@
+<div class="forgot-password-wrapper">
+        <div class='container' ng-cloak ng-app="chatApp">
+                <div class='chatbox' ng-controller="MessageCtrl as chatMessage">
+                        <div class='chatbox__user-list'>
+                                <h1>Friends Online</h1>
+                                <div class='chatbox__user--active'>
+                                        <p>Maelyn Pepe</p>
+                                </div>
+                                <div class='chatbox__user--busy'>
+                                        <p>Michelle Pepe</p>
+                                </div>
+                                <div class='chatbox__user--active'>
+                                        <p>Amy Angular</p>
+                                </div>
+                                <div class='chatbox__user--active'>
+                                        <p>Jack Uniden</p>
+                                </div>
+                                <div class='chatbox__user--away'>
+                                        <p>Ben Marcus</p>
+                                </div>
+                        </div>
+                        <div class="chatbox__messages" ng-repeat="message in messages">
+                                <div class="messages-wrapper">
+                                        <div *ngFor="let message of chatMessages" class="chatbox__messages__user-message">
+                                                <div *ngIf="message.name === userName"
+                                                        class="chatbox__messages__user-message--ind-message outgoing">
+                                                        <p class="name">{{message.name}}</p>
+                                                        <br />
+                                                        <p class="message">{{message.message}}</p>
+                                                </div>
+                                                <div *ngIf="message.name !== userName"
+                                                        class="chatbox__messages__user-message--ind-message incoming">
+                                                        <p class="name">{{message.name}}</p>
+                                                        <br />
+                                                        <p class="message">{{message.message}}</p>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="send_message_input_container">
+                                        <input [(ngModel)]="chatMessage.message" (keyup.enter)="sendMessage($event)"
+                                                class="send_message_input" type="text" placeholder="Type Message">
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>

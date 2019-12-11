@@ -21,21 +21,24 @@ namespace BookStore.DAL.Repositories.EntityFramework
 
         public async Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)
         {
-            IQueryable<Book> resultQueryable = _dbSet
-                .Include(item => item.Author)
-                .Include(item => item.Category);
 
-            if(filter != null)
+            IQueryable<Book> resultQueryable = _dbSet
+          .Include(item => item.Author)
+          .Include(item => item.Category).AsQueryable();
+
+            if (filter != null)
             {
                 resultQueryable = resultQueryable
                     .Where(item => item.Name.Contains(filter)
                    || item.Path.Contains(filter)
                    || item.Author.NameAuthor.Contains(filter)
                    || item.Author.Publisher.Contains(filter)
-                   || item.Category.FirstCategoryType.ToString().Contains(filter));
+                   /*|| item.Category.FirstCategoryType.ToString().Contains(filter)*/);
             }
 
-            List<Book> result = await resultQueryable.ToListAsync();
+            List<Book> result = null;
+
+            result = await resultQueryable.ToListAsync();
 
             return result;
         }

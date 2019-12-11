@@ -1,0 +1,26 @@
+<div    class="MuiPaper-root MuiDrawer-paper jss6 MuiDrawer-paperAnchorLeft">
+    <div class="jss8"><a href="https://www.creative-tim.com?ref=mdr-sidebar" class="jss9" target="_blank">
+            <div class="jss11">
+                <img src="http://getwallpapers.com/wallpaper/full/3/f/9/165805.jpg"
+                    alt="logo" class="jss12">
+            </div>Book Store 
+        </a>
+    </div>
+    <div class="jss27">
+        <ul class="MuiList-root jss14 MuiList-padding">
+            <a *ngFor="let item of sidebarList" aria-current="page" class=" jss15 active" [attr.href]="item.rout">
+                <div class="MuiButtonBase-root MuiListItem-root jss16 jss23 MuiListItem-gutters MuiListItem-button"
+                    tabindex="0" role="button" aria-disabled="false">
+                    <div>
+                        <span class="MuiSvgIcon-root jss17"><i [ngClass]="item.image"></i></span>
+                    </div>
+                    <span class="MuiListItemText-root jss19  jss21">{{item.name}}</span>
+                    <span class="MuiTouchRipple-root"></span>
+                </div>
+            </a>
+        </ul>
+    </div>
+    <div class="jss13"
+        style="background-image: url(&quot;/material-dashboard-react/static/media/sidebar-1.8e9f0a3c.jpg&quot;);">
+    </div>
+</div>

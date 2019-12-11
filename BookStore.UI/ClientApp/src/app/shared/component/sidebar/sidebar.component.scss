@@ -1,0 +1,174 @@
+.MuiDrawer-paper {
+    top: 0;
+    flex: 1 0 auto;
+    height: 100%;
+    display: flex;
+    outline: 0;
+    z-index: 1200;
+    position: fixed;
+    overflow-y: auto;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+}
+
+.MuiTouchRipple-root {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    overflow: hidden;
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.MuiPaper-root {
+    background-image: url('http://getwallpapers.com/wallpaper/full/0/5/6/165969.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;   
+    color: rgba(0, 0, 0, 0.87);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+}
+
+.MuiListItemText-root {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.jss6 {
+    top: 0;
+    left: 0;
+    width: 260px;
+    border: none;
+    bottom: 0;
+    z-index: 1;
+    position: fixed;
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.MuiDrawer-paperAnchorLeft {
+    left: 0;
+    right: auto;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-weight: 300;
+    line-height: 1.5em;
+}
+
+a {
+    color: #ffffff;
+}
+
+.jss19 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 18px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 30px;
+}
+
+.jss17 {
+    color: #ffffff;
+    float: left;
+    width: 24px;
+    height: 30px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+.jss15 {
+    display: block;
+    position: relative;
+    text-decoration: none;
+}
+
+.jss9 {
+    display: block;
+    padding: 5px 0;
+    font-size: 18px;
+    text-align: left;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 30px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.jss16 {
+    width: auto;
+    margin: 10px 15px 0;
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+    transition: all 300ms linear;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.5em;
+    border-radius: 3px;
+    background-color: transparent;
+}
+
+.jss12 {
+    top: 22px;
+    width: 35px;
+    border: 0;
+    position: absolute;
+    vertical-align: middle;
+}
+.jss11 {
+    width: 30px;
+    display: inline-block;
+    max-height: 30px;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.jss27 { 
+    margin-left: -40px;
+    width: 300px;
+    height: calc(100vh - 75px);
+    z-index: 4;
+    overflow: auto;
+    position: relative;
+}
+
+.jss13 {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+    position: absolute;
+    background-size: cover;
+    background-position: center center;
+}
+
+.jss8 {
+    padding: 15px 15px;
+    z-index: 4;
+    position: relative;
+}
+
+.MuiSvgIcon-root {
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+}
