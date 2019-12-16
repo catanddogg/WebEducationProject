@@ -8,9 +8,9 @@
     </div>
     <div class="jss27">
         <ul class="MuiList-root jss14 MuiList-padding">
-            <a *ngFor="let item of sidebarList" aria-current="page" class=" jss15 active" [attr.href]="item.rout">
+            <a *ngFor="let item of sidebarList" aria-current="page" class=" jss15 active">
                 <div class="MuiButtonBase-root MuiListItem-root jss16 jss23 MuiListItem-gutters MuiListItem-button"
-                    tabindex="0" role="button" aria-disabled="false">
+                    tabindex="0" role="button" [ngClass]="item.select" (click)="navigation(item)" aria-disabled="false">
                     <div>
                         <span class="MuiSvgIcon-root jss17"><i [ngClass]="item.image"></i></span>
                     </div>

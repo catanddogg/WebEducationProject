@@ -14,6 +14,6 @@ export class FooterComponent implements OnInit {
   }
 
   navigationToChat(){
-    this.router.navigate(['/Chat']);
+    this.router.navigate(['/Storage/Chat']);
   }
 }

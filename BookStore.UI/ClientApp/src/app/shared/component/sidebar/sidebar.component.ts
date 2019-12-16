@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class SidebarComponent implements OnInit {
 
   private sidebarList: SidebarListView[];
+  private selectItem: string;
 
   constructor(private router: Router) { }
 
@@ -19,26 +20,38 @@ export class SidebarComponent implements OnInit {
     let books = new SidebarListView();
     books.image = 'fas fa-journal-whills';
     books.name = 'Books';
-    books.rout = '/Home'
+    books.rout = '/Storage/Books';
 
     this.sidebarList.push(books);
 
     let chat = new SidebarListView();
     chat.image = 'far fa-comments';
     chat.name = 'Chat';
-    chat.rout = '/Chat';
+    chat.rout = '/Storage/Chat';
 
     this.sidebarList.push(chat);
 
     let logOut = new SidebarListView();
     logOut.image = 'fas fa-door-open';
     logOut.name = 'Log Out'
-    logOut.rout = '/';
+    logOut.rout = '/Account/';
 
     this.sidebarList.push(logOut);
   }
 
-  navigationToLoginPage(){
-    this.router.navigate(['/']);
+  navigation(item: SidebarListView) {
+    this.router.navigate([item.rout]);
+    item.select = 'item-select';
+    if (this.selectItem) {
+      this.sidebarList.forEach(sidebarItem => {
+        if (sidebarItem.name === this.selectItem) {
+          sidebarItem.select = 'item-not-select';
+        }
+      });
+    }
+    this.selectItem = item.name;
+    if (item.name === 'Log Out') {
+      localStorage.clear();
+    }
   }
 }
