@@ -1,12 +1,9 @@
 ﻿using BookStore.DAL.Interfaces;
-using BookStore.DAL.Models;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.Dapper
@@ -19,37 +16,55 @@ namespace BookStore.DAL.Repositories.Dapper
             _connectionString = connectionString;
         }
 
-        public async Task Create(T entity)
+        public async Task InsertAsync(T entity)
         {
             await _connectionString.InsertAsync(entity);
         }
 
-        public void Delete(int id)
+        public async Task InsertRangeAsync(List<T> entities)
         {
-            T entity = _connectionString.Get<T>(id);
+            if (entities is null)
+            {
+                return;
+            }
+            await _connectionString.InsertAsync(entities);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            T entity = await _connectionString.GetAsync<T>(id);
             if(entity != null)
             {
                 _connectionString.Delete(entity);
             }
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
             IEnumerable<T> result = await _connectionString.GetAllAsync<T>();
 
             return result.ToList();
         }
 
-        public T GetById(object id)
+        public async Task<T> GetByIdAsync(object id)
         {
-            T entities = _connectionString.Get<T>(id);
+            T entities = await _connectionString.GetAsync<T>(id);
 
             return entities;
         }
         
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
-            _connectionString.Update<T>(entity);
+            await _connectionString.UpdateAsync<T>(entity);
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            string sql = $"SELECT COUNT(Id) FROM {typeof(T).Name}s";
+
+            int result = await _connectionString.QueryFirstOrDefaultAsync<int>(sql);
+
+            return result;
         }
     }
 }

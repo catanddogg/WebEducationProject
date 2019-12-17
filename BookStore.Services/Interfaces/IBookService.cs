@@ -12,10 +12,10 @@ namespace BookStore.Services.Interfaces
 {
     public interface IBookService
     {
-        Task<AllBookViewModel> GetAllBook(string filter);
-        Task<BookViewModel> GetBookById(int id);
-        BaseRequestViewModel CreateBook(BookViewModel model);
-        void DeleteBook(int id);
-        BaseRequestViewModel UpdateBook(BookViewModel model);
+        Task<AllBookViewModel> GetAllBookAsync(string filter);
+        Task<BookViewModel> GetBookByIdAsync(int id);
+        Task<BaseRequestViewModel> CreateBookAsync(BookViewModel model);
+        Task DeleteBookAsync(int id);
+        Task<BaseRequestViewModel> UpdateBookAsync(BookViewModel model);
     }
 }

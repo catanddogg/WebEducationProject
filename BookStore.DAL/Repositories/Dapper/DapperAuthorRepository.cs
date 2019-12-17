@@ -19,7 +19,7 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
-        public async Task<List<Author>> GetAuthorBooks(string author)
+        public async Task<List<Author>> GetAuthorBooksAsync(string author)
         {
             IEnumerable<Author> query = await _connectionString.QueryAsync<Author>("SELECT * FROM Book.dbo.Avtors");
                 //.GetAll<Author>
@@ -29,7 +29,7 @@ namespace BookStore.DAL.Repositories.Dapper
             return query.ToList();
         }
 
-        public async Task<List<Author>> GetPublisherBooks(string publisher)
+        public async Task<List<Author>> GetPublisherBooksAsync(string publisher)
         {
             IEnumerable<Author> query = await _connectionString.QueryAsync<Author>("SELECT * FROM Book.dbo.Avtors");
                 //.GetAll<Author>(_connectionString)

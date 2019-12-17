@@ -4,6 +4,7 @@ using BookStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
 {
@@ -21,9 +22,9 @@ namespace BookStore.Services.Services
         #endregion Constructors
 
         #region Public Methods
-        public void CreateAndGetAllComments(string UserName, string Comment)
+        public async Task CreateAndGetAllCommentsAsync(string UserName, string Comment)
         {
-            _commentRepository.CreateAndGetAllComments(UserName, Comment);
+            await _commentRepository.CreateAndGetAllCommentsAsync(UserName, Comment);
         }
         #endregion Public Methods
     }

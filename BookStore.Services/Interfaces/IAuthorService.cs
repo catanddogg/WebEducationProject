@@ -11,13 +11,12 @@ namespace BookStore.Services.Interfaces
 {
     public interface IAuthorService
     {
-        Task<AllAuthorViewModel> GetAllAuthors();
-        AuthorByIdViewModel GetAuthorById(int id);
-        void CreateAuthor(CreateAuthorViewModel createAuthorViewModel);
-        void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel);
-        void DeleteAuthor(int id);
-
-        Task<AuthorBooksViewModel> GetAuthorBooks(string author);
-        Task<PublishersBooksViewModel> GetPublisherBooks(string publisher);
+        Task<AllAuthorViewModel> GetAllAuthorsAsync();
+        Task<AuthorByIdViewModel> GetAuthorByIdAsync(int id);
+        Task CreateAuthorAsync(CreateAuthorViewModel createAuthorViewModel);
+        Task UpdateAuthorAsync(UpdateAuthorViewModel updateAuthorViewModel);
+        Task DeleteAuthorAsync(int id);
+        Task<AuthorBooksViewModel> GetAuthorBooksAsync(string author);
+        Task<PublishersBooksViewModel> GetPublisherBooksAsync(string publisher);
     }
 }

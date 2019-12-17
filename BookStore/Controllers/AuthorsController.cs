@@ -26,42 +26,42 @@ namespace BookStore.Controllers
         [HttpGet("GetAllAuthors")]
         public async Task<AllAuthorViewModel> GetAllAuthors()
         {
-            AllAuthorViewModel result = await _authorService.GetAllAuthors();
+            AllAuthorViewModel result = await _authorService.GetAllAuthorsAsync();
 
             return result;
         }
 
         [AllowAnonymous]
         [HttpGet("GetAuthorById/{id}")]
-        public AuthorByIdViewModel GetAuthorById(int id)
+        public async Task<AuthorByIdViewModel> GetAuthorById(int id)
         {
-            AuthorByIdViewModel authorByIdViewModel = _authorService.GetAuthorById(id);
+            AuthorByIdViewModel authorByIdViewModel = await _authorService.GetAuthorByIdAsync(id);
 
             return authorByIdViewModel;
         }
 
         [HttpPost("CreateAuthor")]
-        public void CreateAuthor(CreateAuthorViewModel createAuthorViewModel)
+        public async Task CreateAuthor(CreateAuthorViewModel createAuthorViewModel)
         {
-            _authorService.CreateAuthor(createAuthorViewModel);
+            await _authorService.CreateAuthorAsync(createAuthorViewModel);
         }
 
         [HttpPut("UpdateAuthor")]
-        public void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel)
+        public async Task UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel)
         {
-            _authorService.UpdateAuthor(updateAuthorViewModel);
+            await _authorService.UpdateAuthorAsync(updateAuthorViewModel);
         }
 
         [HttpDelete("DeleteAuthor/{id}")]
-        public void DeleteAuthor(int id)
+        public async Task DeleteAuthor(int id)
         {
-            _authorService.DeleteAuthor(id);
+            await _authorService.DeleteAuthorAsync(id);
         }
 
         [HttpGet("GetAuthorsBooks/{author}")]
         public async Task<AuthorBooksViewModel> GetAuthorsBooks(string author)
         {
-            AuthorBooksViewModel bookItem = await _authorService.GetAuthorBooks(author);
+            AuthorBooksViewModel bookItem = await _authorService.GetAuthorBooksAsync(author);
 
             return bookItem;
         }
@@ -69,7 +69,7 @@ namespace BookStore.Controllers
         [HttpGet("GetPublishersBooks/{publisher}")]
         public async Task<PublishersBooksViewModel> GetPublishersBooks(string publisher)
         {
-            PublishersBooksViewModel bookItem = await _authorService.GetPublisherBooks(publisher);
+            PublishersBooksViewModel bookItem = await _authorService.GetPublisherBooksAsync(publisher);
 
             return bookItem;
         }

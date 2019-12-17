@@ -26,6 +26,7 @@ namespace BookStore.DAL
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
         }
 
         private static void Dapper(IServiceCollection services, string connection)
@@ -36,6 +37,7 @@ namespace BookStore.DAL
             services.AddTransient<ICategoryRepository, DapperCategoryRepository>();
             services.AddTransient<IPersonRepository, DapperPersonRepository>();
             services.AddTransient<ICommentRepository, DapperCommentRepository>();
+            services.AddTransient<INotificationRepository, DapperNotificationRepository>();
         }
     }
 }

@@ -5,12 +5,9 @@ using BookStore.Common.ViewModels.PersonController.Post;
 using BookStore.Common.ViewModels.PersonController.Put;
 using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
-using BookStore.DAL.Repositories.EntityFramework;
 using BookStore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
@@ -31,14 +28,15 @@ namespace BookStore.Services.Services
                              IMailService mailService)
         {
             _personRepository = personRepository;
-            _mapper = mapper;
             _jWTService = jWTService;
             _mailService = mailService;
+
+            _mapper = mapper;
         }
         #endregion Constructors
 
         #region Public Methods
-        public async Task<BaseRequestViewModel> CreatePerson(CreateUserViewModel createPersonViewModel)
+        public async Task<BaseRequestViewModel> CreatePersonAsync(CreateUserViewModel createPersonViewModel)
         {
             var result = new BaseRequestViewModel();
 
@@ -50,7 +48,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            bool isRegistered = await _personRepository.CheckReduplicationUserName(createPersonViewModel.UserName);
+            bool isRegistered = await _personRepository.CheckReduplicationUserNameAsync(createPersonViewModel.UserName);
 
             if(isRegistered)
             {
@@ -60,7 +58,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            bool isEmailRegistered = await _personRepository.CheckReduplicationEmail(createPersonViewModel.Email);
+            bool isEmailRegistered = await _personRepository.CheckReduplicationEmailAsync(createPersonViewModel.Email);
 
             if(isEmailRegistered)
             {
@@ -72,7 +70,7 @@ namespace BookStore.Services.Services
 
             Person person = _mapper.Map<Person>(createPersonViewModel);
 
-            await _personRepository.Create(person);
+            await _personRepository.InsertAsync(person);
 
             result.Success = true;
             result.Message = "User successfully created";
@@ -80,34 +78,32 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public void DeletePerson(int id)
+        public async Task DeletePersonAsync(int id)
         {
-            _personRepository.Delete(id);
+            await _personRepository.DeleteAsync(id);
         }
 
-        public async Task<AllPersonViewModel> GetAllPerson()
+        public async Task<AllPersonViewModel> GetAllPersonAsync()
         {
             var result = new AllPersonViewModel();
 
-            List<Person>  people = await _personRepository.GetAll();
+            List<Person>  people = await _personRepository.GetAllAsync();
 
-            List<AllPersonViewModelItem> allPersonViewModel = _mapper.Map<List<AllPersonViewModelItem>>(people);
-
-            result.Persons = allPersonViewModel;
+            result.Persons = _mapper.Map<List<AllPersonViewModelItem>>(people);
 
             return result;
         }
 
-        public PersonByIdViewModel GetPersonById(int id)
+        public async Task<PersonByIdViewModel> GetPersonByIdAsync(int id)
         {
-            Person person = _personRepository.GetById(id);
+            Person person = await _personRepository.GetByIdAsync(id);
 
             PersonByIdViewModel personByIdViewModel = _mapper.Map<PersonByIdViewModel>(person);
 
             return personByIdViewModel;
         }
 
-        public async Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password)
+        public async Task<LoginRequestViewModel> GetPersonByLoginAndPasswordAsync(string login, string password)
         {
             var result = new LoginRequestViewModel();
 
@@ -119,7 +115,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            Person person = await _personRepository.GetPersonByLoginAndPassword(login, password);
+            Person person = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
 
             if(person ==  null)
             {
@@ -129,22 +125,23 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.LoginAsync(person.Login, person.Password);
 
             result.AccessToken = jWTAndRefreshToken.AccessToken;
             result.RefreshToken = jWTAndRefreshToken.RefreshToken;
             result.UserName = person.FirstName;
+            result.UserId = person.Id.ToString();
             result.Success = true;
             result.Message = string.Empty;
 
             return result;
         }
 
-        public async Task<LoginRequestViewModel> GetPersonByRefreshToken(string refreshToken)
+        public async Task<LoginRequestViewModel> GetPersonByRefreshTokenAsync(string refreshToken)
         {
             var result = new LoginRequestViewModel();
 
-            Person person = await _personRepository.GetPersonByRefreshToken(refreshToken);
+            Person person = await _personRepository.GetPersonByRefreshTokenAsync(refreshToken);
 
             if(person == null)
             {
@@ -154,7 +151,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.Login(person.Login, person.Password);
+            JWTAndRefreshToken jWTAndRefreshToken = await _jWTService.LoginAsync(person.Login, person.Password);
 
             result.Success = true;
             result.AccessToken = jWTAndRefreshToken.AccessToken;
@@ -163,18 +160,18 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public void UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
+        public async Task UpdatePersonAsync(UpdatePersonViewModel updatePersonViewModel)
         {
             Person person = _mapper.Map<Person>(updatePersonViewModel);
 
-            _personRepository.Update(person);
+            await _personRepository.UpdateAsync(person);
         }
 
-        public async Task<BaseRequestViewModel> SendEmailToRecoverPassword(SendEmailToRecoverPasswordViewModel model)
+        public async Task<BaseRequestViewModel> SendEmailToRecoverPasswordAsync(SendEmailToRecoverPasswordViewModel model)
         {
             var result = new BaseRequestViewModel();
 
-            Person person = await _personRepository.GetPersonByEmail(model.PersonEmail);
+            Person person = await _personRepository.GetPersonByEmailAsync(model.PersonEmail);
 
             if(person == null)
             {
@@ -193,7 +190,7 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public async Task<BaseRequestViewModel> ResetPassword(ResetPasswordViewModel model)
+        public async Task<BaseRequestViewModel> ResetPasswordAsync(ResetPasswordViewModel model)
         {
             var result = new BaseRequestViewModel();
 
@@ -213,7 +210,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            bool success = await _personRepository.ResetPassword(model.Password, model.ResetPasswordToken);
+            bool success = await _personRepository.ResetPasswordAsync(model.Password, model.ResetPasswordToken);
 
             if(!success)
             {

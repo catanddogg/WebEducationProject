@@ -15,10 +15,11 @@ namespace BookStore.Services
         {
             IMapper mapper = new MapperConfiguration(config =>
             {
-                config.AddProfile<AuthorsControllerProfile>();
-                config.AddProfile<BooksControllerProfile>();
-                config.AddProfile<CategoriesControllerProfile>();
-                config.AddProfile<PersonControllerProfile>();
+                config.AddProfile<AuthorProfile>();
+                config.AddProfile<BookProfile>();
+                config.AddProfile<CategoryProfile>();
+                config.AddProfile<PersonProfile>();
+                config.AddProfile<NotificationProfile>();
             })
             .CreateMapper();
 
@@ -32,6 +33,7 @@ namespace BookStore.Services
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IMailService, MailService>();
+            services.AddTransient<INotificationService, NotificationService>();
         }
     }
 }

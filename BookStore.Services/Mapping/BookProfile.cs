@@ -9,9 +9,9 @@ using System.Text;
 
 namespace BookStore.Services.Mapping
 {
-    public class BooksControllerProfile : Profile
+    public class BookProfile : Profile
     {
-        public BooksControllerProfile()
+        public BookProfile()
         {
             CreateMap<Book, BookByIdViewModel>();
 

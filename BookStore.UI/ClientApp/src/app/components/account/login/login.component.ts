@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("AccessToken", response.accessToken);
         localStorage.setItem("RefreshToken", response.refreshToken);
         localStorage.setItem("UserName", response.userName);
+        localStorage.setItem("UserId", response.userId);
 
         this.router.navigate(['/Storage/Books']);
       }

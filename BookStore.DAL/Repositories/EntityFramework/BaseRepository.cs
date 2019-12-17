@@ -19,14 +19,26 @@ namespace BookStore.DAL.Repositories.EntityFramework
             _dbSet = _context.Set<T>();
         }
 
-        public async Task Create(T entity)
+        public async Task InsertAsync(T entity)
         {
             _dbSet.Add(entity);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task InsertRangeAsync(List<T> list)
+        {
+            if (list is null)
+            {
+                return;
+            }
+
+            _dbSet.AddRange(list);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
         {
             T dbItem = _dbSet.Find(id);
 
@@ -34,27 +46,36 @@ namespace BookStore.DAL.Repositories.EntityFramework
             {
                 _dbSet.Remove(dbItem);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
             List<T> result = await _context.Set<T>().ToListAsync();
 
             return result;
         }
 
-        public T GetById(object id)
+        public async Task<T> GetByIdAsync(object id)
         {
-            return _dbSet.Find(id);
+            T result = await _dbSet.FindAsync(id);
+
+            return result;
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            int result = await _dbSet.CountAsync();
+
+            return result;
         }
     }
 }

@@ -17,9 +17,9 @@ namespace BookStore.DAL.Repositories.EntityFramework
         {
         }
 
-        public async Task<List<Category>> GetAutorAndCategoryBook(string avtor, int category)
+        public async Task<List<Category>> GetAutorAndCategoryBookAsync(string avtor, int category)
         {
-            CategoryType categoryType = (CategoryType)category;
+            var categoryType = (CategoryType)category;
 
             List<Category> categoryList = await _dbSet
                 .Where(item => item.FirstCategoryType == categoryType
@@ -30,9 +30,9 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return categoryList;
         }
 
-        public async Task<List<Category>> GetCategoryBooks(int category)
+        public async Task<List<Category>> GetCategoryBooksAsync(int category)
         {
-            CategoryType categoryType = (CategoryType)category;
+            var categoryType = (CategoryType)category;
 
             List<Category> bookItem = await _dbSet
                 .Where(item => item.FirstCategoryType == categoryType

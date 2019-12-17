@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
@@ -15,13 +16,13 @@ namespace BookStore.DAL.Repositories.EntityFramework
         {
         }
 
-        public void CreateAndGetAllComments(string UserName, string Comment)
+        public async Task CreateAndGetAllCommentsAsync(string UserName, string Comment)
         {
             Comment comment = new Comment() { Message = Comment, UserName = UserName, CreateDateTime = DateTime.Now };
 
             _dbSet.Add(comment);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

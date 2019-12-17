@@ -16,7 +16,7 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
-        public CategoriesBooksAuthorsDTO GetAllTables()
+        public async Task<CategoriesBooksAuthorsDTO> GetAllTablesAsync()
         {
             var categoriesBooksAuthors = new CategoriesBooksAuthorsDTO();
             var sql =@"SELECT * FROM Books 
@@ -24,7 +24,7 @@ namespace BookStore.DAL.Repositories.Dapper
                        SELECT * FROM Comments 
                        SELECT * FROM categories";
 
-            using (SqlMapper.GridReader multi = _connectionString.QueryMultiple(sql))
+            using (SqlMapper.GridReader multi = await _connectionString.QueryMultipleAsync(sql))
             {
                 categoriesBooksAuthors.Books = multi.Read<Book>().ToList();
                 categoriesBooksAuthors.Authors = multi.Read<Author>().ToList();
@@ -35,7 +35,7 @@ namespace BookStore.DAL.Repositories.Dapper
             return categoriesBooksAuthors;
         }
 
-        public async Task<Book> GetBookById(int bookId)
+        public async Task<Book> GetBookByIdAsync(int bookId)
         {
             IEnumerable<Book> query = await _connectionString
                 .QueryAsync<Book>(@"SELECT * FROM Books AS b
@@ -50,7 +50,7 @@ namespace BookStore.DAL.Repositories.Dapper
             return result;
         }
 
-        public async Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)
+        public async Task<List<Book>> GetBooksWIthAuthorAndCategoriesAsync(string filter)
         {
             var query = await _connectionString
                 .QueryAsync<Book>(@"SELECT * FROM Books AS b

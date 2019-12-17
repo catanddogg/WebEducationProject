@@ -1,11 +1,41 @@
-.container_chat_btn{
+.container-chat-btn{
     background-color: #FFC312;  
     height: 60px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 
-.btn_container{
+.btn-container{
     padding: 20px;
-    margin-left: auto;  
+}
+
+.notification-container{
+    background-color: white;
+    width: 25%;
+    height: 60vh;
+    position: absolute;
+    z-index: 10;
+    right: 10px;
+    overflow: auto;
+}
+
+.notification{
+    width: 100%;
+    min-height: 120px;
+    justify-content: flex-start;
+}
+
+.notification-image{
+    min-height: 120px;
+    width: 120px;
+    background-color: red;
+}
+
+.notification-header{
+    font-size: 16px;
+}
+
+.notification-message{
+    font-size: 12px;
 }

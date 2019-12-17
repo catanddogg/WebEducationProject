@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Interfaces
 {
     public interface ICommentRepository : IBaseRepository<Comment>
     {
-        void CreateAndGetAllComments(string UserName, string Comment);
+        Task CreateAndGetAllCommentsAsync(string UserName, string Comment);
     }
 }

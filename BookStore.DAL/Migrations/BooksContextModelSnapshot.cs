@@ -119,6 +119,35 @@ namespace BookStore.DAL.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("BookStore.DAL.Models.Entitys.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("BookStore.DAL.Models.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +394,15 @@ namespace BookStore.DAL.Migrations
                     b.HasOne("BookStore.DAL.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookStore.DAL.Models.Entitys.Notification", b =>
+                {
+                    b.HasOne("BookStore.DAL.Models.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

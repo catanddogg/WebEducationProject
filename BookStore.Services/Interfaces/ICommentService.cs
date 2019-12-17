@@ -1,12 +1,9 @@
-﻿using BookStore.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace BookStore.Services.Interfaces
 {
     public interface ICommentService
     {
-        void CreateAndGetAllComments(string UserName, string Comment);
+        Task CreateAndGetAllCommentsAsync(string UserName, string Comment);
     }
 }

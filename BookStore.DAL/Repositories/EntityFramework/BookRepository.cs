@@ -19,7 +19,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
         {
         }
 
-        public async Task<List<Book>> GetBooksWIthAuthorAndCategories(string filter)
+        public async Task<List<Book>> GetBooksWIthAuthorAndCategoriesAsync(string filter)
         {
 
             IQueryable<Book> resultQueryable = _dbSet
@@ -43,7 +43,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return result;
         }
 
-        public async Task<Book> GetBookById(int bookId)
+        public async Task<Book> GetBookByIdAsync(int bookId)
         {
             Book result = await _dbSet
                 .Include(item => item.Author)

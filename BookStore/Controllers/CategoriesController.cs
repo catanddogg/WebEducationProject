@@ -26,39 +26,41 @@ namespace BookStore.Controllers
         [HttpGet]
         public async Task<AllCategoryViewModel> GetAllCategories()
         {
-            AllCategoryViewModel result = await _categoryService.GetAllCategory();
+            AllCategoryViewModel result = await _categoryService.GetAllCategoryAsync();
 
             return result;
         }
 
         [HttpGet("{id}")]
-        public CategoryByIdViewModel GetCategoryById(int id)
+        public async Task<CategoryByIdViewModel> GetCategoryById(int id)
         {
-            return _categoryService.GetCategoryById(id);
+            CategoryByIdViewModel result = await _categoryService.GetCategoryByIdAsync(id);
+
+            return result;
         }
 
         [HttpPost]
-        public void CreateCategory(CreateCategoryViewModel createCategoryViewModel)
+        public async Task CreateCategory(CreateCategoryViewModel createCategoryViewModel)
         {
-            _categoryService.CreateCategory(createCategoryViewModel);
+            await _categoryService.CreateCategoryAsync(createCategoryViewModel);
         }
 
         [HttpPut]
-        public void UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
+        public async Task UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
         {
-            _categoryService.UpdateCategory(updateCategoryViewModel);
+            await _categoryService.UpdateCategoryAsync(updateCategoryViewModel);
         }
 
         [HttpDelete("{id}")]
-        public void DeleteCategory(int id)
+        public async Task DeleteCategory(int id)
         {
-            _categoryService.DeleteCategory(id);
+            await _categoryService.DeleteCategoryAsync(id);
         }
 
         [HttpGet("category/{category}")]
         public async Task<CategoryBooksViewModel> GetCategoriesBooks(int category)
         {
-            CategoryBooksViewModel bookItem = await _categoryService.GetCategoryBooks(category);
+            CategoryBooksViewModel bookItem = await _categoryService.GetCategoryBooksAsync(category);
 
             return bookItem;
         }
@@ -66,7 +68,7 @@ namespace BookStore.Controllers
         [HttpGet("avtorandcategory/{avtor}/{category}")]
         public async Task<AuthorAndCategoryViewModel> GetAvtorandCategoryBooks(int category, string avtor)
         {
-            AuthorAndCategoryViewModel bookItem = await _categoryService.GetAutorAndCategoryBook(avtor, category);
+            AuthorAndCategoryViewModel bookItem = await _categoryService.GetAutorAndCategoryBookAsync(avtor, category);
              
             return bookItem;
         }

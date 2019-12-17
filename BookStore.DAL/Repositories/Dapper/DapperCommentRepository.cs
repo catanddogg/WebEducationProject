@@ -3,6 +3,7 @@ using BookStore.DAL.Models;
 using Dapper.Contrib.Extensions;
 using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
@@ -13,11 +14,11 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
-        public void CreateAndGetAllComments(string UserName, string Comment)
+        public async Task CreateAndGetAllCommentsAsync(string UserName, string Comment)
         {
             Comment comment = new Comment() { UserName = UserName, Message = Comment, CreateDateTime = DateTime.Now };
 
-            _connectionString.Insert(comment);
+            await _connectionString.InsertAsync(comment);
         }  
     }
 }

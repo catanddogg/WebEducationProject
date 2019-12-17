@@ -9,9 +9,9 @@ namespace BookStore.Services.Interfaces
 {
     public interface IHomeService
     {
-        void CreatePerson(Person person);
-        void CreateAndGetAllComments(string UserName, string Comment);
-        Task<string> CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel);
-        Task<Person> GetPersonByLoginAndPassword(string login, string password);
+        Task CreatePersonAsync(Person person);
+        Task CreateAndGetAllCommentsAsync(string UserName, string Comment);
+        Task<string> CreateBookCategoryAvtorTablesAsync(CreateBookViewModel createBookViewModel);
+        Task<Person> GetPersonByLoginAndPasswordAsync(string login, string password);
     }
 }

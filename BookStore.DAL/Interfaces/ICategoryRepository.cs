@@ -8,7 +8,7 @@ namespace BookStore.DAL.Interfaces
 {
     public interface ICategoryRepository : IBaseRepository<Category>
     {
-        Task<List<Category>> GetCategoryBooks(int category);
-        Task<List<Category>> GetAutorAndCategoryBook(string avtor, int category);
+        Task<List<Category>> GetCategoryBooksAsync(int category);
+        Task<List<Category>> GetAutorAndCategoryBookAsync(string avtor, int category);
     }
 }

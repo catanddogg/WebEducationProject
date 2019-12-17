@@ -4,9 +4,7 @@ using BookStore.DAL.Models;
 using BookStore.DAL.Enums;
 using BookStore.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
@@ -29,12 +27,12 @@ namespace BookStore.Services.Services
             _commentRepository = commentRepository;
         }
 
-        public void CreateAndGetAllComments(string UserName, string Comment)
+        public async Task CreateAndGetAllCommentsAsync(string UserName, string Comment)
         {
-            _commentRepository.CreateAndGetAllComments(UserName, Comment);
+            await _commentRepository.CreateAndGetAllCommentsAsync(UserName, Comment);
         }
 
-        public async Task<string> CreateBookCategoryAvtorTables(CreateBookViewModel createBookViewModel)
+        public async Task<string> CreateBookCategoryAvtorTablesAsync(CreateBookViewModel createBookViewModel)
         {
             if (createBookViewModel.Name != null && createBookViewModel.file != null && createBookViewModel.Publisher != null &&
                 createBookViewModel.Genre1 != CategoryType.None && createBookViewModel.Genre2 != CategoryType.None && createBookViewModel.Avtor != null)
@@ -52,11 +50,11 @@ namespace BookStore.Services.Services
 
                     Book book = new Book() { Name = createBookViewModel.Name, Path = newFileName };
 
-                    await _bookRepository.Create(book);
+                    await _bookRepository.InsertAsync(book);
 
                     Author author = new Author() { NameAuthor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher};
 
-                    await _avtorRepository.Create(author);
+                    await _avtorRepository.InsertAsync(author);
 
                     //Category category = new Category() { CategoryType = createBookViewModel.Genre1};
 
@@ -71,14 +69,14 @@ namespace BookStore.Services.Services
             return "Data not correct!";
         }
 
-        public void CreatePerson(Person person)
+        public async Task CreatePersonAsync(Person person)
         {
-            _personRepository.Create(person);
+            await _personRepository.InsertAsync(person);
         }
 
-        public async Task<Person> GetPersonByLoginAndPassword(string login, string password)
+        public async Task<Person> GetPersonByLoginAndPasswordAsync(string login, string password)
         {
-            Person result = await _personRepository.GetPersonByLoginAndPassword(login, password);
+            Person result = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
 
             return result;
         }              

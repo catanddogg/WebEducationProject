@@ -9,9 +9,9 @@ using System.Text;
 
 namespace BookStore.Services.Mapping
 {
-    public class PersonControllerProfile : Profile
+    public class PersonProfile : Profile
     {
-        public PersonControllerProfile()
+        public PersonProfile()
         {
             CreateMap<CreateUserViewModel, Person>()
                 .ForMember(destination => destination.Login, source => source.MapFrom(src => src.Email))

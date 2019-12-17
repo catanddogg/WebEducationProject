@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BookStore.Common.ViewModels.BaseViewModel;
 using BookStore.Common.ViewModels.BooksController.Get;
-using BookStore.Common.ViewModels.BooksController.Post;
-using BookStore.Common.ViewModels.BooksController.Put;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -27,7 +25,7 @@ namespace BookStore.Controllers
         [HttpGet("GetAllBook")]
         public async Task<AllBookViewModel> GetAllBook(string filter)
         {
-            AllBookViewModel bookItems  = await _bookService.GetAllBook(filter);
+            AllBookViewModel bookItems  = await _bookService.GetAllBookAsync(filter);
 
             return bookItems;
         }
@@ -35,31 +33,31 @@ namespace BookStore.Controllers
         [HttpGet("GetBookById")]
         public async Task<BookViewModel> GetBookById(int bookId)
         {
-            BookViewModel result = await _bookService.GetBookById(bookId);
+            BookViewModel result = await _bookService.GetBookByIdAsync(bookId);
 
             return result;
         }
 
         [HttpPost("CreateBook")]
-        public BaseRequestViewModel CreateBook([FromBody]BookViewModel book)
+        public async Task<BaseRequestViewModel> CreateBook([FromBody]BookViewModel book)
         {
-            BaseRequestViewModel result =  _bookService.CreateBook(book);
+            BaseRequestViewModel result =  await _bookService.CreateBookAsync(book);
 
             return result;
         }
     
         [HttpPost("UpdateBook")]
-        public BaseRequestViewModel UpdateBook([FromBody]BookViewModel book)
+        public async Task<BaseRequestViewModel> UpdateBook([FromBody]BookViewModel book)
         {
-            BaseRequestViewModel result = _bookService.UpdateBook(book);
+            BaseRequestViewModel result = await _bookService.UpdateBookAsync(book);
 
             return result;
         }
 
         [HttpDelete("DeleteBook/{id}")]
-        public void DeleteBook(int id)
+        public async Task DeleteBook(int id)
         {
-            _bookService.DeleteBook(id);
+            await _bookService.DeleteBookAsync(id);
         }
     }
 }

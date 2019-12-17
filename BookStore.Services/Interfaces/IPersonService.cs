@@ -8,15 +8,14 @@ namespace BookStore.Services.Interfaces
 {
     public interface IPersonService
     {
-        Task<AllPersonViewModel> GetAllPerson();
-        Task<BaseRequestViewModel> CreatePerson(CreateUserViewModel createPersonViewModel);
-        void UpdatePerson(UpdatePersonViewModel updatePersonViewModel);
-        void DeletePerson(int id);
-        PersonByIdViewModel GetPersonById(int id);
-
-        Task<LoginRequestViewModel> GetPersonByLoginAndPassword(string login, string password);
-        Task<LoginRequestViewModel> GetPersonByRefreshToken(string refreshToken);
-        Task<BaseRequestViewModel> SendEmailToRecoverPassword(SendEmailToRecoverPasswordViewModel model);
-        Task<BaseRequestViewModel> ResetPassword(ResetPasswordViewModel model);
+        Task<AllPersonViewModel> GetAllPersonAsync();
+        Task<BaseRequestViewModel> CreatePersonAsync(CreateUserViewModel createPersonViewModel);
+        Task UpdatePersonAsync(UpdatePersonViewModel updatePersonViewModel);
+        Task DeletePersonAsync(int id);
+        Task<PersonByIdViewModel> GetPersonByIdAsync(int id);
+        Task<LoginRequestViewModel> GetPersonByLoginAndPasswordAsync(string login, string password);
+        Task<LoginRequestViewModel> GetPersonByRefreshTokenAsync(string refreshToken);
+        Task<BaseRequestViewModel> SendEmailToRecoverPasswordAsync(SendEmailToRecoverPasswordViewModel model);
+        Task<BaseRequestViewModel> ResetPasswordAsync(ResetPasswordViewModel model);
     }
 }

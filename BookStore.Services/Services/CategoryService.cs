@@ -5,9 +5,7 @@ using BookStore.Common.ViewModels.CategoriesController.Put;
 using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using BookStore.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.Services.Services
@@ -29,71 +27,65 @@ namespace BookStore.Services.Services
         #endregion Constructors
 
         #region Public Methods
-        public void CreateCategory(CreateCategoryViewModel createCategoryViewModel)
+        public async Task CreateCategoryAsync(CreateCategoryViewModel createCategoryViewModel)
         {
             Category category = _mapper.Map<Category>(createCategoryViewModel);
 
-            _categoryRepository.Create(category);
+            await _categoryRepository.InsertAsync(category);
         }
 
-        public CategoryByIdViewModel GetCategoryById(int id)
+        public async Task<CategoryByIdViewModel> GetCategoryByIdAsync(int id)
         {
-            Category category = _categoryRepository.GetById(id);
+            Category category = await _categoryRepository.GetByIdAsync(id);
 
             CategoryByIdViewModel categoryByIdViewModel = _mapper.Map<CategoryByIdViewModel>(category);
 
             return categoryByIdViewModel;
         }
 
-        public void DeleteCategory(int id)
+        public async Task DeleteCategoryAsync(int id)
         {
-            _categoryRepository.Delete(id);
+            await _categoryRepository.DeleteAsync(id);
         }
 
-        public async Task<AllCategoryViewModel> GetAllCategory()
+        public async Task<AllCategoryViewModel> GetAllCategoryAsync()
         {
             var result = new AllCategoryViewModel();
 
-            List<Category> categories = await _categoryRepository.GetAll();
+            List<Category> categories = await _categoryRepository.GetAllAsync();
 
-            List<AllCategoryViewModelItem> allCategoryViewModel = _mapper.Map<List<AllCategoryViewModelItem>>(categories);
-
-            result.Categories = allCategoryViewModel;
+            result.Categories = _mapper.Map<List<AllCategoryViewModelItem>>(categories);
 
             return result;
         }
 
-        public async Task<AuthorAndCategoryViewModel> GetAutorAndCategoryBook(string avtor, int category)
+        public async Task<AuthorAndCategoryViewModel> GetAutorAndCategoryBookAsync(string avtor, int category)
         {
             var result = new AuthorAndCategoryViewModel();
 
-            List<Category> categories = await _categoryRepository.GetAutorAndCategoryBook(avtor, category);
+            List<Category> categories = await _categoryRepository.GetAutorAndCategoryBookAsync(avtor, category);
 
-            List<AuthorAndCategoryViewModelItem>  categoryViewModelItems = _mapper.Map<List<AuthorAndCategoryViewModelItem>>(categories);
-
-            result.Categories = categoryViewModelItems;
+            result.Categories = _mapper.Map<List<AuthorAndCategoryViewModelItem>>(categories);
 
             return result;
         }
 
-        public async Task<CategoryBooksViewModel> GetCategoryBooks(int category)
+        public async Task<CategoryBooksViewModel> GetCategoryBooksAsync(int category)
         {
             var result = new CategoryBooksViewModel();
 
-            List<Category> categories = await _categoryRepository.GetCategoryBooks(category);
+            List<Category> categories = await _categoryRepository.GetCategoryBooksAsync(category);
 
-            List<CategoryBooksViewModelItem> categoryBooksViewModel = _mapper.Map<List<CategoryBooksViewModelItem>>(categories);
-
-            result.Categories = categoryBooksViewModel;
+            result.Categories = _mapper.Map<List<CategoryBooksViewModelItem>>(categories);
 
             return result;
         }
 
-        public void UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
+        public async Task UpdateCategoryAsync(UpdateCategoryViewModel updateCategoryViewModel)
         {
             Category category = _mapper.Map<Category>(updateCategoryViewModel);
 
-            _categoryRepository.Update(category);
+            await _categoryRepository.UpdateAsync(category);
         }
         #endregion Public Methods
     }

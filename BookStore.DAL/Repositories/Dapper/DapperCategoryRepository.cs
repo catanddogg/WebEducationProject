@@ -19,7 +19,7 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
-        public async Task<List<Category>> GetAutorAndCategoryBook(string avtor, int category)
+        public async Task<List<Category>> GetAutorAndCategoryBookAsync(string avtor, int category)
         {
             CategoryType categoryType = (CategoryType)category;
 
@@ -33,7 +33,7 @@ namespace BookStore.DAL.Repositories.Dapper
             return result;
         }
 
-        public async Task<List<Category>> GetCategoryBooks(int category)
+        public async Task<List<Category>> GetCategoryBooksAsync(int category)
         {
             CategoryType categoryType = (CategoryType)category;
 

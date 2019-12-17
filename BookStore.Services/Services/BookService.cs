@@ -21,18 +21,19 @@ namespace BookStore.Services.Services
                           IMapper mapper)
         {
             _bookRepository = bookRepository;
+
             _mapper = mapper;
         }
         #endregion Constructors
 
         #region Public Methods
-        public BaseRequestViewModel CreateBook(BookViewModel model)
+        public async Task<BaseRequestViewModel> CreateBookAsync(BookViewModel model)
         {
             var result = new BaseRequestViewModel();
 
             Book book = _mapper.Map<BookViewModel, Book>(model);
 
-            _bookRepository.Create(book);
+            await _bookRepository.InsertAsync(book);
 
             result.Message = "Book updated successfully";
             result.Success = true;
@@ -40,41 +41,39 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public async Task<BookViewModel> GetBookById(int id)
+        public async Task<BookViewModel> GetBookByIdAsync(int id)
         {
-            Book book = await _bookRepository.GetBookById(id);
+            Book book = await _bookRepository.GetBookByIdAsync(id);
 
             BookViewModel bookByIdViewModel = _mapper.Map<Book, BookViewModel>(book);
 
             return bookByIdViewModel;
         }
 
-        public void DeleteBook(int id)
+        public async Task DeleteBookAsync(int id)
         {
-            _bookRepository.Delete(id);
+            await _bookRepository.DeleteAsync(id);
         }
 
-        public async Task<AllBookViewModel> GetAllBook(string filter)
+        public async Task<AllBookViewModel> GetAllBookAsync(string filter)
         {
             var result = new AllBookViewModel();
 
-            List<Book> bookItems = await _bookRepository.GetBooksWIthAuthorAndCategories(filter);
+            List<Book> bookItems = await _bookRepository.GetBooksWIthAuthorAndCategoriesAsync(filter);
 
-            List<AllBookViewModelItem> allBookViewModel = _mapper.Map<List<AllBookViewModelItem>>(bookItems);
-
-            result.Books = allBookViewModel;
+            result.Books = _mapper.Map<List<AllBookViewModelItem>>(bookItems);
 
             return result;
         }
 
-        public BaseRequestViewModel UpdateBook(BookViewModel model)
+        public async Task<BaseRequestViewModel> UpdateBookAsync(BookViewModel model)
         {
             var result = new BaseRequestViewModel();
 
             Book book = _mapper.Map<BookViewModel, Book>(model);
 
-            _bookRepository.Update(book);
-
+            await _bookRepository.UpdateAsync(book);
+            
             result.Message = "Book updated successfully";
             result.Success = true;
 

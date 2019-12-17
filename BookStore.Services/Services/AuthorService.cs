@@ -23,77 +23,72 @@ namespace BookStore.Services.Services
         public AuthorService(IAuthorRepository authorRepository,
                              IMapper mapper)
         {
-            _mapper = mapper;
             _authorRepository = authorRepository;
+
+            _mapper = mapper;
         }
         #endregion Constructors
 
         #region Public Methods
-        public void CreateAuthor(CreateAuthorViewModel createAuthorViewModel)
+        public async Task CreateAuthorAsync(CreateAuthorViewModel createAuthorViewModel)
         {
             Author author = _mapper.Map<Author>(createAuthorViewModel);
 
-            _authorRepository.Create(author);
+            await _authorRepository.InsertAsync(author);
         }
 
-        public void DeleteAuthor(int id)
+        public async Task DeleteAuthorAsync(int id)
         {
-            _authorRepository.Delete(id);
+            await _authorRepository.DeleteAsync(id);
         }
 
-        public AuthorByIdViewModel GetAuthorById(int id)
+        public async Task<AuthorByIdViewModel> GetAuthorByIdAsync(int id)
         {
-            Author author = _authorRepository.GetById(id);
+            Author author = await _authorRepository.GetByIdAsync(id);
 
             AuthorByIdViewModel authorByIdView = _mapper.Map<AuthorByIdViewModel>(author);
 
             return authorByIdView;
         }
 
-        public async Task<AllAuthorViewModel> GetAllAuthors()
+        public async Task<AllAuthorViewModel> GetAllAuthorsAsync()
         {
             var result = new AllAuthorViewModel();
 
-            List<Author> authors = await _authorRepository.GetAll();
+            List<Author> authors = await _authorRepository.GetAllAsync();
 
-            List<AllAuthorViewModelItem> authorViewModelItem  = _mapper.Map<List<AllAuthorViewModelItem>>(authors);
-
-            result.Authors = authorViewModelItem;
+            result.Authors = _mapper.Map<List<AllAuthorViewModelItem>>(authors);
 
             return result;
         }
 
-        public async Task<AuthorBooksViewModel> GetAuthorBooks(string author)
+        public async Task<AuthorBooksViewModel> GetAuthorBooksAsync(string author)
         {
             var result = new AuthorBooksViewModel();
 
-            List<Author> authors = await _authorRepository.GetAuthorBooks(author);
+            List<Author> authors = await _authorRepository.GetAuthorBooksAsync(author);
 
-            List<AuthorBooksViewModelItem> authorBooksViewModel = _mapper.Map<List<AuthorBooksViewModelItem>>(authors);
-
-            result.AuthorBooks = authorBooksViewModel;
+            result.AuthorBooks = _mapper.Map<List<AuthorBooksViewModelItem>>(authors);
 
             return result;
         }
 
-        public async Task<PublishersBooksViewModel> GetPublisherBooks(string publisher)
+        public async Task<PublishersBooksViewModel> GetPublisherBooksAsync(string publisher)
         {
             var result = new PublishersBooksViewModel();
 
-            List<Author> authors = await _authorRepository.GetPublisherBooks(publisher);
+            List<Author> authors = await _authorRepository.GetPublisherBooksAsync(publisher);
 
-            List<PublishersBooksViewModelItem> publishersBooksViewModel = _mapper.Map<List<PublishersBooksViewModelItem>>(authors);
-
-            result.Publishers = publishersBooksViewModel;
+            result.Publishers = _mapper.Map<List<PublishersBooksViewModelItem>>(authors);
 
             return result;
         }
 
-        public void UpdateAuthor(UpdateAuthorViewModel updateAuthorViewModel)
+        public async Task UpdateAuthorAsync(UpdateAuthorViewModel updateAuthorViewModel)
         {
             Author author = _mapper.Map<Author>(updateAuthorViewModel);
 
-            _authorRepository.Update(author);
+            await _authorRepository.UpdateAsync(author);
         }
         #endregion Public Methods
     }

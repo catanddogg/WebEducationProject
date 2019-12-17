@@ -11,6 +11,6 @@ namespace BookStore.Services.Interfaces
     public interface IJWTService
     {
         JwtSecurityToken jwt { get; set; }
-        Task<JWTAndRefreshToken> Login(string login, string password);
+        Task<JWTAndRefreshToken> LoginAsync(string login, string password);
     }
 }

@@ -10,8 +10,10 @@ import { LoginUserRequestViewModel } from 'src/app/shared/model/login-user-reque
 import { RefreshTokenViewModel } from '../model/refresh-token.view';
 import { SendEmailToResetPasswordViewModel } from '../model/send-email-reset-password.view';
 import { ResetPasswordViewModel } from '../model/reset-password';
-import { GetBookById } from '../model/get-book.view';
 import { BookViewModel } from '../model/book.view';
+import { NotificationsByUserIdView } from '../model/notifications-by-user-id.view';
+import { CreateNotificationRequestView } from '../model/create-notification-request.view';
+import { CreateNotificationResponseView } from '../model/create-notification-response.view';
 
 @Injectable({
   providedIn: 'root'
@@ -20,71 +22,73 @@ import { BookViewModel } from '../model/book.view';
 export class HttpService {
 
   private baseUrl : string;
-  private fullApiUrl : string;
 
   constructor(private http: HttpClient) { 
     this.baseUrl = environment.baseUrl;
   }
  
+  public CreateNotification(model: CreateNotificationRequestView): Observable<CreateNotificationResponseView>{
+    let response = this.http.post<CreateNotificationResponseView>(`${this.baseUrl}api/notification/CreateNotification`, model);
+
+    return response;
+  }
+
+  public GetNotificationsByUserId(userId: string): Observable<NotificationsByUserIdView>{
+    let response = this.http.get<NotificationsByUserIdView>(`${this.baseUrl}api/notification/NotificationsByUserId?userId=${userId}`);
+
+    return response;
+  }
+
   public GetSearchForBookLibary(model : string): Observable<AllBookViewModel> {
-    this.fullApiUrl = `${this.baseUrl}api/books/GetAllBook?filter=${model}`;
-    let response = this.http.get<AllBookViewModel>(this.fullApiUrl);
+    let response = this.http.get<AllBookViewModel>(`${this.baseUrl}api/books/GetAllBook?filter=${model}`);
 
     return response;
   }
 
   public GetBookById(bookId: number):Observable<BookViewModel>{
-    this.fullApiUrl = `${this.baseUrl}api/books/GetBookById?bookId=${bookId}`;
-    let response = this.http.get<BookViewModel>(this.fullApiUrl);
+    let response = this.http.get<BookViewModel>(`${this.baseUrl}api/books/GetBookById?bookId=${bookId}`);
 
     return response;
   }
 
   public CreateUser (model : CreateUserViewModel) : Observable<BaseResponseViewModel> {
-    this.fullApiUrl = `${this.baseUrl}${'api/Person/CreateUser'}`;
-    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<BaseResponseViewModel>(`${this.baseUrl}${'api/Person/CreateUser'}`, model);
 
     return  response;
   }
 
   public LogInUser(model : LoginUserViewModel) : Observable<LoginUserRequestViewModel> {
-    this.fullApiUrl = `${this.baseUrl}${'api/Person/Login'}`;
-    let response = this.http.post<LoginUserRequestViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<LoginUserRequestViewModel>(`${this.baseUrl}${'api/Person/Login'}`, model);
 
     return response;
   }
 
   public RefreshToken(model : RefreshTokenViewModel) : Observable<LoginUserRequestViewModel> {
-    this.fullApiUrl = `${this.baseUrl}${'api/Person/RefreshToken'}`;
-    let response = this.http.post<LoginUserRequestViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<LoginUserRequestViewModel>(`${this.baseUrl}${'api/Person/RefreshToken'}`, model);
     
     return response;
   }
 
   public SendEmailToRecoverPassword(model : SendEmailToResetPasswordViewModel): Observable<BaseResponseViewModel> {
-    this.fullApiUrl = `${this.baseUrl}${'api/Person/SendEmailToRecoverPassword'}`;
-    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<BaseResponseViewModel>(`${this.baseUrl}${'api/Person/SendEmailToRecoverPassword'}`, model);
 
     return response;
   }
 
   public ResetPassword(model : ResetPasswordViewModel): Observable<BaseResponseViewModel>{
-    this.fullApiUrl = `${this.baseUrl}${'api/Person/ResetPassword'}`;
-    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<BaseResponseViewModel>(`${this.baseUrl}${'api/Person/ResetPassword'}`, model);
 
     return response;
   }
 
   public CreateBook(model: BookViewModel): Observable<BaseResponseViewModel>{
-    this.fullApiUrl = `${this.baseUrl}${'api/Books/CreateBook'}`;
-    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<BaseResponseViewModel>(`${this.baseUrl}${'api/Books/CreateBook'}`, model);
 
     return response;
   }
 
   public UpdateBook(model: BookViewModel): Observable<BaseResponseViewModel>{
-    this.fullApiUrl = `${this.baseUrl}${'api/Books/UpdateBook'}`;
-    let response = this.http.post<BaseResponseViewModel>(this.fullApiUrl, model);
+    let response = this.http.post<BaseResponseViewModel>(`${this.baseUrl}${'api/Books/UpdateBook'}`, model);
 
     return response;    
   }

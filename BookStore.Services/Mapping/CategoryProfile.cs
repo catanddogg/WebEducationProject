@@ -9,9 +9,9 @@ using System.Text;
 
 namespace BookStore.Services.Mapping
 {
-    public class CategoriesControllerProfile : Profile
+    public class CategoryProfile : Profile
     {
-        public CategoriesControllerProfile()
+        public CategoryProfile()
         {
             CreateMap<CreateCategoryViewModel, Category>();
             CreateMap<Category, CategoryByIdViewModel>();

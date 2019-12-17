@@ -8,7 +8,7 @@ namespace BookStore.DAL.Interfaces
 {
     public interface IAuthorRepository : IBaseRepository<Author>
     {
-        Task<List<Author>> GetAuthorBooks(string author);
-        Task<List<Author>> GetPublisherBooks(string publisher);
+        Task<List<Author>> GetAuthorBooksAsync(string author);
+        Task<List<Author>> GetPublisherBooksAsync(string publisher);
     }
 }

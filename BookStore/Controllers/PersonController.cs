@@ -28,7 +28,7 @@ namespace BookStore.Controllers
         [HttpPost("Login")]
         public async Task<LoginRequestViewModel> Login(LoginViewModel model)
         {
-            LoginRequestViewModel result  = await _personService.GetPersonByLoginAndPassword(model.UserName, model.Password);
+            LoginRequestViewModel result  = await _personService.GetPersonByLoginAndPasswordAsync(model.UserName, model.Password);
 
             return result;
         }
@@ -37,7 +37,7 @@ namespace BookStore.Controllers
         [HttpPost("RefreshToken")]
         public async Task<LoginRequestViewModel> RefreshToken(RefreshTokenViewModel model)
         {
-            LoginRequestViewModel result = await _personService.GetPersonByRefreshToken(model.RefreshToken);
+            LoginRequestViewModel result = await _personService.GetPersonByRefreshTokenAsync(model.RefreshToken);
 
             return result;
         } 
@@ -46,7 +46,7 @@ namespace BookStore.Controllers
         [HttpPost("SendEmailToRecoverPassword")]
         public async Task<BaseRequestViewModel> SendEmailToRecoverPassword(SendEmailToRecoverPasswordViewModel model)
         {
-            BaseRequestViewModel result = await _personService.SendEmailToRecoverPassword(model);
+            BaseRequestViewModel result = await _personService.SendEmailToRecoverPasswordAsync(model);
 
             return result;
         }
@@ -55,7 +55,7 @@ namespace BookStore.Controllers
         [HttpPost("ResetPassword")]
         public async Task<BaseRequestViewModel> ResetPassword(ResetPasswordViewModel model)
         {
-            BaseRequestViewModel result = await _personService.ResetPassword(model);
+            BaseRequestViewModel result = await _personService.ResetPasswordAsync(model);
 
             return result;
         }
@@ -63,15 +63,15 @@ namespace BookStore.Controllers
         [HttpGet("GetAllPeople")]
         public async Task<AllPersonViewModel> GetAllPeople()
         {
-            AllPersonViewModel result = await _personService.GetAllPerson();
+            AllPersonViewModel result = await _personService.GetAllPersonAsync();
 
             return result;
         }
 
         [HttpGet("GetPersonById/{id}")]
-        public PersonByIdViewModel GetPersonById(int id)
+        public async Task<PersonByIdViewModel> GetPersonById(int id)
         {
-            PersonByIdViewModel result  = _personService.GetPersonById(id);
+            PersonByIdViewModel result = await _personService.GetPersonByIdAsync(id);
 
             return result;
         }      
@@ -80,21 +80,21 @@ namespace BookStore.Controllers
         [AllowAnonymous]
         public async Task<BaseRequestViewModel> CreateUser([FromBody]CreateUserViewModel model)
         {
-            BaseRequestViewModel result = await _personService.CreatePerson(model);
+            BaseRequestViewModel result = await _personService.CreatePersonAsync(model);
 
             return result;
         }
 
         [HttpPut("UpdatePerson")]
-        public void UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
+        public async Task UpdatePerson(UpdatePersonViewModel updatePersonViewModel)
         {
-            _personService.UpdatePerson(updatePersonViewModel);
+            await _personService.UpdatePersonAsync(updatePersonViewModel);
         }
 
         [HttpDelete("DeletePerson/{id}")]
-        public void DeletePerson(int id)
+        public async Task DeletePerson(int id)
         {
-            _personService.DeletePerson(id);
+            await _personService.DeletePersonAsync(id);
         }
     }
 }

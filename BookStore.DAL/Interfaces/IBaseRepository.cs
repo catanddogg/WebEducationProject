@@ -7,10 +7,12 @@ namespace BookStore.DAL.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task<List<T>> GetAll();
-        T GetById(object id);
-        Task Create(T entity);
-        void Update(T entity);
-        void Delete(int id);
+        Task<List<T>> GetAllAsync();
+        Task<T> GetByIdAsync(object id);
+        Task InsertAsync(T entity);
+        Task InsertRangeAsync(List<T> list);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(int id);
+        Task<int> GetCountAsync();
     }
 }

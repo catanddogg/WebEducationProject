@@ -10,11 +10,11 @@ namespace BookStore.DAL.Interfaces
 {
     public interface IPersonRepository : IBaseRepository<Person>
     {
-        Task<Person> GetPersonByLoginAndPassword(string login, string password);
-        Task<Person> GetPersonByRefreshToken(string refreshToken);
-        Task<bool> CheckReduplicationUserName(string UserName);
-        Task<bool> CheckReduplicationEmail(string Email);
-        Task<Person> GetPersonByEmail(string email);
-        Task<bool> ResetPassword(string password, string resetPasswordGuid);
+        Task<Person> GetPersonByLoginAndPasswordAsync(string login, string password);
+        Task<Person> GetPersonByRefreshTokenAsync(string refreshToken);
+        Task<bool> CheckReduplicationUserNameAsync(string UserName);
+        Task<bool> CheckReduplicationEmailAsync(string Email);
+        Task<Person> GetPersonByEmailAsync(string email);
+        Task<bool> ResetPasswordAsync(string password, string resetPasswordGuid);
     }
 }

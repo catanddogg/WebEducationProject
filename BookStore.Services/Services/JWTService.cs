@@ -27,9 +27,9 @@ namespace BookStore.Services.Services
         #endregion Constructors
 
         #region Public Methods
-        public async Task<JWTAndRefreshToken> Login(string login, string password)
+        public async Task<JWTAndRefreshToken> LoginAsync(string login, string password)
         {
-            Person person = await _personRepository.GetPersonByLoginAndPassword(login, password);
+            Person person = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
             if (person != null)
             {
                 ClaimsIdentity identity = GetIdentity(login, password);
@@ -51,7 +51,7 @@ namespace BookStore.Services.Services
                 string accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
                 string refreshToken = Guid.NewGuid().ToString();
                 person.RefreshToken = refreshToken;
-                _personRepository.Update(person);
+                await _personRepository.UpdateAsync(person);
 
                 JWTAndRefreshToken JWTAndRefreshToken = new JWTAndRefreshToken { AccessToken = accessToken, RefreshToken = refreshToken };
 
