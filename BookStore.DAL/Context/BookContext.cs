@@ -1,67 +1,72 @@
-﻿using BookStore.DAL.Enums;
-using BookStore.DAL.Models.Entitys;
+﻿using BookStore.DAL.Models.Entitys;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BookStore.DAL.Models
 {
-    public class BooksContext : IdentityDbContext
+    public class BooksContext : DbContext
     {
+        public BooksContext() { }
+        public BooksContext(DbContextOptions<BooksContext> options) : base(options) { }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryInBook> CategoryInBooks { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<AuthorInBook> AuthorInBooks { get; set; }
         public DbSet<User> Persons { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Notification> Notifications { get; set; }
-        
-        public BooksContext(DbContextOptions<BooksContext> options)
-            : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<PublisherInBook> PublisherInBooks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //byte[] script = new byte[] { 116, 107, 0, 97, 116, 0, 147, 108, 118, 107, 148, 121, 116, 81, 147, 108, 118, 107, 148, 121, 147, 116, 0, 148, 140, 108, 118, 107, 148, 114, 117, 98, 3, 0, 116, 0, 148, 140, 108, 118, 107, 148, 121, 97, 116, 140, 108, 118, 107, 148, 109, 116, 108, 118, 140, 107, 148, 109, 116, 108, 118, 140, 107, 148, 109, 108, 117, 102 };
-            //modelBuilder.Entity<Book>(b =>
-            //{
-            //    b.HasData(new { Id = 1, Name = "test", Image = script });
-            //    b.HasData(new { Id = 2, Name = "test" , Image = script });
-            //    b.HasData(new { Id = 3, Name = "test", Image = script });
-            //    b.HasData(new { Id = 4, Name = "test", Image = script });
-            //});
+            modelBuilder.Entity<Book>()
+                .Ignore(item => item.Authors)
+                .Ignore(item => item.Categories)
+                .Ignore(item => item.Publishers);
 
-            //modelBuilder.Entity<Category>(b =>
-            //{
-            //    b.HasData(new { Id = 1, BookId = 1, CategoryType = CategoryType.ActionAndAdventure });
-            //    b.HasData(new { Id = 2, BookId = 2, CategoryType = CategoryType.Classic });
-            //    b.HasData(new { Id = 3, BookId = 3, CategoryType = CategoryType.Drama });
-            //    b.HasData(new { Id = 4, BookId = 4, CategoryType = CategoryType.Essay });
-            //});
+            modelBuilder.Entity<Category>()
+                .Ignore(item => item.Books);
 
-            //modelBuilder.Entity<Avtor>(b =>
-            //{
-            //    b.HasData(new { Id = 1, BookId = 1, NameAvtor = "test", Publisher = "test2"});
-            //    b.HasData(new { Id = 2, BookId = 2, NameAvtor = "test", Publisher = "test2"});
-            //    b.HasData(new { Id = 3, BookId = 3, NameAvtor = "test", Publisher = "test2"});
-            //    b.HasData(new { Id = 4, BookId = 4, NameAvtor = "test", Publisher = "test2"});
-            //});
+            modelBuilder.Entity<Author>()
+                .Ignore(item => item.Books);
 
-            //modelBuilder.Entity<Person>(b =>
-            //{
-            //    b.HasData(new { Id = 1, Password = "12345", Login = "TestUser1", Role = "user", FirstName = "user1", SecondName = "user2", Age = 18});
-            //    b.HasData(new { Id = 2, Password = "1234", Login = "TestUser3", Role = "user", FirstName = "user3", SecondName = "user4", Age = 27 });
-            //    b.HasData(new { Id = 3, Password = "123456", Login = "TestUser2", Role = "admin", FirstName = "user5", SecondName = "user6", Age = 36 });
-            //});
+            modelBuilder.Entity<Publisher>()
+                .Ignore(item => item.Books);
 
-            //DateTime dateTime = DateTime.Now;
-            //modelBuilder.Entity<Comment>(b => 
-            //{
-            //    b.HasData(new { Id = 1, UserName = "user1", Message = "Hello", createTime = dateTime });
-            //});
+            modelBuilder.Entity<AuthorInBook>()
+                .HasKey(item => new { item.AuthorId, item.BookId });
+            modelBuilder.Entity<AuthorInBook>()
+                .HasOne(item => item.Author)
+                .WithMany(item => item.AuthorInBooks)
+                .HasForeignKey(item => item.AuthorId);
+            modelBuilder.Entity<AuthorInBook>()
+                .HasOne(item => item.Book)
+                .WithMany(item => item.AuthorInBooks)
+                .HasForeignKey(item => item.BookId);
+
+            modelBuilder.Entity<CategoryInBook>()
+                .HasKey(item => new { item.BookId, item.CategoryId });
+            modelBuilder.Entity<CategoryInBook>()
+                .HasOne(item => item.Book)
+                .WithMany(item => item.CategoryInBooks)
+                .HasForeignKey(item => item.BookId);
+            modelBuilder.Entity<CategoryInBook>()
+                .HasOne(item => item.Category)
+                .WithMany(item => item.CategoryInBooks)
+                .HasForeignKey(item => item.CategoryId);
+
+            modelBuilder.Entity<PublisherInBook>()
+                .HasKey(item => new { item.BookId, item.PublisherId });
+            modelBuilder.Entity<PublisherInBook>()
+                .HasOne(item => item.Book)
+                .WithMany(item => item.PublisherInBooks)
+                .HasForeignKey(item => item.BookId);
+            modelBuilder.Entity<PublisherInBook>()
+                .HasOne(item => item.Publisher)
+                .WithMany(item => item.PublisherInBooks)
+                .HasForeignKey(item => item.PublisherId);
 
             base.OnModelCreating(modelBuilder);
         }

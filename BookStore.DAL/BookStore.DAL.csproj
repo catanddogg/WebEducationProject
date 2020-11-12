@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190709131715_UpdateDatabaseForNewModel.cs" />
     <Compile Remove="Migrations\20190711074409_Test.cs" />
+    <Compile Remove="Migrations\20201112150203_Initial.cs" />
+    <Compile Remove="Migrations\20201112150203_Initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
