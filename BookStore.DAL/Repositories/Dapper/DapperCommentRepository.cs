@@ -16,7 +16,7 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task CreateAndGetAllCommentsAsync(string UserName, string Comment)
         {
-            Comment comment = new Comment() { UserName = UserName, Message = Comment, CreateDateTime = DateTime.Now };
+            Comment comment = new Comment() { Message = Comment, CreationDate = DateTime.Now };
 
             await _connectionString.InsertAsync(comment);
         }  

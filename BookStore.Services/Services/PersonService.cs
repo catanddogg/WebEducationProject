@@ -68,7 +68,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            Person person = _mapper.Map<Person>(createPersonViewModel);
+            User person = _mapper.Map<User>(createPersonViewModel);
 
             await _personRepository.InsertAsync(person);
 
@@ -87,7 +87,7 @@ namespace BookStore.Services.Services
         {
             var result = new AllPersonViewModel();
 
-            List<Person>  people = await _personRepository.GetAllAsync();
+            List<User>  people = await _personRepository.GetAllAsync();
 
             result.Persons = _mapper.Map<List<AllPersonViewModelItem>>(people);
 
@@ -96,7 +96,7 @@ namespace BookStore.Services.Services
 
         public async Task<PersonByIdViewModel> GetPersonByIdAsync(int id)
         {
-            Person person = await _personRepository.GetByIdAsync(id);
+            User person = await _personRepository.GetByIdAsync(id);
 
             PersonByIdViewModel personByIdViewModel = _mapper.Map<PersonByIdViewModel>(person);
 
@@ -115,7 +115,7 @@ namespace BookStore.Services.Services
                 return result;
             }
 
-            Person person = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
+            User person = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
 
             if(person ==  null)
             {
@@ -141,7 +141,7 @@ namespace BookStore.Services.Services
         {
             var result = new LoginRequestViewModel();
 
-            Person person = await _personRepository.GetPersonByRefreshTokenAsync(refreshToken);
+            User person = await _personRepository.GetPersonByRefreshTokenAsync(refreshToken);
 
             if(person == null)
             {
@@ -162,7 +162,7 @@ namespace BookStore.Services.Services
 
         public async Task UpdatePersonAsync(UpdatePersonViewModel updatePersonViewModel)
         {
-            Person person = _mapper.Map<Person>(updatePersonViewModel);
+            User person = _mapper.Map<User>(updatePersonViewModel);
 
             await _personRepository.UpdateAsync(person);
         }
@@ -171,7 +171,7 @@ namespace BookStore.Services.Services
         {
             var result = new BaseRequestViewModel();
 
-            Person person = await _personRepository.GetPersonByEmailAsync(model.PersonEmail);
+            User person = await _personRepository.GetPersonByEmailAsync(model.PersonEmail);
 
             if(person == null)
             {

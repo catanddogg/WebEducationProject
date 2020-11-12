@@ -44,16 +44,16 @@ namespace BookStore.Services.Services
 
             Notification notification = _mapper.Map<Notification>(notificationView);
 
-            List<Person> people = await _personRepository.GetAllAsync();
+            List<User> users = await _personRepository.GetAllAsync();
 
-            foreach(Person person in people)
+            foreach(User user in users)
             {
                 var notificationToSave = new Notification();
 
                 notificationToSave.ImagePath = notification.ImagePath;
                 notificationToSave.Message = notification.Message;
                 notificationToSave.Title = notification.Title;
-                notificationToSave.PersonId = person.Id;
+                notificationToSave.UserId = user.Id;
 
                 notifications.Add(notificationToSave);
             }

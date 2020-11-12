@@ -1,36 +1,31 @@
 ﻿using BookStore.DAL.Interfaces;
 using BookStore.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.EntityFramework
 {
-    public class PersonRepository : BaseRepository<Person>, IPersonRepository
+    public class PersonRepository : BaseRepository<User>, IPersonRepository
     {
         public PersonRepository(BooksContext booksContext)
             : base(booksContext)
         {
         }
 
-        public async Task<Person> GetPersonByLoginAndPasswordAsync(string login, string password)
+        public async Task<User> GetPersonByLoginAndPasswordAsync(string login, string password)
         {
-            Person person = await _dbSet
+            User person = await _dbSet
                 .Where(x => x.Login == login && x.Password == password)
                 .SingleOrDefaultAsync();
 
             return person;
         }
 
-        public async Task<Person> GetPersonByRefreshTokenAsync(string refreshToken)
+        public async Task<User> GetPersonByRefreshTokenAsync(string refreshToken)
         {
-            Person person = await _dbSet
+            User person = await _dbSet
                 .Where(x => x.RefreshToken == refreshToken)
                 .SingleOrDefaultAsync();
 
@@ -55,9 +50,9 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return isEmailRegistered;
         }
 
-        public async Task<Person> GetPersonByEmailAsync(string email)
+        public async Task<User> GetPersonByEmailAsync(string email)
         {
-            Person result = await _dbSet
+            User result = await _dbSet
                 .Where(item => item.Login == email)
                 .SingleOrDefaultAsync();
 
@@ -77,7 +72,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
 
         public async Task<bool> ResetPasswordAsync(string password, string resetPasswordGuid)
         {
-            Person person = await _dbSet
+            User person = await _dbSet
                 .Where(item => item.ResetPasswordToken == Guid.Parse(resetPasswordGuid))
                 .SingleOrDefaultAsync();
 

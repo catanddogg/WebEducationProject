@@ -10,8 +10,8 @@ namespace BookStore.Services.Mapping
         {
             CreateMap<Notification, NotificationsByUserIdViewItem>();
 
-            CreateMap<CreateNotificationRequestView, Notification>()
-                .ForMember(destination => destination.PersonId, source => source.MapFrom(src => src.PersonId));
+            CreateMap<CreateNotificationRequestView, Notification>();
+                //.ForMember(destination => destination.PersonId, source => source.MapFrom(src => src.PersonId));
         }
     }
 }

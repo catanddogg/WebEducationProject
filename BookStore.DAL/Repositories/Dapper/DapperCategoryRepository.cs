@@ -21,13 +21,8 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task<List<Category>> GetAutorAndCategoryBookAsync(string avtor, int category)
         {
-            CategoryType categoryType = (CategoryType)category;
-
             List<Category> result = await SqlMapperExtensions
                                         .GetAll<Category>(_connectionString)
-                                        .Where(item => item.FirstCategoryType == categoryType 
-                                        || item.SecondCategoryType == categoryType
-                                        || item.TrirdCategoryType == categoryType)
                                         .AsQueryable().ToListAsync();
 
             return result;
@@ -35,13 +30,8 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task<List<Category>> GetCategoryBooksAsync(int category)
         {
-            CategoryType categoryType = (CategoryType)category;
-
             List<Category> result = await SqlMapperExtensions
                 .GetAll<Category>(_connectionString)
-                .Where(item => item.FirstCategoryType == categoryType
-                || item.SecondCategoryType == categoryType
-                || item.TrirdCategoryType == categoryType)
                 .AsQueryable()
                 .ToListAsync();
 

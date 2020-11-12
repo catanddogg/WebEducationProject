@@ -13,15 +13,15 @@ namespace BookStore.Services.Mapping
     {
         public PersonProfile()
         {
-            CreateMap<CreateUserViewModel, Person>()
+            CreateMap<CreateUserViewModel, User>()
                 .ForMember(destination => destination.Login, source => source.MapFrom(src => src.Email))
                 .ForMember(destination => destination.Password, source => source.MapFrom(src => src.Password))
                 .ForMember(destination => destination.FirstName, source => source.MapFrom(src => src.UserName));
 
-            CreateMap<UpdatePersonViewModel, Person>();
-            CreateMap<Person, PersonByIdViewModel>();
+            CreateMap<UpdatePersonViewModel, User>();
+            CreateMap<User, PersonByIdViewModel>();
 
-            CreateMap<Person, AllPersonViewModelItem>();
+            CreateMap<User, AllPersonViewModelItem>();
         }
     }
 }

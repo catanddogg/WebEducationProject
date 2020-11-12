@@ -1,8 +1,5 @@
 ﻿using BookStore.Common.ViewModels.EnumsViewModel;
-using BookStore.DAL.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BookStore.Common.ViewModels.BooksController.Get
 {

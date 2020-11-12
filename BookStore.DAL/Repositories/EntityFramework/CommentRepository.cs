@@ -18,7 +18,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
 
         public async Task CreateAndGetAllCommentsAsync(string UserName, string Comment)
         {
-            Comment comment = new Comment() { Message = Comment, UserName = UserName, CreateDateTime = DateTime.Now };
+            Comment comment = new Comment() { Message = Comment, CreationDate = DateTime.Now };
 
             _dbSet.Add(comment);
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.DAL.Repositories.Dapper
 {
-    public class DapperPersonRepository : BaseDapperRepository<Person>, IPersonRepository
+    public class DapperPersonRepository : BaseDapperRepository<User>, IPersonRepository
     {
         public DapperPersonRepository(IDbConnection connectionString)
             :base(connectionString)
@@ -19,8 +19,8 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task<bool> CheckReduplicationEmailAsync(string email)
         {
-            IEnumerable<Person> query = await _connectionString
-                .QueryAsync<Person>($"SELECT * FROM Persons AS p" +
+            IEnumerable<User> query = await _connectionString
+                .QueryAsync<User>($"SELECT * FROM Persons AS p" +
                                     $"WHERE p.Login = {email}");
 
             return query.Any();
@@ -28,26 +28,26 @@ namespace BookStore.DAL.Repositories.Dapper
 
         public async Task<bool> CheckReduplicationUserNameAsync(string userName)
         {
-            IEnumerable<Person> query = await _connectionString
-                .QueryAsync<Person>($"SELECT * FROM Persons AS p" +
+            IEnumerable<User> query = await _connectionString
+                .QueryAsync<User>($"SELECT * FROM Persons AS p" +
                                     $"WHERE p.FirstName = {userName}");
 
             return query.Any();
         }
 
-        public async Task<Person> GetPersonByEmailAsync(string email)
+        public async Task<User> GetPersonByEmailAsync(string email)
         {
-            IEnumerable<Person> query = await _connectionString
-                .QueryAsync<Person>($"SELECT * FROM Persons as p" +
+            IEnumerable<User> query = await _connectionString
+                .QueryAsync<User>($"SELECT * FROM Persons as p" +
                                     $"WHERE p.Login = {email}");
 
             return query.SingleOrDefault();
         }
 
-        public async Task<Person> GetPersonByLoginAndPasswordAsync(string login, string password)
+        public async Task<User> GetPersonByLoginAndPasswordAsync(string login, string password)
         {
-            Person person = await SqlMapperExtensions
-                .GetAll<Person>(_connectionString)
+            User person = await SqlMapperExtensions
+                .GetAll<User>(_connectionString)
                 .Where(x => x.Login == login && x.Password == password)
                 .AsQueryable()
                 .SingleOrDefaultAsync();
@@ -55,10 +55,10 @@ namespace BookStore.DAL.Repositories.Dapper
             return person;
         }
 
-        public async Task<Person> GetPersonByRefreshTokenAsync(string refreshToken)
+        public async Task<User> GetPersonByRefreshTokenAsync(string refreshToken)
         {
-            Person person = await SqlMapperExtensions
-                .GetAll<Person>(_connectionString)
+            User person = await SqlMapperExtensions
+                .GetAll<User>(_connectionString)
                 .Where(x => x.RefreshToken == refreshToken)
                 .AsQueryable()
                 .FirstOrDefaultAsync();

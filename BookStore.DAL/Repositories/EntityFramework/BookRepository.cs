@@ -22,18 +22,13 @@ namespace BookStore.DAL.Repositories.EntityFramework
         public async Task<List<Book>> GetBooksWIthAuthorAndCategoriesAsync(string filter)
         {
 
-            IQueryable<Book> resultQueryable = _dbSet
-          .Include(item => item.Author)
-          .Include(item => item.Category).AsQueryable();
+            IQueryable<Book> resultQueryable = _dbSet.AsQueryable();
 
             if (filter != null)
             {
                 resultQueryable = resultQueryable
                     .Where(item => item.Name.Contains(filter)
-                   || item.Path.Contains(filter)
-                   || item.Author.NameAuthor.Contains(filter)
-                   || item.Author.Publisher.Contains(filter)
-                   /*|| item.Category.FirstCategoryType.ToString().Contains(filter)*/);
+                   || item.Path.Contains(filter));
             }
 
             List<Book> result = null;
@@ -46,8 +41,6 @@ namespace BookStore.DAL.Repositories.EntityFramework
         public async Task<Book> GetBookByIdAsync(int bookId)
         {
             Book result = await _dbSet
-                .Include(item => item.Author)
-                .Include(item => item.Category)
                 .Where(item => item.Id == bookId)
                 .FirstOrDefaultAsync();
 

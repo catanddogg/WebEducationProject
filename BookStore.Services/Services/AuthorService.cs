@@ -73,16 +73,16 @@ namespace BookStore.Services.Services
             return result;
         }
 
-        public async Task<PublishersBooksViewModel> GetPublisherBooksAsync(string publisher)
-        {
-            var result = new PublishersBooksViewModel();
+        //public async Task<PublishersBooksViewModel> GetPublisherBooksAsync(string publisher)
+        //{
+        //    var result = new PublishersBooksViewModel();
 
-            List<Author> authors = await _authorRepository.GetPublisherBooksAsync(publisher);
+        //    List<Author> authors = await _authorRepository.GetPublisherBooksAsync(publisher);
 
-            result.Publishers = _mapper.Map<List<PublishersBooksViewModelItem>>(authors);
+        //    result.Publishers = _mapper.Map<List<PublishersBooksViewModelItem>>(authors);
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public async Task UpdateAuthorAsync(UpdateAuthorViewModel updateAuthorViewModel)
         {

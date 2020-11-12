@@ -16,24 +16,24 @@ namespace BookStore.DAL.Repositories.Dapper
         {
         }
 
-        public async Task<CategoriesBooksAuthorsDTO> GetAllTablesAsync()
-        {
-            var categoriesBooksAuthors = new CategoriesBooksAuthorsDTO();
-            var sql =@"SELECT * FROM Books 
-                       SELECT * FROM Avtors 
-                       SELECT * FROM Comments 
-                       SELECT * FROM categories";
+        //public async Task<CategoriesBooksAuthorsDTO> GetAllTablesAsync()
+        //{
+        //    var categoriesBooksAuthors = new CategoriesBooksAuthorsDTO();
+        //    var sql =@"SELECT * FROM Books 
+        //               SELECT * FROM Avtors 
+        //               SELECT * FROM Comments 
+        //               SELECT * FROM categories";
 
-            using (SqlMapper.GridReader multi = await _connectionString.QueryMultipleAsync(sql))
-            {
-                categoriesBooksAuthors.Books = multi.Read<Book>().ToList();
-                categoriesBooksAuthors.Authors = multi.Read<Author>().ToList();
-                categoriesBooksAuthors.Categories = multi.Read<Category>().ToList();
-                categoriesBooksAuthors.Comments = multi.Read<Comment>().ToList();
-            }
+        //    using (SqlMapper.GridReader multi = await _connectionString.QueryMultipleAsync(sql))
+        //    {
+        //        categoriesBooksAuthors.Books = multi.Read<Book>().ToList();
+        //        categoriesBooksAuthors.Authors = multi.Read<Author>().ToList();
+        //        categoriesBooksAuthors.Categories = multi.Read<Category>().ToList();
+        //        categoriesBooksAuthors.Comments = multi.Read<Comment>().ToList();
+        //    }
 
-            return categoriesBooksAuthors;
-        }
+        //    return categoriesBooksAuthors;
+        //}
 
         public async Task<Book> GetBookByIdAsync(int bookId)
         {

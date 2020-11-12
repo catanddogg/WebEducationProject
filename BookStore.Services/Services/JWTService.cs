@@ -29,7 +29,7 @@ namespace BookStore.Services.Services
         #region Public Methods
         public async Task<JWTAndRefreshToken> LoginAsync(string login, string password)
         {
-            Person person = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
+            User person = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
             if (person != null)
             {
                 ClaimsIdentity identity = GetIdentity(login, password);

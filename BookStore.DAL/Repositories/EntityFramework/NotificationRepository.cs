@@ -14,14 +14,12 @@ namespace BookStore.DAL.Repositories.EntityFramework
     {
         public NotificationRepository(BooksContext booksContext)
             : base (booksContext)
-        {
-
-        }
+        { }
 
         public async Task<List<Notification>> GetNotificationsByUserIdAsync(string userId)
         {
             List<Notification> result = await _dbSet
-                .Where(item => item.PersonId == int.Parse(userId))
+                .Where(item => item.UserId == int.Parse(userId))
                 .ToListAsync();
 
             return result;
@@ -30,7 +28,7 @@ namespace BookStore.DAL.Repositories.EntityFramework
         public async Task<int> GetNotificationCountByUserIdAsync(int userId)
         {
             int result = await _dbSet
-                .Where(item => item.PersonId == userId)
+                .Where(item => item.UserId == userId)
                 .CountAsync();
 
             return result;

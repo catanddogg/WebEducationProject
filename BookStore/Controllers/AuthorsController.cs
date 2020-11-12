@@ -66,12 +66,12 @@ namespace BookStore.Controllers
             return bookItem;
         }
 
-        [HttpGet("GetPublishersBooks/{publisher}")]
-        public async Task<PublishersBooksViewModel> GetPublishersBooks(string publisher)
-        {
-            PublishersBooksViewModel bookItem = await _authorService.GetPublisherBooksAsync(publisher);
+        //[HttpGet("GetPublishersBooks/{publisher}")]
+        //public async Task<PublishersBooksViewModel> GetPublishersBooks(string publisher)
+        //{
+        //    PublishersBooksViewModel bookItem = await _authorService.GetPublisherBooksAsync(publisher);
 
-            return bookItem;
-        }
+        //    return bookItem;
+        //}
     }
 }

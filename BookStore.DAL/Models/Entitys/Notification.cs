@@ -1,7 +1,5 @@
 ﻿using BookStore.DAL.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.DAL.Models.Entitys
 {
@@ -11,7 +9,8 @@ namespace BookStore.DAL.Models.Entitys
         public string Message { get; set; }
         public string Title { get; set; }
 
-        public int PersonId { get; set; }
-        public Person Person { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
     }
 }

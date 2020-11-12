@@ -52,7 +52,7 @@ namespace BookStore.Services.Services
 
                     await _bookRepository.InsertAsync(book);
 
-                    Author author = new Author() { NameAuthor = createBookViewModel.Avtor, Publisher = createBookViewModel.Publisher};
+                    Author author = new Author() { Name = createBookViewModel.Avtor};
 
                     await _avtorRepository.InsertAsync(author);
 
@@ -69,14 +69,14 @@ namespace BookStore.Services.Services
             return "Data not correct!";
         }
 
-        public async Task CreatePersonAsync(Person person)
+        public async Task CreatePersonAsync(User person)
         {
             await _personRepository.InsertAsync(person);
         }
 
-        public async Task<Person> GetPersonByLoginAndPasswordAsync(string login, string password)
+        public async Task<User> GetPersonByLoginAndPasswordAsync(string login, string password)
         {
-            Person result = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
+            User result = await _personRepository.GetPersonByLoginAndPasswordAsync(login, password);
 
             return result;
         }              

@@ -1,14 +1,14 @@
 ﻿using BookStore.DAL.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.DAL.Models
 {
     public class Comment : BaseEntity
     {
-        public string UserName { get; set; }
         public string Message { get; set; }
-        public DateTime CreateDateTime { get; set; }
+
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
     }
 }

@@ -17,6 +17,6 @@ namespace BookStore.Services.Interfaces
         Task UpdateAuthorAsync(UpdateAuthorViewModel updateAuthorViewModel);
         Task DeleteAuthorAsync(int id);
         Task<AuthorBooksViewModel> GetAuthorBooksAsync(string author);
-        Task<PublishersBooksViewModel> GetPublisherBooksAsync(string publisher);
+        //Task<PublishersBooksViewModel> GetPublisherBooksAsync(string publisher);
     }
 }

@@ -26,11 +26,11 @@ namespace BookStore.DAL.Repositories.EntityFramework
             return bookItem;
         }
 
-        public async Task<List<Author>> GetPublisherBooksAsync(string publisher)
-        {
-            List<Author> bookItem = await _dbSet.Where(x => x.Publisher == publisher).ToListAsync();
+        //public async Task<List<Author>> GetPublisherBooksAsync(string publisher)
+        //{
+        //    List<Author> bookItem = await _dbSet.Where(x => x.Publisher == publisher).ToListAsync();
 
-            return bookItem;
-        }
+        //    return bookItem;
+        //}
     }
 }

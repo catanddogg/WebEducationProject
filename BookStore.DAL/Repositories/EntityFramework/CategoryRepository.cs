@@ -22,9 +22,6 @@ namespace BookStore.DAL.Repositories.EntityFramework
             var categoryType = (CategoryType)category;
 
             List<Category> categoryList = await _dbSet
-                .Where(item => item.FirstCategoryType == categoryType
-                || item.SecondCategoryType == categoryType
-                || item.TrirdCategoryType == categoryType)
                 .ToListAsync();
 
             return categoryList;
@@ -35,9 +32,6 @@ namespace BookStore.DAL.Repositories.EntityFramework
             var categoryType = (CategoryType)category;
 
             List<Category> bookItem = await _dbSet
-                .Where(item => item.FirstCategoryType == categoryType
-                || item.SecondCategoryType == categoryType
-                || item.TrirdCategoryType == categoryType)
                 .ToListAsync();
 
             return bookItem;

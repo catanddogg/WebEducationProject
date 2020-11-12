@@ -1,9 +1,7 @@
 ﻿using BookStore.DAL.Models.Base;
-using System;
+using BookStore.DAL.Models.Entitys;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace BookStore.DAL.Models
 {
@@ -11,15 +9,26 @@ namespace BookStore.DAL.Models
     public class Book : BaseEntity
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public string Path { get; set; }
 
-        [ForeignKey("Author")]
-        public int AuthorId { get; set; }
-        [Dapper.Contrib.Extensions.Computed]
-        public virtual Author Author { get; set; }
-        [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        [Dapper.Contrib.Extensions.Computed]
-        public virtual Category Category { get; set; }
+        public List<CategoryInBook> CategoryInBooks { get; set; }
+        public List<Category> Categories { get; set; }
+
+        public List<AuthorInBook> AuthorInBooks { get; set; }
+        public List<Author> Authors { get; set; }
+
+        public List<PublisherInBook> PublisherInBooks { get; set; }
+        public List<Publisher> Publishers { get; set; }
+
+        public Book()
+        {
+            CategoryInBooks = new List<CategoryInBook>();
+            Categories = new List<Category>();
+            AuthorInBooks = new List<AuthorInBook>();
+            Authors = new List<Author>();
+            PublisherInBooks = new List<PublisherInBook>();
+            Publishers = new List<Publisher>();
+        }
     }
 }
